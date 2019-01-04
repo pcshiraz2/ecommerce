@@ -48,18 +48,18 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        if (config('platform.captcha-enable') == 'yes') {
+        if (config('platform.captcha-enabled')) {
             return Validator::make($data, [
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users,email',
+                'last_name' => 'required|string|max:191',
+                'email' => 'required|string|email|max:191|unique:users,email',
                 'mobile' => 'required|numeric|digits:11|unique:users,mobile',
                 'password' => 'required|string|min:6|confirmed',
                 'captcha' => 'required|captcha'
             ]);
         } else {
             return Validator::make($data, [
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users,email',
+                'last_name' => 'required|string|max:191',
+                'email' => 'required|string|email|max:191|unique:users,email',
                 'mobile' => 'required|numeric|digits:11|unique:users,mobile',
                 'password' => 'required|string|min:6|confirmed',
             ]);
@@ -75,14 +75,18 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
+            'last_name' => $data['last_name'],
             'mobile' => $data['mobile'],
             'password' => Hash::make($data['password']),
         ]);
+
+        $user->first_name = $data['first_name'];
+        $user->title = $data['title'];
+        $user->email = $data['email'];
         $user->register_ip = request()->ip();
-        $user->telegram_password = $user->id . rand(1, 9) . rand(100, 999);
+        $user->login_ip = request()->ip();
         $user->save();
+
         return $user;
     }
 
@@ -93,7 +97,7 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
-        if (config('platform.enable-register')) {
+        if (config('platform.register-enabled')) {
             return view('auth.register');
         } else {
             return redirect()->back();

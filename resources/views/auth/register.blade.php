@@ -4,7 +4,7 @@
 @endsection
 @section('content')
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-6">
             <div class="card card-default">
                 <div class="card-header">ثبت نام</div>
 
@@ -12,45 +12,63 @@
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
                         @method('post')
-                        <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label @lang('platform.input-pull')">نام و نام
-                                خانوادگی</label>
+                        <div class="form-group">
+                            <label for="first_name">نام</label>
+                                <input id="first_name" type="text"
+                                       class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="first_name"
+                                       value="{{ old('first_name') }}" required autofocus>
 
-                            <div class="col-md-7">
-                                <input id="name" type="text"
-                                       class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name"
-                                       value="{{ old('name') }}" required autofocus>
-
-                                @if ($errors->has('name'))
+                                @if ($errors->has('first_name'))
                                     <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('name') }}</strong>
+                                        <strong>{{ $errors->first('first_name') }}</strong>
                                     </span>
                                 @endif
-                            </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label @lang('platform.input-pull')">آدرس
-                                ایمیل</label>
+                        <div class="form-group">
+                            <label for="last_name">نام خانوادگی</label>
+                            <input id="last_name" type="text"
+                                   class="form-control{{ $errors->has('last_name') ? ' is-invalid' : '' }}" name="last_name"
+                                   value="{{ old('last_name') }}" required>
+                            @if ($errors->has('last_name'))
+                                <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('last_name') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
 
-                            <div class="col-md-7">
+                        <div class="form-group">
+                            <label for="title">نام حقوقی
+                                <span class="font-weight-light font-italic"> - اختیاری</span>
+                            </label>
+                            <input id="title" type="text"
+                                   class="form-control{{ $errors->has('title') ? ' is-invalid' : '' }}" name="title"
+                                   value="{{ old('title') }}">
+                            @if ($errors->has('title'))
+                                <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('title') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">آدرس
+                                ایمیل</label>
                                 <input id="email" type="email" dir="ltr"
                                        class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email"
                                        value="{{ old('email') }}" required>
-
                                 @if ($errors->has('email'))
                                     <span class="invalid-feedback">
                                         <strong>{{ $errors->first('email') }}</strong>
                                     </span>
                                 @endif
-                            </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="mobile" class="col-md-4 col-form-label @lang('platform.input-pull')">شماره
+                        <div class="form-group">
+                            <label for="mobile">شماره
                                 همراه</label>
 
-                            <div class="col-md-7">
+
                                 <input id="mobile" type="text" dir="ltr"
                                        class="form-control{{ $errors->has('mobile') ? ' is-invalid' : '' }}"
                                        name="mobile" value="{{ old('mobile') }}" required>
@@ -60,14 +78,14 @@
                                         <strong>{{ $errors->first('mobile') }}</strong>
                                     </span>
                                 @endif
-                            </div>
+
                         </div>
 
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label @lang('platform.input-pull')">کلمه
+                        <div class="form-group">
+                            <label for="password">کلمه
                                 عبور</label>
 
-                            <div class="col-md-7">
+
                                 <input id="password" type="password" dir="ltr"
                                        class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
                                        name="password" required>
@@ -77,23 +95,20 @@
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>
                                 @endif
-                            </div>
+
                         </div>
 
-                        <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label @lang('platform.input-pull')">تکرار
+                        <div class="form-group">
+                            <label for="password-confirm">تکرار
                                 کلمه عبور</label>
-
-                            <div class="col-md-7">
                                 <input id="password-confirm" dir="ltr" type="password" class="form-control"
                                        name="password_confirmation" required>
-                            </div>
                         </div>
-                        @if(config('platform.captcha-enable') == 'yes')
-                            <div class="form-group row">
-                                <label class="col-md-4 col-form-label @lang('platform.input-pull')" for="captcha">عبارت
+                        @if(config('platform.captcha-enabled'))
+                            <div class="form-group">
+                                <label for="captcha">عبارت
                                     امنیتی</label>
-                                <div class="col-md-7">
+
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <img data-refresh-config="default" class="img-fluid" id="captcha_image"
@@ -113,17 +128,15 @@
                                             <strong>{{ $errors->first('captcha') }}</strong>
                                         </span>
                                     @endif
-                                </div>
+
                             </div>
                         @endif
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
+                        <div class="form-group">
                                 <button type="submit" class="btn btn-primary btn-mobile">
                                     <i class="fa fa-user-plus"></i>
                                     ثبت نام
                                 </button>
-                            </div>
                         </div>
                     </form>
                 </div>

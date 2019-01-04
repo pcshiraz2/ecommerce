@@ -23,7 +23,11 @@ class Model extends Eloquent
     {
         $request = request();
         $input = $request->input();
-        $limit = $request->get('limit', config('platform.per-page'));
+        if(session('per-page')) {
+            $limit = $request->get('limit', session('per-page'));
+        } else {
+            $limit = $request->get('limit', config('platform.per-page'));
+        }
         return $query->filter($input)->sortable($sort)->paginate($limit);
     }
 

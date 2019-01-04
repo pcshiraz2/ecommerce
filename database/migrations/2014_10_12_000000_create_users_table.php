@@ -46,8 +46,13 @@ class CreateUsersTable extends Migration
             $table->ipAddress('register_ip')->nullable();
             $table->ipAddress('last_ip')->nullable();
 
+
+            //For Disable and Enable
+            $table->boolean('enabled');
+
             //For custom fields
             $table->longText('options')->nullable();
+
 
             $table->rememberToken();
             $table->timestamps();
@@ -58,7 +63,8 @@ class CreateUsersTable extends Migration
             'last_name' => 'قاسم زاده',
             'email' => 'it.ghasemzadeh@gmail.com',
             'mobile' => '09177886099',
-            'title' => 'مدیر نرم افزار شیراز',
+            'title' => 'مدیر پی سی شیراز',
+            'enabled' => 1,
             'password' => Hash::make('p@ssw0rd'),
         ]);
     }

@@ -21,6 +21,7 @@ class CreatePagesTable extends Migration
             $table->string('slug')->nullable();
             $table->longText('text')->nullable();
             $table->enum('access', ['public', 'private'])->default('public');
+            $table->boolean('enabled');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -28,27 +29,32 @@ class CreatePagesTable extends Migration
             'title' => 'نرم افزار شیراز',
             'text' => 'Index',
             'access' => 'public',
+            'enabled' => true
         ]);
         DB::table('pages')->insert([
             'title' => 'درباره ما',
             'text' => 'About US',
             'access' => 'public',
+            'enabled' => true
         ]);
         DB::table('pages')->insert([
             'title' => 'تماس با ما',
             'text' => 'Contact US',
             'access' => 'public',
+            'enabled' => true
         ]);
 
         DB::table('pages')->insert([
             'title' => 'قوانین و مقررات',
             'text' => 'Law TOS',
             'access' => 'public',
+            'enabled' => true
         ]);
         DB::table('pages')->insert([
             'title' => 'ثبت شکایت',
             'text' => 'Complaint',
             'access' => 'public',
+            'enabled' => true
         ]);
     }
 

@@ -15,7 +15,7 @@ class CreateSlidesTable extends Migration
     {
         Schema::create('slides', function (Blueprint $table) {
             $table->increments('id');
-            $table->enum('published', ['yes', 'no'])->default('no');
+            $table->boolean('enabled');
             $table->string('title')->nullable();
             $table->string('link')->nullable();
             $table->string('source')->nullable();

@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\UserWelcome;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\UsersExport;
 
 class UserController extends Controller
 {
@@ -20,7 +22,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::orderBy('created_at', 'desc')->paginate(config('platform.user-per-page'));
+        $users = User::collect();
         return view('admin.user.index', ['users' => $users]);
     }
 
@@ -110,5 +112,10 @@ class UserController extends Controller
         $user->delete();
         flash('حذف کاربر با موفقیت انجام شد.')->success();
         return redirect()->route('admin.user');
+    }
+
+    public function export()
+    {
+        return Excel::download(new UsersExport, 'users.xlsx');
     }
 }

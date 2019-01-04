@@ -17,6 +17,7 @@ class UserFilter extends ModelFilter
         return $this->orWhere('last_name', 'LIKE', '%' . $query . '%')
             ->orWhere('first_name', 'LIKE', '%' . $query . '%')
             ->orWhere('mobile', 'LIKE', '%' . $query . '%')
+            ->orWhere('email', 'LIKE', '%' . $query . '%')
             ->orWhere('title', 'LIKE', '%' . $query . '%');
     }
 }

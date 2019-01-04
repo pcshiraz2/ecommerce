@@ -4,6 +4,7 @@ try {
     window.$ = window.jQuery = require('jquery');
     require('bootstrap');
 } catch (e) {
+
 }
 
 window.axios = require('axios');
@@ -18,7 +19,6 @@ if (token) {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
-window.$.fn.dataTable = require('datatables.net-bs4');
 window.basictable = require('basictable');
 window.select2 = require('select2');
 window.Chart = require('chart.js');
@@ -36,10 +36,8 @@ require('trumbowyg/dist/langs/fa.min');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('item-list-component', require('./components/ItemListComponent.vue'));
 Vue.component('notification-navbar-component', require('./components/NotificationNavbarComponent.vue'));
 Vue.component('span-component', require('./components/SpanComponent.vue'));
-Vue.component('table-component', require('./components/TableComponent'));
 
 const app = new Vue({
     el: '#app'
@@ -74,42 +72,13 @@ window.showPassword = function (selector) {
 
 
 $(document).ready(function () {
+    //select
     $('select').select2({
         dir: "rtl",
         language: "fa"
     });
 
-
-    $('#keyword').keyup(function (event) {
-        if ($('#keyword').val().length >= 3) {
-            $('#search-result').slideDown('fast');
-            axios.post('ajax/search', {'keyword': $('#keyword').val()}).then(function (response) {
-                console.log(response);
-            }).catch(function (error) {
-                console.log(error);
-            });
-        } else {
-            $('#search-result').slideUp('fast');
-            console.log(('#keyword').val());
-        }
-
-
-    });
-
-    $('#keyword-mobile').keyup(function (event) {
-        if ($('#keyword-mobile').val().length >= 3) {
-            $('#search-mobile-result').slideDown('fast');
-            axios.post('ajax/search', {'keyword': $('#keyword-mobile').val()}).then(function (response) {
-                $('#search-result-box').html(response.data);
-            }).catch(function (error) {
-                console.log(error);
-            });
-        } else {
-            $('#search-mobile-result').slideUp('fast');
-            console.log(('#keyword-mobile').val());
-        }
-    });
-
+    //tags
     $(".tags").select2({
         dir: "rtl",
         language: "fa",
@@ -117,6 +86,7 @@ $(document).ready(function () {
         tokenSeparators: [',']
     });
 
+    //price
     $('.price').mask('#,##0', {reverse: true});
 
     $('table').basictable();

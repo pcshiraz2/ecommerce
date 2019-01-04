@@ -17,7 +17,7 @@ return [
     'main-container' => 'container',
     'navbar-container' => 'container',
     'cache-time' => '1440',
-    'enable-register' => '1',
+    'register-enabled' => true,
     'page-cache-time' => 999999999,
     'header-position' => 'sticky-top',
     'footer-position' => 'sticky-bottom',
@@ -30,10 +30,22 @@ return [
 
     'main-admin-user-id' => '1',
 
+    'income-transfer-category-id' => '11',
+    'expense-transfer-category-id' => '15',
+
+    'income-check-category-id' => '9',
+    'expense-check-category-id' => '12',
+
+    'income-installment-category-id' => '10',
+    'expense-installment-category-id' => '13',
+
+    'income-sale-category-id' => '8',
+    'expense-purchase-category-id' => '14',
+
 
     'min-payment-price' => '1000',
     'per-page' => '25',
     'due-days' => '5',
-    'captcha-enable' => 'yes',
+    'captcha-enabled' => true,
     'currency' => 'IRR'
 ];

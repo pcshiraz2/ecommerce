@@ -8,5 +8,5 @@
 
 return [
     'direction' => 'rtl',
-    'input-pull' => 'text-md-left'
+    'no-result' => 'متاسفانه برای جستجوی شما موردی یافت نشد.'
 ];

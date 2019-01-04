@@ -12,22 +12,22 @@ class Product extends Model
 
     public function category()
     {
-        return $this->belongsTo('App\Category');
+        return $this->belongsTo('App\Models\Category');
     }
 
     public function images()
     {
-        return $this->hasMany('App\ProductImage');
+        return $this->hasMany('App\Models\ProductImage');
     }
 
     public function files()
     {
-        return $this->hasMany('App\ProductFile');
+        return $this->hasMany('App\Models\ProductFile');
     }
 
     public function records()
     {
-        return $this->hasMany('App\Record');
+        return $this->hasMany('App\Models\Record');
     }
 
     public function getInventory()
@@ -46,10 +46,6 @@ class Product extends Model
         return $query->where('top', 'yes');
     }
 
-    public function scopeEnable($query)
-    {
-        return $query->where('enable', 'yes');
-    }
 
     public function scopeShop($query)
     {

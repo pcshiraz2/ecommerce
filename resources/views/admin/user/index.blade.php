@@ -14,6 +14,24 @@
                                 href="{{ route('admin.user') }}">کاربرها</a></li>
                 </ol>
             </nav>
+            <div id="accordion">
+                <div class="card card-info mb-2">
+                    <div data-toggle="collapse" href="#collapseOne" class="card-header collapsed" aria-expanded="false">
+                        <i class="fa fa-arrow-circle-left"></i> جستجو
+                    </div>
+                    <div id="collapseOne" data-parent="#accordion" class="card-body collapse" style="">
+                        <form method="GET" action="{{ route('admin.user') }}">
+                            <div class="form-group">
+                                <label for="search">نام/عنوان/شماره/ایمیل</label>
+                                <input name="search" id="search" type="text" class="form-control" value="{{ request('search') }}">
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-mobile btn-sm"><i class="fa fa-search"></i>ارسال
+                                جستجو
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
             <div class="card card-default">
                 <div class="card-header">کاربرها
                     <a href="{{route('admin.user.create')}}" class="btn btn-primary btn-sm pull-left"><i
@@ -21,32 +39,32 @@
                 </div>
 
                 <div class="card-body">
+                    @include('global.top-table-options',['route' => 'admin.user.export'])
 
-                    <table id="users" class="table table-hover table-striped table-bordered two-axis" cellspacing="0"
-                           width="100%">
+                    @if($users->count())
+                    <table id="users" class="table table-hover table-striped table-bordered two-axis" cellspacing="0">
                         <thead class="thead-dark">
                         <tr>
-                            <th scope="col" class="text-center">نام</th>
-                            <th scope="col" class="text-center">شماره همراه</th>
-                            <th scope="col" class="text-center">موجودی</th>
-                            <th scope="col" class="text-center">اقدام ها</th>
+                            <th scope="col">@sortablelink('last_name', 'نام')</th>
+                            <th scope="col">@sortablelink('mobile', 'شماره همراه')</th>
+                            <th scope="col">@sortablelink('credit', 'موجودی')</th>
+                            <th scope="col">اقدام ها</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($users as $user)
                             <tr>
-                                <td scope="row" class="text-center align-middle">
+                                <td scope="row" class="align-middle">
                                     {{$user->name}}
                                 </td>
-                                <td scope="row" class="text-center align-middle">
+                                <td scope="row" class="align-middle">
                                     {{ $user->mobile }}
                                 </td>
-                                <td scope="row" class="text-center align-middle">
-                                    <span-component
-                                            web-address="{{ route('admin.user.balance', [$user->id]) }}"></span-component>
+                                <td scope="row" class="align-middle">
+                                    {{ \App\Utils\MoneyUtil::format($user->credit) }}
                                 </td>
 
-                                <td scope="row" class="text-center align-middle">
+                                <td scope="row" class="align-middle">
                                     <a href="{{ route('admin.user.invoice', ['id' => $user->id]) }}"
                                        class="btn btn-sm btn-warning"
                                        data-toggle="tooltip" data-placement="top" title="ثبت فاکتور"><i
@@ -76,8 +94,14 @@
                                 </td>
                             </tr>
                         @endforeach
+
+
                         </tbody>
                     </table>
+                    @else
+                        <div class="alert-warning alert">{{ trans('platform.no-result') }}</div>
+                    @endif
+                    @include('global.pagination',['items' => $users])
                 </div>
             </div>
         </div>

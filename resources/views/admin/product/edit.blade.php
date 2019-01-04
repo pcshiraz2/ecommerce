@@ -207,13 +207,13 @@
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="enableRadioYes" name="enable"
                                            value="yes"
-                                           class="custom-control-input"{{ old('enable', $product->enable) == 'yes'  ? ' checked' : '' }}>
+                                           class="custom-control-input"{{ old('enable', $product->enable) == true  ? ' checked' : '' }}>
                                     <label class="custom-control-label" for="enableRadioYes">بلی</label>
                                 </div>
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="enableRadioNo" name="enable"
                                            value="no"
-                                           class="custom-control-input"{{ old('enable', $product->enable) == 'no'  ? ' checked' : '' }}>
+                                           class="custom-control-input"{{ old('enable', $product->enable) == false  ? ' checked' : '' }}>
                                     <label class="custom-control-label" for="enableRadioNo">خیر</label>
                                 </div>
                                 @if ($errors->has('enable'))
@@ -228,13 +228,13 @@
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="assetRadioYes" name="asset"
                                            value="yes"
-                                           class="custom-control-input"{{ old('asset', $product->asset) == 'yes'  ? ' checked' : '' }}>
+                                           class="custom-control-input"{{ old('asset', $product->asset) == true  ? ' checked' : '' }}>
                                     <label class="custom-control-label" for="assetRadioYes">دارد</label>
                                 </div>
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="assetRadioNo" name="asset"
                                            value="no"
-                                           class="custom-control-input"{{ old('asset', $product->asset) == 'no'  ? ' checked' : '' }}>
+                                           class="custom-control-input"{{ old('asset', $product->asset) == false  ? ' checked' : '' }}>
                                     <label class="custom-control-label" for="assetRadioNo">ندارد</label>
                                 </div>
                                 @if ($errors->has('asset'))
@@ -249,13 +249,13 @@
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="shopRadioYes" name="shop"
                                            value="yes"
-                                           class="custom-control-input"{{ old('shop', $product->shop) == 'yes'  ? ' checked' : '' }}>
+                                           class="custom-control-input"{{ old('shop', $product->shop) == true  ? ' checked' : '' }}>
                                     <label class="custom-control-label" for="shopRadioYes">دارد</label>
                                 </div>
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="shopRadioNo" name="shop"
                                            value="no"
-                                           class="custom-control-input"{{ old('shop', $product->shop) == 'no'  ? ' checked' : '' }}>
+                                           class="custom-control-input"{{ old('shop', $product->shop) == false  ? ' checked' : '' }}>
                                     <label class="custom-control-label" for="shopRadioNo">ندارد</label>
                                 </div>
                                 @if ($errors->has('shop'))
@@ -270,13 +270,13 @@
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="postRadioYes" name="post"
                                            value="yes"
-                                           class="custom-control-input"{{ old('post', $product->post) == 'yes'  ? ' checked' : '' }}>
+                                           class="custom-control-input"{{ old('post', $product->post) == true  ? ' checked' : '' }}>
                                     <label class="custom-control-label" for="postRadioYes">دارد</label>
                                 </div>
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="postRadioNo" name="post"
                                            value="no"
-                                           class="custom-control-input"{{ old('post', $product->post) == 'no'  ? ' checked' : '' }}>
+                                           class="custom-control-input"{{ old('post', $product->post) == false  ? ' checked' : '' }}>
                                     <label class="custom-control-label" for="postRadioNo">ندارد</label>
                                 </div>
                                 @if ($errors->has('post'))
@@ -291,13 +291,13 @@
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="renewalRadioYes" name="renewal"
                                            value="yes"
-                                           class="custom-control-input"{{ old('renewal', $product->renewal) == 'yes'  ? ' checked' : '' }}>
+                                           class="custom-control-input"{{ old('renewal', $product->renewal) == true  ? ' checked' : '' }}>
                                     <label class="custom-control-label" for="renewalRadioYes">دارد</label>
                                 </div>
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="renewalRadioNo" name="renewal"
                                            value="no"
-                                           class="custom-control-input"{{ old('renewal', $product->renewal) == 'no'  ? ' checked' : '' }}>
+                                           class="custom-control-input"{{ old('renewal', $product->renewal) == false  ? ' checked' : '' }}>
                                     <label class="custom-control-label" for="renewalRadioNo">ندارد</label>
                                 </div>
                                 @if ($errors->has('renewal'))
@@ -312,13 +312,13 @@
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="topRadioYes" name="top"
                                            value="yes"
-                                           class="custom-control-input"{{ old('top', $product->top) == 'yes'  ? ' checked' : '' }}>
+                                           class="custom-control-input"{{ old('top', $product->top) == true  ? ' checked' : '' }}>
                                     <label class="custom-control-label" for="topRadioYes">بله</label>
                                 </div>
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="topRadioNo" name="top"
                                            value="no"
-                                           class="custom-control-input"{{ old('top', $product->top) == 'no'  ? ' checked' : '' }}>
+                                           class="custom-control-input"{{ old('top', $product->top) == false  ? ' checked' : '' }}>
                                     <label class="custom-control-label" for="topRadioNo">خیر</label>
                                 </div>
                                 @if ($errors->has('top'))

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Page;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Cache;
 
@@ -18,15 +17,10 @@ class PageController extends Controller
 
     public function index()
     {
-        return view('admin.page.index');
+        $pages = Page::collect();
+        return view('admin.page.index',['pages' => $pages]);
     }
 
-    public function data()
-    {
-        return DataTables::eloquent(Page::select(['id', 'title'])->orderBy('created_at', 'desc'))
-            ->addColumn('action', 'admin.page.action')
-            ->make(true);
-    }
 
     public function create()
     {
@@ -45,6 +39,7 @@ class PageController extends Controller
             'title' => 'required|string',
             'text' => 'required|string',
             'access' => 'required',
+            'enabled' => 'required',
         ])->validate();
         $page = new Page();
         $page->title = $request->title;
@@ -52,6 +47,7 @@ class PageController extends Controller
         $page->slug = $request->slug;
         $page->text = $request->text;
         $page->access = $request->access;
+        $page->enabled = $request->enabled;
         $page->save();
         flash('صفحه با موفقیت ایجاد شد.')->success();
         return redirect()->route('admin.page');
@@ -64,12 +60,14 @@ class PageController extends Controller
             'title' => 'required|string',
             'text' => 'required|string',
             'access' => 'required',
+            'enabled' => 'required',
         ])->validate();
         $page->title = $request->title;
         $page->description = $request->description;
         $page->text = $request->text;
         $page->access = $request->access;
         $page->slug = $request->slug;
+        $page->enabled = $request->enabled;
         $page->save();
         Cache::forget('page_' . $page->id);
         flash('صفحه با موفقیت ویرایش شد.')->success();

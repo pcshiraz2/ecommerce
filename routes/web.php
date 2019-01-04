@@ -18,12 +18,17 @@ Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 Route::get('/home', 'DashboardController@index')->name('home');
 
 
+//Misc
+Route::get('/per-page/{limit}', 'MiscController@setPerPage')->name('misc.per-page');
+
 //Editor
 Route::post('/editor/upload', 'EditorController@upload')->name('editor.upload')->middleware('auth');
 
 
 Route::post('/ajax/search', 'AjaxController@search')->name('ajax.search');
 Route::post('/ajax/cities', 'AjaxController@cities')->name('ajax.cities');
+
+
 
 Route::get('/dashboard/tickets', 'DashboardController@index')->name('dashboard.tickets');
 Route::get('/dashboard/invoices', 'DashboardController@invoices')->name('dashboard.invoices');
@@ -158,7 +163,7 @@ Route::prefix(Config('platform.admin-route'))->name('admin.')->group(function ()
     Route::get('/dashboard/tickets', 'Admin\DashboardController@tickets')->name('dashboard.tickets');
 
     Route::get('/user', 'Admin\UserController@index')->name('user');
-    Route::get('/user/balance/{id}', 'Admin\UserController@balance')->name('user.balance');
+    Route::get('/user/export', 'Admin\UserController@export')->name('user.export');
 
     Route::get('/user/ticket/{id}', 'Admin\UserController@ticket')->name('user.ticket');
     Route::get('/user/transaction/{id}', 'Admin\UserController@transaction')->name('user.transaction');

@@ -5,7 +5,7 @@
 @endsection
 @section('content')
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-6">
             <div class="card card-default">
                 <div class="card-header">ورود</div>
 
@@ -13,11 +13,10 @@
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
                         @method('post')
-                        <div class="form-group row">
-                            <label for="login" class="col-sm-4 col-form-label @lang('platform.input-pull')">ایمیل/شماره
+                        <div class="form-group">
+                            <label for="login">ایمیل/شماره
                                 همراه</label>
 
-                            <div class="col-md-7">
                                 <input id="text" type="text" dir="ltr"
                                        class="form-control{{ $errors->has('login') ? ' is-invalid' : '' }}" name="login"
                                        value="{{ old('login') }}" required autofocus>
@@ -27,14 +26,12 @@
                                         <strong>{{ $errors->first('login') }}</strong>
                                     </span>
                                 @endif
-                            </div>
+
                         </div>
 
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label @lang('platform.input-pull')">کلمه
+                        <div class="form-group">
+                            <label for="password">کلمه
                                 عبور</label>
-
-                            <div class="col-md-7">
                                 <input id="password" dir="ltr" type="password"
                                        class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
                                        name="password" required>
@@ -44,13 +41,12 @@
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>
                                 @endif
-                            </div>
                         </div>
-                        @if(config('platform.captcha-enable') == 'yes')
-                            <div class="form-group row">
-                                <label class="col-md-4 col-form-label @lang('platform.input-pull')" for="captcha">عبارت
+                        @if(config('platform.captcha-enabled'))
+                            <div class="form-group">
+                                <label for="captcha">عبارت
                                     امنیتی</label>
-                                <div class="col-md-7">
+
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <img data-refresh-config="default" class="img-fluid" id="captcha_image"
@@ -70,21 +66,21 @@
                                             <strong>{{ $errors->first('captcha') }}</strong>
                                         </span>
                                     @endif
-                                </div>
+
                             </div>
                         @endif
-                        <div class="form-group row">
-                            <div class="col-md-8 offset-md-4">
+                        <div class="form-group">
+
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" name="remember"
                                            {{ old('remember') ? 'checked' : '' }} class="custom-control-input"
                                            id="remember">
                                     <label class="custom-control-label" for="remember"> ذخیره اطلاعات ورود من</label>
                                 </div>
-                            </div>
+
                         </div>
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
+                        <div class="form-group">
+
                                 <button type="submit" class="btn btn-primary btn-mobile">
                                     <i class="fa fa-sign-in"></i>
                                     ورود
@@ -94,7 +90,7 @@
                                     <i class="fa fa-key"></i>
                                     فراموشی رمز عبور
                                 </a>
-                            </div>
+
                         </div>
                     </form>
                 </div>

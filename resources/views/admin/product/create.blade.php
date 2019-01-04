@@ -60,34 +60,37 @@
                                     @endif
                                 </div>
 
+
                                 <div class="form-group">
-                                    <label for="slug">
-                                        متن لینک
-                                        <span class="font-weight-light font-italic"> - اختیاری</span>
-                                    </label>
-                                    <input id="slug" type="text"
-                                           class="form-control{{ $errors->has('slug') ? ' is-invalid' : '' }}"
-                                           name="slug" value="{{ old('slug') }}">
-                                    @if ($errors->has('slug'))
+                                    <label for="sale_price">قیمت فروش</label>
+                                    <div class="input-group mb-2 ml-sm-2">
+                                        <input id="sale_price" type="tel" dir="ltr"
+                                               class="sale_price form-control{{ $errors->has('sale_price') ? ' is-invalid' : '' }}"
+                                               name="sale_price" value="{{ old('sale_price') }}" required>
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">{{ trans('currency.'.config('platform.currency')) }}</div>
+                                        </div>
+                                    </div>
+                                    @if ($errors->has('sale_price'))
                                         <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('slug') }}</strong>
+                                        <strong>{{ $errors->first('sale_price') }}</strong>
                                     </span>
                                     @endif
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="price">قیمت</label>
+                                    <label for="purchase_price">قیمت خرید</label>
                                     <div class="input-group mb-2 ml-sm-2">
-                                        <input id="price" type="tel" dir="ltr"
-                                               class="price form-control{{ $errors->has('price') ? ' is-invalid' : '' }}"
-                                               name="price" value="{{ old('price') }}" required>
+                                        <input id="purchase_price" type="tel" dir="ltr"
+                                               class="purchase_price form-control{{ $errors->has('purchase_price') ? ' is-invalid' : '' }}"
+                                               name="purchase_price" value="{{ old('purchase_price') }}" required>
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">{{ trans('currency.'.config('platform.currency')) }}</div>
                                         </div>
                                     </div>
-                                    @if ($errors->has('price'))
+                                    @if ($errors->has('purchase_price'))
                                         <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('price') }}</strong>
+                                        <strong>{{ $errors->first('purchase_price') }}</strong>
                                     </span>
                                     @endif
                                 </div>
@@ -111,6 +114,20 @@
 
                         </div>
 
+                        <div class="form-group">
+                            <label for="slug">
+                                متن لینک
+                                <span class="font-weight-light font-italic"> - اختیاری</span>
+                            </label>
+                            <input id="slug" type="text"
+                                   class="form-control{{ $errors->has('slug') ? ' is-invalid' : '' }}"
+                                   name="slug" value="{{ old('slug') }}">
+                            @if ($errors->has('slug'))
+                                <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('slug') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
 
                         <div class="form-group">
                             <label for="initial_balance">
@@ -202,15 +219,15 @@
                             <div class="form-group col-md-2">
                                 <label for="enable">فعال</label>
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" id="enableRadioYes" name="enable"
-                                           value="yes"
-                                           class="custom-control-input"{{ old('enable','yes') == 'yes'  ? ' checked' : '' }}>
+                                    <input type="radio" id="enableRadioYes" name="enabled"
+                                           value="1"
+                                           class="custom-control-input"{{ old('enabled',true) == true  ? ' checked' : '' }}>
                                     <label class="custom-control-label" for="enableRadioYes">بلی</label>
                                 </div>
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" id="enableRadioNo" name="enable"
-                                           value="no"
-                                           class="custom-control-input"{{ old('enable','yes') == 'no'  ? ' checked' : '' }}>
+                                    <input type="radio" id="enableRadioNo" name="enabled"
+                                           value="0"
+                                           class="custom-control-input"{{ old('enable',true) == false  ? ' checked' : '' }}>
                                     <label class="custom-control-label" for="enableRadioNo">خیر</label>
                                 </div>
                                 @if ($errors->has('enable'))
@@ -224,14 +241,14 @@
 
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="assetRadioYes" name="asset"
-                                           value="yes"
-                                           class="custom-control-input"{{ old('asset','no') == 'yes'  ? ' checked' : '' }}>
+                                           value="1"
+                                           class="custom-control-input"{{ old('asset',false) == true  ? ' checked' : '' }}>
                                     <label class="custom-control-label" for="assetRadioYes">دارد</label>
                                 </div>
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="assetRadioNo" name="asset"
-                                           value="no"
-                                           class="custom-control-input"{{ old('asset','no') == 'no'  ? ' checked' : '' }}>
+                                           value="0"
+                                           class="custom-control-input"{{ old('asset',false) == false  ? ' checked' : '' }}>
                                     <label class="custom-control-label" for="assetRadioNo">ندارد</label>
                                 </div>
                                 @if ($errors->has('asset'))
@@ -245,14 +262,14 @@
 
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="shopRadioYes" name="shop"
-                                           value="yes"
-                                           class="custom-control-input"{{ old('shop','yes') == 'yes'  ? ' checked' : '' }}>
+                                           value="1"
+                                           class="custom-control-input"{{ old('shop',true) == true  ? ' checked' : '' }}>
                                     <label class="custom-control-label" for="shopRadioYes">دارد</label>
                                 </div>
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="shopRadioNo" name="shop"
-                                           value="no"
-                                           class="custom-control-input"{{ old('shop','yes') == 'no'  ? ' checked' : '' }}>
+                                           value="0"
+                                           class="custom-control-input"{{ old('shop',true) == false  ? ' checked' : '' }}>
                                     <label class="custom-control-label" for="shopRadioNo">ندارد</label>
                                 </div>
                                 @if ($errors->has('shop'))
@@ -266,14 +283,14 @@
 
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="postRadioYes" name="post"
-                                           value="yes"
-                                           class="custom-control-input"{{ old('post','no') == 'yes'  ? ' checked' : '' }}>
+                                           value="1"
+                                           class="custom-control-input"{{ old('post',false) == true  ? ' checked' : '' }}>
                                     <label class="custom-control-label" for="postRadioYes">دارد</label>
                                 </div>
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="postRadioNo" name="post"
-                                           value="no"
-                                           class="custom-control-input"{{ old('post','no') == 'no'  ? ' checked' : '' }}>
+                                           value="0"
+                                           class="custom-control-input"{{ old('post',false) == false  ? ' checked' : '' }}>
                                     <label class="custom-control-label" for="postRadioNo">ندارد</label>
                                 </div>
                                 @if ($errors->has('post'))
@@ -287,14 +304,14 @@
 
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="renewalRadioYes" name="renewal"
-                                           value="yes"
-                                           class="custom-control-input"{{ old('renewal','no') == 'yes'  ? ' checked' : '' }}>
+                                           value="1"
+                                           class="custom-control-input"{{ old('renewal',false) == true  ? ' checked' : '' }}>
                                     <label class="custom-control-label" for="renewalRadioYes">دارد</label>
                                 </div>
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="renewalRadioNo" name="renewal"
-                                           value="no"
-                                           class="custom-control-input"{{ old('renewal','no') == 'no'  ? ' checked' : '' }}>
+                                           value="0"
+                                           class="custom-control-input"{{ old('renewal',false) == false  ? ' checked' : '' }}>
                                     <label class="custom-control-label" for="renewalRadioNo">ندارد</label>
                                 </div>
                                 @if ($errors->has('renewal'))
@@ -308,14 +325,14 @@
 
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="topRadioYes" name="top"
-                                           value="yes"
-                                           class="custom-control-input"{{ old('top','no') == 'yes'  ? ' checked' : '' }}>
+                                           value="1"
+                                           class="custom-control-input"{{ old('top',false) == true  ? ' checked' : '' }}>
                                     <label class="custom-control-label" for="topRadioYes">بله</label>
                                 </div>
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="topRadioNo" name="top"
-                                           value="no"
-                                           class="custom-control-input"{{ old('top','no') == 'no'  ? ' checked' : '' }}>
+                                           value="0"
+                                           class="custom-control-input"{{ old('top',false) == false  ? ' checked' : '' }}>
                                     <label class="custom-control-label" for="topRadioNo">خیر</label>
                                 </div>
                                 @if ($errors->has('top'))

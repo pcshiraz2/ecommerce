@@ -18,7 +18,7 @@ class CreateAccountsTable extends Migration
             $table->string('title');
             $table->integer('order')->nullable();
             $table->decimal('initial_balance', 15, 0)->nullable();
-            $table->enum('enable', ['yes', 'no'])->default('yes');
+            $table->boolean('enabled');
             $table->text('options')->nullable();
             $table->text('note')->nullable();
             $table->timestamps();
@@ -26,10 +26,12 @@ class CreateAccountsTable extends Migration
         });
 
         DB::table('accounts')->insert([
-            'title' => 'نقدی'
+            'title' => 'نقدی',
+            'enabled' => true
         ]);
         DB::table('accounts')->insert([
-            'title' => 'بانکی'
+            'title' => 'بانکی',
+            'enabled' => true
         ]);
     }
 

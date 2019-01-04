@@ -151,25 +151,13 @@ table.table-bordered.dataTable td:last-child, table.table-bordered.dataTable th:
   font-family: Vazir, Tahoma;
 }
 
-.search-result {
-  display: none;
-  background: $white;
-  z-index: $zindex-modal;
-  position: fixed;
-  right: 25%;
-  top: 66px;
-  border: $gray-500 1px solid;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
+.table .thead-dark th a {
+  color: $white;
+}
+.table .thead-dark th a:active {
+  color: $white;
 }
 
-.search-mobile-result {
-  display: none;
-  background: $white;
-  z-index: $zindex-modal;
-  position: fixed;
-  top: 98px;
-  border: $gray-500 1px solid;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
+.table .thead-dark th a:hover {
+  color: $white;
 }

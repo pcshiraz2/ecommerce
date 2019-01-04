@@ -53,14 +53,16 @@ class ProductController extends Controller
         Validator::make($request->all(), [
             'title' => 'required',
             'image' => 'required|image',
-            'price' => 'required|numeric',
+            'purchase_price' => 'required|numeric',
+            'sale_price' => 'required|numeric',
             'category_id' => 'required',
         ])->validate();
 
         $product = new Product();
         $product->title = $request->title;
         $product->image = $request->file('image')->store('public');
-        $product->price = MoneyUtil::database($request->price);
+        $product->purchase_price = MoneyUtil::database($request->purchase_price);
+        $product->sale_price = MoneyUtil::database($request->sale_price);
 
         $product->category_id = $request->category_id;
         $product->user_id = Auth::user()->id;
@@ -69,7 +71,7 @@ class ProductController extends Controller
         $product->slug = $request->slug;
         $product->description = $request->description;
         $product->text = $request->text;
-        $product->enable = $request->enable;
+        $product->enabled = $request->enabled;
         $product->shop = $request->shop;
         $product->asset = $request->asset;
         $product->post = $request->post;
@@ -96,8 +98,9 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
         Validator::make($request->all(), [
             'title' => 'required',
-            'image' => 'nullable|image',
-            'price' => 'required|numeric',
+            'image' => 'required|image',
+            'purchase_price' => 'required|numeric',
+            'sale_price' => 'required|numeric',
             'category_id' => 'required',
         ])->validate();
         $product->title = $request->title;
@@ -113,7 +116,7 @@ class ProductController extends Controller
         $product->slug = $request->slug;
         $product->description = $request->description;
         $product->text = $request->text;
-        $product->enable = $request->enable;
+        $product->enabled = $request->enabled;
         $product->shop = $request->shop;
         $product->asset = $request->asset;
         $product->post = $request->post;

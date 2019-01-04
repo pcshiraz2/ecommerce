@@ -22,6 +22,7 @@ class CreateArticlesTable extends Migration
             $table->string('slug')->nullable();
             $table->integer('category_id');
             $table->integer('user_id')->nullable();
+            $table->boolean('enabled');
             $table->timestamps();
             $table->softDeletes();
         });

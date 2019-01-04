@@ -26,14 +26,20 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+                    <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand ml-auto" href="{{ url('/') }}">
+                <a class="navbar-brand mr-auto" href="{{ url('/') }}">
                     <i class="fa {{ config('platform.main-icon') }}"></i> {{ config('platform.name', 'ShirazPlatform') }}
                 </a>
+
+                <div class="d-block d-md-none d-lg-none d-xl-none">
+                    <button class="btn btn-info btn-sm">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
+                    <ul class="navbar-nav mr-auto">
                         @guest
 
                         @else
@@ -53,7 +59,7 @@
                         </div>
                     </form>
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
+                    <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @if(Cart::count())
                             <li>
@@ -65,19 +71,15 @@
                         @guest
                             <li><a class="nav-link{{ Request::segment(1) == 'login' ? ' active' : '' }}"
                                    href="{{ route('login') }}"><i class="fa fa-sign-in"></i>ورود </a></li>
-                            @if(config('platform.enable-register'))
+                            @if(config('platform.register-enabled'))
                                 <li><a class="nav-link{{ Request::segment(1) == 'register' ? ' active' : '' }}"
                                        href="{{ route('register') }}"><i class="fa fa-user-plus"></i> ثبت نام</a></li>
                             @endif
                         @else
-                            <li><a class="nav-link{{ Request::segment(1) == 'notification' ? ' active' : '' }}"
-                                   href="{{ route('notification') }}"><i class="fa fa-bullhorn"></i> اطلاعیه ها
-                                    <notification-navbar-component></notification-navbar-component>
-                                </a></li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
                                    aria-haspopup="true" aria-expanded="false">
-                                    <i class="fa fa-user-circle-o"></i> {{ Auth::user()->name }} <span
+                                    <i class="fa fa-user-circle-o"></i> {{ Auth::user()->nav_name }} <span
                                             class="caret"></span>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -88,7 +90,10 @@
                                         <a class="dropdown-item{{ Request::segment(1) == config('platform.admin-route') ? ' active' : '' }}"
                                            href="{{ route('admin.dashboard') }}"><i class="fa fa-cogs"></i> مدیریت سیستم</a>
                                     @endcan
-
+                                    <a class="dropdown-item{{ Request::segment(1) == 'notification' ? ' active' : '' }}"
+                                           href="{{ route('notification') }}"><i class="fa fa-bullhorn"></i> اطلاعیه ها
+                                            <notification-navbar-component></notification-navbar-component>
+                                        </a>
                                     <a class="dropdown-item{{ Request::segment(1) == 'profile' ? ' active' : '' }}"
                                        href="{{ route('profile') }}">
                                         <i class="fa fa-user"></i> مشخصات کاربری
@@ -113,20 +118,9 @@
                         @endguest
                     </ul>
                 </div>
+
             </div>
         </nav>
-        <div class="d-block d-md-none d-lg-none d-xl-none w-100">
-            <form onsubmit="return false;">
-                <div class="input-group">
-                    <input type="text" autocomplete="off" id="keyword-mobile" name="keyword-mobile" class="form-control"
-                           placeholder="جستجو..." aria-label="جستجوی ..." aria-describedby="navbar-search">
-                    <div class="input-group-append">
-                        <button id="search-mobile-btn" class="btn btn-warning" type="button" id="navbar-search"><i
-                                    class="fa fa-search" id="search-mobile-icon"></i></button>
-                    </div>
-                </div>
-            </form>
-        </div>
     </header>
     <main class="py-4" role="main">
         <div class="{{ config('platform.main-container') }}">
@@ -151,7 +145,8 @@
     <footer class="{{ config('platform.footer-position') }}">
         <nav class="navbar navbar-expand-lg {{ config('platform.navbar-bottm-type') }}">
             <div class="{{ config('platform.navbar-container') }}">
-                <ul class="navbar-nav ml-auto">
+
+                <ul class="navbar-nav mr-auto">
                     <li><a class="nav-link" href="{{ route('contact-us') }}"><i class="fa fa-envelope"></i> تماس با
                             ما</a></li>
                     <li><a class="nav-link" href="{{ route('about-us') }}"><i class="fa fa-info"></i> درباره ماه</a>
@@ -161,22 +156,12 @@
                     <li><a class="nav-link" href="{{ route('complaint') }}"><i class="fa fa-user-times"></i> ثبت
                             شکایت</a></li>
                 </ul>
-                <div class="mr-auto">
+                <div class="ml-auto">
                     <a href="https://pcshiraz.com" target="_blank">قدرت گرفته از پی سی شیراز</a>
                 </div>
             </div>
         </nav>
     </footer>
-    <div class="search-result mx-auto w-50 center-block" id="search-result">
-        <div id="search-result-box" class="p-2">
-            <i class="fa fa-spinner fa-pulse fa-lg fa-fw" aria-hidden="true"></i> در حال جستجو ...
-        </div>
-    </div>
-    <div class="search-mobile-result w-100" id="search-mobile-result">
-        <div id="search-mobile-result-box" class="p-2">
-            <i class="fa fa-spinner fa-pulse fa-lg fa-fw" aria-hidden="true"></i> در حال جستجو ...
-        </div>
-    </div>
 </div>
 
 <!-- Scripts -->

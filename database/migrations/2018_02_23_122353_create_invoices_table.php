@@ -34,8 +34,9 @@ class CreateInvoicesTable extends Migration
             //payment: فاکتوری است که در حالت پرداخت است اقساطی، اعتباری و....
             //post:فاکتوری است که به پست تحویل شده است
             //done: فاکتوری است که کالا به دست مشتری رسیده است و کلیه فرآیند های آن از ارسال تا پرداخت انجام شده است.
+            //return: فاکتور مرجوعی
 
-            $table->enum('status', ['draft', 'sent', 'submitted', 'approved', 'paid', 'done', 'post', 'payment'])->default('submitted');
+            $table->enum('status', ['draft', 'sent', 'submitted', 'approved', 'paid', 'done', 'post', 'payment', 'return'])->default('submitted');
 
 
             //Information
@@ -62,9 +63,11 @@ class CreateInvoicesTable extends Migration
 
         Schema::create('records', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('title');
             $table->string('description')->nullable();
             $table->decimal('price', 15, 0);
+            $table->decimal('tax', 15, 0)->nullable()->default(0);
+            $table->decimal('discount', 15, 0)->nullable()->default(0);
             $table->decimal('quantity', 15, 0)->default(1);
             $table->decimal('total', 15, 0);
             $table->integer('invoice_id');
