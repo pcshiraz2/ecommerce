@@ -21,11 +21,12 @@
                     @endif
                 </div>
             </div>
+            @if(Cart::count())
             <div class="list-group mb-2">
                 @foreach(Cart::content() as $product)
                     <div class="list-group-item list-group-item-action flex-column align-items-start">
                         <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">{{$product->name}}</h5>
+                            <h5 class="mb-1"><a href="{{ route('product.view',['id'=>$product->id]) }}">{{$product->name}}</a></h5>
                             <small>
                                 <a href="{{ route('cart.add',['id'=>$product->id]) }}"
                                    data-toggle="tooltip" data-placement="top" title="افزودن یک عدد از کالا"
@@ -46,11 +47,18 @@
                     </div>
                 @endforeach
             </div>
+            @else
+                <div class="alert alert-info">
+                    <i class="fa fa-info-circle"></i>
+                    شما هنوز کالایی انتخاب نکردید.
+                </div>
+
+            @endif
             <div class="row mt-2">
                 <div class="col-md-8">
                 </div>
                 <div class="col-md-4">
-                    <div class="alert alert-info"><strong>جمع
+                    <div class="alert alert-dark"><strong><i class="fa fa-money"></i> جمع
                             کل:</strong>{{ number_format(Cart::total()) }} {{ trans('currency.'.config('platform.currency')) }}
                     </div>
                 </div>

@@ -106,7 +106,7 @@
                                     </select>
                                     @if ($errors->has('category_id'))
                                         <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('access') }}</strong>
+                                        <strong>{{ $errors->first('category_id') }}</strong>
                                     </span>
                                     @endif
                                 </div>

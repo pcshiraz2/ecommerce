@@ -35,9 +35,9 @@
                         <h4 class="card-title"><a
                                     href="{{ route('product.view',['id'=>$product->id]) }}">{{$product->title}}</a></h4>
                         <p class="card-text">
-                            @if($product->price)
+                            @if($product->sale_price != 0)
                                 قیمت:
-                                <strong>{{ \App\Utils\MoneyUtil::format($product->price) }}</strong> {{ trans('currency.'.config('platform.currency')) }}
+                                <strong>{{ \App\Utils\MoneyUtil::format($product->sale_price) }}</strong> {{ trans('currency.'.config('platform.currency')) }}
                             @else
                                 <strong>رایگان</strong>
                             @endif
@@ -45,8 +45,15 @@
                             {{ $product->description }}
                         </p>
                         <div class="row">
-                            <div class="col"><a href="{{ route('product.view',['id' => $product->id]) }}"
-                                                class="btn btn-danger btn-block btn-sm"><i class="fa fa-eye"></i> مشاهده</a>
+                            <div class="col">
+                                <a href="{{ route('product.view',['id'=>$product->id]) }}" class="btn btn-danger btn-block btn-sm">
+                                    <i class="fa fa-eye"></i> مشاهده
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a href="{{ route('cart.add',['id'=>$product->id]) }}" class="btn btn-warning btn-block btn-sm">
+                                    <i class="fa fa-cart-plus"></i> خرید
+                                </a>
                             </div>
                         </div>
                     </div>

@@ -59,36 +59,38 @@
                                     @endif
                                 </div>
 
+
+
                                 <div class="form-group">
-                                    <label for="slug">
-                                        متن لینک
-                                        <span class="font-weight-light font-italic"> - اختیاری</span>
-                                    </label>
-                                    <input id="slug" type="text"
-                                           class="form-control{{ $errors->has('slug') ? ' is-invalid' : '' }}"
-                                           name="slug" value="{{ old('slug', $product->slug) }}">
-                                    @if ($errors->has('slug'))
+                                    <label for="sale_price">قیمت فروش</label>
+                                    <div class="input-group mb-2 ml-sm-2">
+                                        <input id="sale_price" type="tel" dir="ltr"
+                                               class="sale_price form-control{{ $errors->has('sale_price') ? ' is-invalid' : '' }}"
+                                               name="sale_price" value="{{ old('sale_price',$product->sale_price) }}" required>
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">{{ trans('currency.'.config('platform.currency')) }}</div>
+                                        </div>
+                                    </div>
+                                    @if ($errors->has('sale_price'))
                                         <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('slug') }}</strong>
+                                        <strong>{{ $errors->first('sale_price') }}</strong>
                                     </span>
                                     @endif
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="price">قیمت</label>
+                                    <label for="purchase_price">قیمت خرید</label>
                                     <div class="input-group mb-2 ml-sm-2">
-                                        <input id="price" type="tel" dir="ltr"
-                                               class="price form-control{{ $errors->has('price') ? ' is-invalid' : '' }}"
-                                               name="price"
-                                               value="{{ old('price', \App\Utils\MoneyUtil::display($product->price)) }}"
-                                               required>
+                                        <input id="purchase_price" type="tel" dir="ltr"
+                                               class="purchase_price form-control{{ $errors->has('purchase_price') ? ' is-invalid' : '' }}"
+                                               name="purchase_price" value="{{ old('purchase_price',$product->purchase_price) }}" required>
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">{{ trans('currency.'.config('platform.currency')) }}</div>
                                         </div>
                                     </div>
-                                    @if ($errors->has('price'))
+                                    @if ($errors->has('purchase_price'))
                                         <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('price') }}</strong>
+                                        <strong>{{ $errors->first('purchase_price') }}</strong>
                                     </span>
                                     @endif
                                 </div>
@@ -112,6 +114,20 @@
 
                         </div>
 
+                        <div class="form-group">
+                            <label for="slug">
+                                متن لینک
+                                <span class="font-weight-light font-italic"> - اختیاری</span>
+                            </label>
+                            <input id="slug" type="text"
+                                   class="form-control{{ $errors->has('slug') ? ' is-invalid' : '' }}"
+                                   name="slug" value="{{ old('slug', $product->slug) }}">
+                            @if ($errors->has('slug'))
+                                <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('slug') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
 
                         <div class="form-group">
                             <label for="initial_balance">
@@ -366,6 +382,7 @@
                             <i class="fa fa-edit"></i>
                             ویرایش کالا
                         </button>
+
                     </form>
                 </div>
             </div>

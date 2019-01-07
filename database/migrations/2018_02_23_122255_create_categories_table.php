@@ -29,21 +29,23 @@ class CreateCategoriesTable extends Migration
         });
 
         //Product
+
         DB::table('categories')->insert([
             'id' => 1,
-            'title' => 'خدمات',
-            'type' => 'Product',
-            'enabled' => true
-        ]);
-        DB::table('categories')->insert([
-            'id' => 2,
             'title' => 'نرم افزار',
             'type' => 'Product',
             'enabled' => true
         ]);
         DB::table('categories')->insert([
-            'id' => 3,
+            'id' => 2,
             'title' => 'سخت افزار',
+            'type' => 'Product',
+            'enabled' => true
+        ]);
+
+        DB::table('categories')->insert([
+            'id' => 3,
+            'title' => 'خدمات',
             'type' => 'Product',
             'enabled' => true
         ]);

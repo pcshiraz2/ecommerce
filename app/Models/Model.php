@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kyslik\ColumnSortable\Sortable;
 
-class Model extends Eloquent
+abstract class Model extends Eloquent
 {
     use SoftDeletes, Sortable, Filterable;
 

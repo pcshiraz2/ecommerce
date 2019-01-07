@@ -15,6 +15,32 @@
                             ها</a></li>
                 </ol>
             </nav>
+            <div id="accordion">
+                <div class="card card-info mb-2">
+                    <div data-toggle="collapse" href="#collapseOne" class="card-header collapsed" aria-expanded="false">
+                        <i class="fa fa-arrow-circle-left"></i> جستجو
+                    </div>
+                    <div id="collapseOne" data-parent="#accordion" class="card-body collapse" style="">
+                        <form method="GET" action="{{ route('admin.category') }}">
+
+                            <div class="form-group">
+                                <label for="search">عنوان:</label>
+                                <input name="search" id="search" type="text" class="form-control" value="{{ request('search') }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="types">دسته:</label>
+                                <select name="types[]" id="types" multiple>
+                                    <option value="Product">Product</option>
+                                    <option value="Income">Income</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-mobile btn-sm"><i class="fa fa-search"></i>ارسال
+                                جستجو
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
             <div class="card card-default">
                 <div class="card-header">دسته ها
                     <a href="{{route('admin.category.create')}}" class="btn btn-primary btn-sm pull-left"><i
@@ -22,20 +48,33 @@
                 </div>
 
                 <div class="card-body">
-
-                    <table id="category" class="table table-hover table-striped table-bordered" cellspacing="0"
-                           width="100%">
-                        <thead>
+                    @include('global.top-table-options',['route' => 'admin.category.export'])
+                    <table class="table table-striped table-bordered table-hover two-axis">
+                        <thead class="thead-dark">
                         <tr>
-                            <th>#</th>
-                            <th>عنوان</th>
-                            <th>نوع</th>
-                            <th>اقدام ها</th>
+                            <th scope="col">عنوان</th>
+                            <th scope="col">نوع</th>
+                            <th scope="col">اقدام ها</th>
                         </tr>
                         </thead>
-                        <tfoot>
+                        @foreach($categories as $category)
                         <tr>
-                            <th>#</th>
+                            <th>{{ $category->title }}</th>
+                            <th>{{ $category->type }}</th>
+                            <th>
+                                <a href="{{ route('admin.category.edit',['id' => $category->id]) }}" class="btn btn-sm btn-dark"><i class="fa fa-edit"></i> ویرایش</a>
+                                <form method="post" action="{{ route('admin.category.delete',['id' => $category->id]) }}" style="display:inline;">
+                                    @csrf
+                                    @method('delete')
+                                    <button onclick="return confirm('آیا از عملیات حذف اطمینان دارید؟')" class="btn btn-danger btn-sm btn-mobile"><i
+                                                class="fa fa-trash"></i> حذف
+                                    </button>
+                                </form>
+                            </th>
+                        </tr>
+                        @endforeach
+                        <tfoot class="thead-dark">
+                        <tr>
                             <th>عنوان</th>
                             <th>نوع</th>
                             <th>اقدام ها</th>
@@ -48,41 +87,5 @@
     </div>
 @endsection
 @section('js')
-    <script>
-        $('#category').DataTable({
-            processing: true,
-            serverSide: true,
-            responsive: true,
-            ajax: '{{ route('admin.category.data') }}',
-            columns: [
-                {data: 'id'},
-                {data: 'title'},
-                {data: 'type'},
-                {data: 'action', orderable: false, searchable: false}
-            ],
-            oLanguage: {
-                "sEmptyTable": "هیچ داده ای در جدول وجود ندارد",
-                "sInfo": "نمایش _START_ تا _END_ از _TOTAL_ رکورد",
-                "sInfoEmpty": "نمایش 0 تا 0 از 0 رکورد",
-                "sInfoFiltered": "(فیلتر شده از _MAX_ رکورد)",
-                "sInfoPostFix": "",
-                "sInfoThousands": ",",
-                "sLengthMenu": "نمایش _MENU_ رکورد",
-                "sLoadingRecords": "در حال بارگزاری...",
-                "sProcessing": "در حال پردازش...",
-                "sSearch": "جستجو:",
-                "sZeroRecords": "رکوردی با این مشخصات پیدا نشد",
-                "oPaginate": {
-                    "sFirst": "ابتدا",
-                    "sLast": "انتها",
-                    "sNext": "بعدی",
-                    "sPrevious": "قبلی"
-                },
-                "oAria": {
-                    "sSortAscending": ": فعال سازی نمایش به صورت صعودی",
-                    "sSortDescending": ": فعال سازی نمایش به صورت نزولی"
-                }
-            }
-        });
-    </script>
+
 @endsection

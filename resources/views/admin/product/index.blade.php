@@ -14,6 +14,24 @@
                                 href="{{ route('admin.product') }}">کالاها</a></li>
                 </ol>
             </nav>
+            <div id="accordion">
+                <div class="card card-info mb-2">
+                    <div data-toggle="collapse" href="#collapseOne" class="card-header collapsed" aria-expanded="false">
+                        <i class="fa fa-arrow-circle-left"></i> جستجو
+                    </div>
+                    <div id="collapseOne" data-parent="#accordion" class="card-body collapse" style="">
+                        <form method="GET" action="{{ route('admin.category') }}">
+                            <div class="form-group">
+                                <label for="search">عنوان</label>
+                                <input name="search" id="search" type="text" class="form-control" value="{{ request('search') }}">
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-mobile btn-sm"><i class="fa fa-search"></i>ارسال
+                                جستجو
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
             <div class="card card-default">
                 <div class="card-header">کالاها
                     <a href="{{route('admin.product.create')}}" class="btn btn-primary btn-sm pull-left"><i
@@ -42,11 +60,10 @@
                                     {{ $product->category->title }}
                                 </td>
                                 <td class="text-center align-middle">
-                                    {{$product->price}}
+                                    {{ \App\Utils\MoneyUtil::format($product->sale_price) }}
                                 </td>
                                 <td scope="row" class="text-center align-middle">
-                                    <span-component
-                                            web-address="{{ route('admin.product.inventory', [$product->id]) }}"></span-component>
+                                    <span-component web-address="{{ route('admin.product.inventory', [$product->id]) }}"></span-component>
                                 </td>
 
                                 <td scope="row" class="text-center align-middle">

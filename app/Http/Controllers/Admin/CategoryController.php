@@ -18,15 +18,8 @@ class CategoryController extends Controller
 
     public function index()
     {
-        return view('admin.category.index');
-    }
-
-    public function data()
-    {
-        return DataTables::eloquent(Category::select(['id', 'title', 'type']))
-            ->editColumn('type', '{{ trans("category.".$type) }}')
-            ->addColumn('action', 'admin.category.action')
-            ->make(true);
+        $categories = Category::collect();
+        return view('admin.category.index', ['categories' => $categories]);
     }
 
     public function create()

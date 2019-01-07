@@ -46,9 +46,9 @@
                        class="btn btn-mobile btn-warning btn-lg btn-block"><i class="fa fa-cart-plus"></i> خرید</a>
                     <ul class="list-group mt-2">
                         <li class="list-group-item">
-                            @if($product->price)
+                            @if($product->sale_price)
                                 قیمت:
-                                <strong>{{ \App\Utils\MoneyUtil::format($product->price) }}</strong> {{ trans('currency.'.config('platform.currency')) }}
+                                <strong>{{ \App\Utils\MoneyUtil::format($product->sale_price) }}</strong> {{ trans('currency.'.config('platform.currency')) }}
                             @else
                                 <strong>رایگان</strong>
                             @endif

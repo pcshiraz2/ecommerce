@@ -67,15 +67,15 @@
                                 <td scope="row" class="align-middle">
                                     <a href="{{ route('admin.user.invoice', ['id' => $user->id]) }}"
                                        class="btn btn-sm btn-warning"
-                                       data-toggle="tooltip" data-placement="top" title="ثبت فاکتور"><i
+                                       data-toggle="tooltip" data-placement="top" title="لیست فاکتورهای کاربر"><i
                                                 class="fa fa-calculator"></i></a>
                                     <a href="{{ route('admin.user.transaction', ['id' => $user->id]) }}"
                                        class="btn btn-sm btn-info"
-                                       data-toggle="tooltip" data-placement="top" title="ثبت سند"><i
+                                       data-toggle="tooltip" data-placement="top" title="اسناد مالی کاربر"><i
                                                 class="fa fa-money"></i></a>
                                     <a href="{{ route('admin.user.ticket', ['id' => $user->id]) }}"
                                        class="btn btn-sm btn-primary"
-                                       data-toggle="tooltip" data-placement="top" title="ثبت تیکت"><i
+                                       data-toggle="tooltip" data-placement="top" title="درخواست ها و تیکت های کاربر"><i
                                                 class="fa fa-ticket"></i></a>
                                     <a href="{{ route('admin.user.edit', ['id' => $user->id]) }}"
                                        class="btn btn-sm btn-dark"

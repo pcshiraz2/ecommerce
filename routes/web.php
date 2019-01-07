@@ -203,7 +203,6 @@ Route::prefix(Config('platform.admin-route'))->name('admin.')->group(function ()
 
 
     Route::get('/product', 'Admin\ProductController@index')->name('product');
-    Route::get('/product/data', 'Admin\ProductController@data')->name('product.data');
     Route::get('/product/edit/{id}', 'Admin\ProductController@edit')->name('product.edit');
     Route::get('/product/inventory/{id}', 'Admin\ProductController@inventory')->name('product.inventory');
     Route::post('/product/update/{id}', 'Admin\ProductController@update')->name('product.update');
@@ -211,6 +210,13 @@ Route::prefix(Config('platform.admin-route'))->name('admin.')->group(function ()
     Route::post('/product/insert', 'Admin\ProductController@insert')->name('product.insert');
     Route::delete('/product/delete/{id}', 'Admin\ProductController@delete')->name('product.delete');
 
+
+    Route::get('/product/image/{id}', 'Admin\ProductImageController@index')->name('product.image');
+    Route::get('/product/image/create/{id}', 'Admin\ProductImageController@create')->name('product.image.create');
+    Route::get('/product/image/edit/{id}', 'Admin\ProductImageController@edit')->name('product.image.edit');
+    Route::post('/product/image/insert/{id}', 'Admin\ProductImageController@insert')->name('product.image.insert');
+    Route::post('/product/image/update/{id}', 'Admin\ProductImageController@update')->name('product.image.update');
+    Route::delete('/product/image/delete/{id}', 'Admin\ProductImageController@delete')->name('product.delete');
 
     Route::get('/invoice', 'Admin\InvoiceController@index')->name('invoice');
     Route::get('/invoice/view/{id}', 'Admin\InvoiceController@view')->name('invoice.view');
@@ -245,6 +251,7 @@ Route::prefix(Config('platform.admin-route'))->name('admin.')->group(function ()
     Route::get('/category/create', 'Admin\CategoryController@create')->name('category.create');
     Route::post('/category/insert', 'Admin\CategoryController@insert')->name('category.insert');
     Route::delete('/category/delete/{id}', 'Admin\CategoryController@delete')->name('category.delete');
+    Route::delete('/category/export', 'Admin\CategoryController@export')->name('category.export');
 
 
     Route::get('/setting', 'Admin\SettingController@index')->name('setting');
