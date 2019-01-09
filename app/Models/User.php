@@ -38,22 +38,22 @@ class User extends Authenticatable
 
     public function products()
     {
-        return $this->hasMany('App\Product');
+        return $this->hasMany('App\Models\Product');
     }
 
     public function tickets()
     {
-        return $this->hasMany('App\Ticket');
+        return $this->hasMany('App\Models\Ticket');
     }
 
     public function transactions()
     {
-        return $this->hasMany('App\Transaction');
+        return $this->hasMany('App\Models\Transaction');
     }
 
     public function images()
     {
-        return $this->hasMany('App\Image');
+        return $this->hasMany('App\Models\Image');
     }
 
     public function getBalance()

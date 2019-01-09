@@ -56,10 +56,12 @@
             @endif
             <div class="row mt-2">
                 <div class="col-md-8">
+                    <div class="alert alert-dark"><strong>جمع کل حروف:</strong>{{ \App\Utils\MoneyUtil::letters(Cart::total()) }} {{ trans('currency.'.config('platform.currency')) }}
+                    </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="alert alert-dark"><strong><i class="fa fa-money"></i> جمع
-                            کل:</strong>{{ number_format(Cart::total()) }} {{ trans('currency.'.config('platform.currency')) }}
+                    <div class="alert alert-dark">
+                        <strong>جمع کل عدد:</strong>{{ number_format(Cart::total()) }} {{ trans('currency.'.config('platform.currency')) }}
                     </div>
                 </div>
             </div>

@@ -11,22 +11,22 @@ class Transaction extends Model
 
     public function category()
     {
-        return $this->belongsTo('App\Category');
+        return $this->belongsTo('App\Models\Category');
     }
 
     public function account()
     {
-        return $this->belongsTo('App\Account');
+        return $this->belongsTo('App\Models\Account');
     }
 
     public function invoice()
     {
-        return $this->belongsTo('App\Invoice');
+        return $this->belongsTo('App\Models\Invoice');
     }
 
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\Models\User');
     }
 
     public function scopeBalance($query)

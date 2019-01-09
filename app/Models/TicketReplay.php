@@ -8,11 +8,11 @@ class TicketReplay extends Model
 {
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\Models\User');
     }
 
     public function ticket()
     {
-        return $this->belongsTo('App\Ticket');
+        return $this->belongsTo('App\Models\Ticket');
     }
 }

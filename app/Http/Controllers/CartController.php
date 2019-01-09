@@ -114,10 +114,12 @@ class CartController extends Controller
             foreach (Cart::content() as $product) {
                 $record = new Record();
                 $record->invoice_id = $invoice->id;
-                $record->name = $product->name;
+                $record->title = $product->name;
                 $record->description = $product->description;
                 $record->quantity = abs($product->qty) * -1;
                 $record->price = $product->price;
+                $record->discount = $product->discount;
+                $record->tax = $product->tax;
                 $record->total = $product->qty * $product->price;
                 $record->product_id = $product->id;
                 $record->save();

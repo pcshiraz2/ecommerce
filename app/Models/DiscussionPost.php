@@ -8,11 +8,11 @@ class DiscussionPost extends Model
 {
     public function discussion()
     {
-        return $this->belongsTo('App\Discussion');
+        return $this->belongsTo('App\Models\Discussion');
     }
 
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\Models\User');
     }
 }

@@ -11,33 +11,33 @@ class Invoice extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\Models\User');
     }
 
     public function transactions()
     {
-        return $this->belongsTo('App\Transaction');
+        return $this->belongsTo('App\Models\Transaction');
     }
 
     public function records()
     {
-        return $this->hasMany('App\Record');
+        return $this->hasMany('App\Models\Record');
     }
 
     public function attachments()
     {
-        return $this->hasMany('App\InvoiceAttachment');
+        return $this->hasMany('App\Models\InvoiceAttachment');
     }
 
 
     public function province()
     {
-        return $this->belongsTo('App\Province');
+        return $this->belongsTo('App\Models\Province');
     }
 
     public function city()
     {
-        return $this->belongsTo('App\City');
+        return $this->belongsTo('App\Models\City');
     }
 
 

@@ -42,9 +42,12 @@
                                 <td scope="row" class="text-center">{{$loop->iteration}}</td>
                                 <td class="text-center">
                                     @if($record->product_id)
-                                        <a href="{{ route('product.view', ['id'=>$record->product_id]) }}">{{$record->name}}</a>
+                                        <a href="{{ route('product.view', ['id'=>$record->product_id]) }}">{{$record->title}}</a>
                                     @else
                                         {{$record->name}}
+                                    @endif
+                                    @if($record->description)
+                                        <small>{{$record->description}}</small>
                                     @endif
                                 </td>
                                 <td class="text-center">{{ abs($record->quantity) }}</td>

@@ -12,27 +12,27 @@ class Category extends Model
 
     public function articles()
     {
-        return $this->hasMany('App\Article');
+        return $this->hasMany('App\Models\Article');
     }
 
     public function files()
     {
-        return $this->hasMany('App\File');
+        return $this->hasMany('App\Models\File');
     }
 
     public function transactions()
     {
-        return $this->hasMany('App\Transaction');
+        return $this->hasMany('App\Models\Transaction');
     }
 
     public function tickets()
     {
-        return $this->hasMany('App\Ticket');
+        return $this->hasMany('App\Models\Ticket');
     }
 
     public function products()
     {
-        return $this->hasMany('App\Product');
+        return $this->hasMany('App\Models\Product');
     }
 
 
