@@ -29,9 +29,10 @@
                             </div>
                             <div class="form-group">
                                 <label for="types">دسته:</label>
-                                <select name="types[]" id="types" multiple>
-                                    <option value="Product">Product</option>
-                                    <option value="Income">Income</option>
+                                <select name="types[]" id="types" class="form-control" multiple>
+                                    @foreach(trans('category') as $key => $type)
+                                        <option value="{{ $key }}" {{ old('type') == $key ? ' selected' : '' }}>{{ $type }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <button type="submit" class="btn btn-primary btn-mobile btn-sm"><i class="fa fa-search"></i>ارسال
@@ -49,38 +50,42 @@
 
                 <div class="card-body">
                     @include('global.top-table-options',['route' => 'admin.category.export'])
+                    @if($categories->count())
                     <table class="table table-striped table-bordered table-hover two-axis">
                         <thead class="thead-dark">
                         <tr>
-                            <th scope="col">عنوان</th>
+                            <th scope="col">@sortablelink('title', 'عنوان')</th>
                             <th scope="col">نوع</th>
                             <th scope="col">اقدام ها</th>
                         </tr>
                         </thead>
                         @foreach($categories as $category)
                         <tr>
-                            <th>{{ $category->title }}</th>
-                            <th>{{ $category->type }}</th>
-                            <th>
-                                <a href="{{ route('admin.category.edit',['id' => $category->id]) }}" class="btn btn-sm btn-dark"><i class="fa fa-edit"></i> ویرایش</a>
-                                <form method="post" action="{{ route('admin.category.delete',['id' => $category->id]) }}" style="display:inline;">
+                            <td>{{ $category->title }}</td>
+                            <td>{{ trans('category.'.$category->type) }}</td>
+                            <td>
+                                <a href="{{ route('admin.category.edit', ['id' => $category->id]) }}"
+                                   class="btn btn-sm btn-dark"
+                                   data-toggle="tooltip" data-placement="top" title="ویرایش دسته"><i
+                                            class="fa fa-edit"></i></a>
+                                <form method="post" class="d-inline"
+                                      action="{{ route('admin.category.delete',['id' => $category->id]) }}"
+                                      style="display:inline;">
                                     @csrf
                                     @method('delete')
-                                    <button onclick="return confirm('آیا از عملیات حذف اطمینان دارید؟')" class="btn btn-danger btn-sm btn-mobile"><i
-                                                class="fa fa-trash"></i> حذف
-                                    </button>
+                                    <button onclick="return confirm('آیا از عملیات حذف اطمینان دارید؟')"
+                                            class="btn btn-danger btn-sm"
+                                            data-toggle="tooltip" data-placement="top" title="حذف دسته"><i
+                                                class="fa fa-trash"></i></button>
                                 </form>
-                            </th>
+                            </td>
                         </tr>
                         @endforeach
-                        <tfoot class="thead-dark">
-                        <tr>
-                            <th>عنوان</th>
-                            <th>نوع</th>
-                            <th>اقدام ها</th>
-                        </tr>
-                        </tfoot>
                     </table>
+                    @else
+                        <div class="alert-warning alert">{{ trans('platform.no-result') }}</div>
+                    @endif
+                    @include('global.pagination',['items' => $categories])
                 </div>
             </div>
         </div>

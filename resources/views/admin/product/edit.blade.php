@@ -219,22 +219,22 @@
 
                         <div class="row">
                             <div class="form-group col-md-2">
-                                <label for="enable">فعال</label>
+                                <label for="enabled">فعال</label>
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" id="enableRadioYes" name="enable"
+                                    <input type="radio" id="enableRadioYes" name="enabled"
                                            value="yes"
-                                           class="custom-control-input"{{ old('enable', $product->enable) == true  ? ' checked' : '' }}>
+                                           class="custom-control-input"{{ old('enabled', $product->enabled) == true  ? ' checked' : '' }}>
                                     <label class="custom-control-label" for="enableRadioYes">بلی</label>
                                 </div>
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" id="enableRadioNo" name="enable"
+                                    <input type="radio" id="enableRadioNo" name="enabled"
                                            value="no"
-                                           class="custom-control-input"{{ old('enable', $product->enable) == false  ? ' checked' : '' }}>
+                                           class="custom-control-input"{{ old('enabled', $product->enabled) == false  ? ' checked' : '' }}>
                                     <label class="custom-control-label" for="enableRadioNo">خیر</label>
                                 </div>
-                                @if ($errors->has('enable'))
+                                @if ($errors->has('enabled'))
                                     <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('enable') }}</strong>
+                                        <strong>{{ $errors->first('enabled') }}</strong>
                                     </span>
                                 @endif
                             </div>

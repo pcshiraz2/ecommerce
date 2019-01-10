@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\Category;
-use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -20,15 +19,10 @@ class ArticleController extends Controller
 
     public function index()
     {
-        return view('admin.article.index');
+        $articles = Article::collect();
+        return view('admin.article.index', ['articles' => $articles]);
     }
 
-    public function data()
-    {
-        return DataTables::eloquent(Article::with('category')->orderBy('created_at', 'desc')->select(['id', 'title', 'category_id']))
-            ->addColumn('action', 'admin.article.action')
-            ->make(true);
-    }
 
     public function create()
     {
@@ -56,6 +50,7 @@ class ArticleController extends Controller
         $article->text = $request->text;
         $article->slug = $request->slug;
         $article->category_id = $request->category_id;
+        $article->enabled = $request->enabled;
         $article->user_id = Auth::user()->id;
         $article->save();
         Cache::forget('article_' . $article->id);
@@ -76,6 +71,7 @@ class ArticleController extends Controller
         $article->text = $request->text;
         $article->category_id = $request->category_id;
         $article->slug = $request->slug;
+        $article->enabled = $request->enabled;
         $article->save();
         Cache::forget('article_' . $article->id);
         flash('صفحه با موفقیت ویرایش شد.')->success();

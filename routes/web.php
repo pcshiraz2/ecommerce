@@ -20,9 +20,7 @@ Route::get('/home', 'DashboardController@index')->name('home');
 
 //Misc
 Route::get('/per-page/{limit}', 'MiscController@setPerPage')->name('misc.per-page');
-
-//Editor
-Route::post('/editor/upload', 'EditorController@upload')->name('editor.upload')->middleware('auth');
+Route::post('/editor/upload', 'MiscController@upload')->name('editor.upload')->middleware('auth');
 
 
 Route::post('/ajax/search', 'AjaxController@search')->name('ajax.search');

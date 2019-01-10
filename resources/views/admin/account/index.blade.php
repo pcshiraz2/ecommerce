@@ -14,6 +14,24 @@
                             ها</a></li>
                 </ol>
             </nav>
+            <div id="accordion">
+                <div class="card card-info mb-2">
+                    <div data-toggle="collapse" href="#collapseOne" class="card-header collapsed" aria-expanded="false">
+                        <i class="fa fa-arrow-circle-left"></i> جستجو
+                    </div>
+                    <div id="collapseOne" data-parent="#accordion" class="card-body collapse" style="">
+                        <form method="GET" action="{{ route('admin.account') }}">
+                            <div class="form-group">
+                                <label for="search">عنوان</label>
+                                <input name="search" id="search" type="text" class="form-control" value="{{ request('search') }}">
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-mobile btn-sm"><i class="fa fa-search"></i>
+                                جستجو
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
             <div class="card card-default">
                 <div class="card-header">حساب ها
                     <a href="{{route('admin.account.create')}}" class="btn btn-primary btn-sm pull-left"><i
@@ -21,67 +39,46 @@
                 </div>
 
                 <div class="card-body">
-
-                    <table id="account" class="table table-hover table-striped table-bordered" cellspacing="0"
-                           width="100%">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>عنوان</th>
-                            <th>موجودی</th>
-                            <th>اقدام ها</th>
-                        </tr>
+                    @include('global.top-table-options',['route' => 'admin.page.export'])
+                    @if($accounts->count())
+                    <table class="table table-hover table-striped table-bordered two-axis">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">@sortablelink('title', 'عنوان')</th>
+                                <th>موجودی</th>
+                                <th>اقدام ها</th>
+                            </tr>
                         </thead>
-                        <tfoot>
-                        <tr>
-                            <th>#</th>
-                            <th>عنوان</th>
-                            <th>موجودی</th>
-                            <th>اقدام ها</th>
-                        </tr>
-                        </tfoot>
+                        @foreach($accounts as $account)
+                            <tr>
+                                <td>{{ $account->title }}</td>
+                                <td></td>
+                                <td>
+                                    <a href="{{ route('admin.account.edit', ['id' => $account->id]) }}"
+                                       class="btn btn-sm btn-dark"
+                                       data-toggle="tooltip" data-placement="top" title="ویرایش حساب"><i
+                                                class="fa fa-edit"></i></a>
+                                    <form method="post" class="d-inline"
+                                          action="{{ route('admin.account.delete',['id' => $account->id]) }}"
+                                          style="display:inline;">
+                                        @csrf
+                                        @method('delete')
+                                        <button onclick="return confirm('آیا از عملیات حذف اطمینان دارید؟')"
+                                                class="btn btn-danger btn-sm"
+                                                data-toggle="tooltip" data-placement="top" title="حذف حساب"><i
+                                                    class="fa fa-trash"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
                     </table>
+                    @else
+                        <div class="alert-warning alert">{{ trans('platform.no-result') }}</div>
+                    @endif
+                    @include('global.pagination',['items' => $accounts])
                 </div>
             </div>
         </div>
     </div>
 @endsection
-@section('js')
-    <script>
-        $('#account').DataTable({
-            processing: true,
-            serverSide: true,
-            responsive: true,
-            ajax: '{{ route('admin.account.data') }}',
-            columns: [
-                {data: 'id'},
-                {data: 'title'},
-                {data: 'inventory', orderable: false, searchable: false},
-                {data: 'action', orderable: false, searchable: false}
-            ],
-            oLanguage: {
-                "sEmptyTable": "هیچ داده ای در جدول وجود ندارد",
-                "sInfo": "نمایش _START_ تا _END_ از _TOTAL_ رکورد",
-                "sInfoEmpty": "نمایش 0 تا 0 از 0 رکورد",
-                "sInfoFiltered": "(فیلتر شده از _MAX_ رکورد)",
-                "sInfoPostFix": "",
-                "sInfoThousands": ",",
-                "sLengthMenu": "نمایش _MENU_ رکورد",
-                "sLoadingRecords": "در حال بارگزاری...",
-                "sProcessing": "در حال پردازش...",
-                "sSearch": "جستجو:",
-                "sZeroRecords": "رکوردی با این مشخصات پیدا نشد",
-                "oPaginate": {
-                    "sFirst": "ابتدا",
-                    "sLast": "انتها",
-                    "sNext": "بعدی",
-                    "sPrevious": "قبلی"
-                },
-                "oAria": {
-                    "sSortAscending": ": فعال سازی نمایش به صورت صعودی",
-                    "sSortDescending": ": فعال سازی نمایش به صورت نزولی"
-                }
-            }
-        });
-    </script>
-@endsection
+
