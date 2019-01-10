@@ -48,7 +48,7 @@
                         <div class="form-group">
                             <label for="description">توضیحات</label>
 
-                            <textarea class="wysiwyg form-control{{ $errors->has('description') ? ' is-invalid' : '' }}"
+                            <textarea class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}"
                                       name="description" id="description"> {{ old('description') }}</textarea>
 
                             @if ($errors->has('description'))
@@ -60,7 +60,7 @@
 
                         <div class="form-group">
                             <label for="text">محتوای صفحه</label>
-                            <textarea class="form-control{{ $errors->has('text') ? ' is-invalid' : '' }}" name="text"
+                            <textarea class="wysiwyg form-control{{ $errors->has('text') ? ' is-invalid' : '' }}" name="text"
                                       id="text" required>{{ old('text') }}</textarea>
 
                             @if ($errors->has('text'))
@@ -93,8 +93,4 @@
             </div>
         </div>
     </div>
-@endsection
-
-@section('js')
-    @include('global.ckeditor',['editors' => ['text']])
 @endsection

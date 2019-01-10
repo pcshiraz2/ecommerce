@@ -11,4 +11,11 @@ class PageFilter extends ModelFilter
     * @var array
     */
     public $relations = [];
+
+    public function search($query)
+    {
+        return $this->orWhere('title', 'LIKE', '%' . $query . '%')
+            ->orWhere('description', 'LIKE', '%' . $query . '%')
+            ->orWhere('text', 'LIKE', '%' . $query . '%');
+    }
 }

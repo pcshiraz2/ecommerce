@@ -2,13 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Model;
 
 class Account extends Model
 {
-    use SoftDeletes;
-
     public function getInventory()
     {
         return $this->transactions()->sum('amount');

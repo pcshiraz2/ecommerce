@@ -2,14 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Conner\Tagging\Taggable;
+use App\Models\Model;
 
 class Product extends Model
 {
-    use SoftDeletes, Taggable;
-
     public function category()
     {
         return $this->belongsTo('App\Models\Category');
@@ -43,17 +39,17 @@ class Product extends Model
 
     public function scopeTop($query)
     {
-        return $query->where('top', 'yes');
+        return $query->where('top', true);
     }
 
 
     public function scopeShop($query)
     {
-        return $query->where('shop', 'yes');
+        return $query->where('shop', true);
     }
 
     public function scopePost($query)
     {
-        return $query->where('post', 'yes');
+        return $query->where('post', true);
     }
 }

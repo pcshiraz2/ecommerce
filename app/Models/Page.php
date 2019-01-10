@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Model;
 use Illuminate\Support\Facades\Cache;
 
 class Page extends Model
 {
-    use SoftDeletes;
+    public $sortable = ['title'];
 
     public static function findWithCache($id)
     {

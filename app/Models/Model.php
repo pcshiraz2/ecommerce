@@ -12,10 +12,11 @@ use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kyslik\ColumnSortable\Sortable;
+use Conner\Tagging\Taggable;
 
-abstract class Model extends Eloquent
+class Model extends Eloquent
 {
-    use SoftDeletes, Sortable, Filterable;
+    use SoftDeletes, Sortable, Filterable, Taggable;
 
     protected $dates = ['deleted_at'];
 

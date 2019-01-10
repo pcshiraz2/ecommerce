@@ -42,7 +42,6 @@ Route::get('/password', 'UserController@password')->name('password');
 Route::post('/password', 'UserController@updatePassword')->name('password');
 Route::post('/profile', 'UserController@updateProfile')->name('profile');
 Route::post('/information', 'UserController@updateInformation')->name('information');
-Route::post('/profile/cities', 'UserController@cities')->name('profile.cities');
 
 Route::post('/verify/id_card', 'UserController@verifyIdCard')->name('verify.id_card');
 Route::post('/verify/national_card', 'UserController@verifyNationalCard')->name('verify.national_card');
@@ -56,8 +55,6 @@ Route::get('/complaint', 'PageController@complaint')->name('complaint');
 
 
 Route::get('/free-pay', 'FreePayController@index')->name('free-pay');
-Route::get('/remote/{id}/{amount}', 'FreePayController@remote')->name('free-pay.remote');
-Route::get('/r/{id}/{amount}', 'FreePayController@remote')->name('free-pay.r');
 Route::post('/free-pay/start', 'FreePayController@start')->name('free-pay.start');
 Route::any('/free-pay/callback', 'FreePayController@callback')->name('free-pay.callback');
 
@@ -74,8 +71,6 @@ Route::get('/invoice/pay-link/{id}', 'InvoiceController@payLink')->name('invoice
 Route::get('/invoice/pay-link/{id}/{password}', 'InvoiceController@payLinkPassword')->name('invoice.pay-link-password');
 Route::any('/invoice/callback/{id}', 'InvoiceController@callback')->name('invoice.callback');
 Route::any('/invoice/callback/{id}/{password}', 'InvoiceController@callbackPassword')->name('invoice.callback-password');
-
-Route::get('/item/view/{id}', 'ItemController@view')->name('item.view');
 
 Route::get('/file', 'FileController@index')->name('file');
 Route::get('/file/category/{id}', 'FileController@category')->name('file.category');
@@ -96,7 +91,6 @@ Route::post('/file-version/insert/{id}', 'FileVersionController@insert')->name('
 
 
 Route::get('/shop', 'ProductController@index')->name('shop');
-
 Route::get('/product', 'ProductController@index')->name('product');
 Route::get('/product/category/{id}', 'ProductController@category')->name('product.category');
 Route::get('/product/view/{id}', 'ProductController@view')->name('product.view');
@@ -134,8 +128,6 @@ Route::get('/ticket/open/{id}', 'TicketController@open')->name('ticket.open')->m
 Route::get('/ticket/waiting/{id}', 'TicketController@waiting')->name('ticket.waiting')->middleware('auth');
 Route::post('/ticket/search', 'TicketController@search')->name('ticket.search')->middleware('auth');
 
-Route::get('/item', 'ItemController@index')->name('item');
-
 Route::get('/forum', 'DiscussionController@index')->name('forum');
 Route::get('/discussion', 'DiscussionController@index')->name('discussion');
 Route::get('/discussion/category/{id}', 'DiscussionController@category')->name('discussion.category');
@@ -149,7 +141,6 @@ Route::get('/cart', 'CartController@index')->name('cart');
 Route::get('/cart/checkout', 'CartController@checkout')->name('cart.checkout');
 Route::get('/cart/information', 'CartController@information')->name('cart.information');
 Route::post('/cart/store/information', 'CartController@storeInformation')->name('cart.store-information');
-
 Route::get('/cart/add/{id}', 'CartController@add')->name('cart.add');
 Route::get('/cart/remove-cart/{id}', 'CartController@remove')->name('cart.remove');
 
@@ -176,21 +167,21 @@ Route::prefix(Config('platform.admin-route'))->name('admin.')->group(function ()
     Route::delete('/user/delete/{id}', 'Admin\UserController@delete')->name('user.delete');
 
     Route::get('/page', 'Admin\PageController@index')->name('page');
-    Route::get('/page/data', 'Admin\PageController@data')->name('page.data');
     Route::get('/page/edit/{id}', 'Admin\PageController@edit')->name('page.edit');
     Route::post('/page/update/{id}', 'Admin\PageController@update')->name('page.update');
     Route::get('/page/create', 'Admin\PageController@create')->name('page.create');
     Route::post('/page/insert', 'Admin\PageController@insert')->name('page.insert');
     Route::delete('/page/delete/{id}', 'Admin\PageController@delete')->name('page.delete');
+    Route::get('/page/export', 'Admin\PageController@export')->name('page.export');
 
 
     Route::get('/article', 'Admin\ArticleController@index')->name('article');
-    Route::get('/article/data', 'Admin\ArticleController@data')->name('article.data');
     Route::get('/article/edit/{id}', 'Admin\ArticleController@edit')->name('article.edit');
     Route::post('/article/update/{id}', 'Admin\ArticleController@update')->name('article.update');
     Route::get('/article/create', 'Admin\ArticleController@create')->name('article.create');
     Route::post('/article/insert', 'Admin\ArticleController@insert')->name('article.insert');
     Route::delete('/article/delete/{id}', 'Admin\ArticleController@delete')->name('article.delete');
+    Route::get('/article/export', 'Admin\ArticleController@export')->name('article.export');
 
     Route::get('/transaction', 'Admin\TransactionController@index')->name('transaction');
     Route::get('/transaction/create/income', 'Admin\TransactionController@createIncome')->name('transaction.create.income');
@@ -200,6 +191,7 @@ Route::prefix(Config('platform.admin-route'))->name('admin.')->group(function ()
     Route::get('/transaction/edit/income/{id}', 'Admin\TransactionController@editIncome')->name('transaction.edit.income');
     Route::get('/transaction/edit/expense/{id}', 'Admin\TransactionController@editExpense')->name('transaction.edit.expense');
     Route::delete('/transaction/delete/{id}', 'Admin\TransactionController@delete')->name('transaction.delete');
+    Route::get('/transaction/export', 'Admin\TransactionController@export')->name('transaction.export');
 
 
     Route::get('/product', 'Admin\ProductController@index')->name('product');
@@ -209,14 +201,27 @@ Route::prefix(Config('platform.admin-route'))->name('admin.')->group(function ()
     Route::get('/product/create', 'Admin\ProductController@create')->name('product.create');
     Route::post('/product/insert', 'Admin\ProductController@insert')->name('product.insert');
     Route::delete('/product/delete/{id}', 'Admin\ProductController@delete')->name('product.delete');
+    Route::get('/product/export', 'Admin\ProductController@export')->name('product.export');
 
 
-    Route::get('/product/image/{id}', 'Admin\ProductImageController@index')->name('product.image');
-    Route::get('/product/image/create/{id}', 'Admin\ProductImageController@create')->name('product.image.create');
-    Route::get('/product/image/edit/{id}', 'Admin\ProductImageController@edit')->name('product.image.edit');
-    Route::post('/product/image/insert/{id}', 'Admin\ProductImageController@insert')->name('product.image.insert');
-    Route::post('/product/image/update/{id}', 'Admin\ProductImageController@update')->name('product.image.update');
-    Route::delete('/product/image/delete/{id}', 'Admin\ProductImageController@delete')->name('product.delete');
+
+    Route::get('/product/image/{id}', 'Admin\ProductController@image')->name('product.image');
+    Route::get('/product/image/create/{id}', 'Admin\ProductController@imageCreate')->name('product.image.create');
+    Route::get('/product/image/edit/{id}', 'Admin\ProductController@imageEdit')->name('product.image.edit');
+    Route::post('/product/image/insert/{id}', 'Admin\ProductController@imageInsert')->name('product.image.insert');
+    Route::post('/product/image/update/{id}', 'Admin\ProductController@imageUpdate')->name('product.image.update');
+    Route::delete('/product/image/delete/{id}', 'Admin\ProductController@imageDelete')->name('product.image.delete');
+    Route::get('/product/image/export/{id}', 'Admin\ProductController@imageExport')->name('product.image.export');
+
+
+    Route::get('/product/file/{id}', 'Admin\ProductController@file')->name('product.file');
+    Route::get('/product/file/create/{id}', 'Admin\ProductController@fileCreate')->name('product.file.create');
+    Route::get('/product/file/edit/{id}', 'Admin\ProductController@fileEdit')->name('product.file.edit');
+    Route::post('/product/file/insert/{id}', 'Admin\ProductController@fileInsert')->name('product.file.insert');
+    Route::post('/product/file/update/{id}', 'Admin\ProductController@fileUpdate')->name('product.file.update');
+    Route::delete('/product/file/delete/{id}', 'Admin\ProductController@fileDelete')->name('product.file.delete');
+    Route::get('/product/file/export/{id}', 'Admin\ProductController@fileExport')->name('product.file.export');
+
 
     Route::get('/invoice', 'Admin\InvoiceController@index')->name('invoice');
     Route::get('/invoice/view/{id}', 'Admin\InvoiceController@view')->name('invoice.view');
@@ -234,6 +239,8 @@ Route::prefix(Config('platform.admin-route'))->name('admin.')->group(function ()
     Route::delete('/invoice/delete/{id}', 'Admin\InvoiceController@delete')->name('invoice.delete');
     Route::get('/invoice/send/{id}', 'Admin\InvoiceController@sendInvoice')->name('invoice.send');
 
+    Route::get('/invoice/export', 'Admin\InvoiceController@export')->name('invoice.export');
+
 
     Route::get('/account', 'Admin\AccountController@index')->name('account');
     Route::get('/account/data', 'Admin\AccountController@data')->name('account.data');
@@ -242,6 +249,8 @@ Route::prefix(Config('platform.admin-route'))->name('admin.')->group(function ()
     Route::get('/account/create', 'Admin\AccountController@create')->name('account.create');
     Route::post('/account/insert', 'Admin\AccountController@insert')->name('account.insert');
     Route::delete('/account/delete/{id}', 'Admin\AccountController@delete')->name('account.delete');
+
+    Route::get('/account/export', 'Admin\AccountController@export')->name('account.export');
 
 
     Route::get('/category', 'Admin\CategoryController@index')->name('category');

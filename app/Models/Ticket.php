@@ -2,13 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Model;
 
 class Ticket extends Model
 {
-    use SoftDeletes;
-
     public function category()
     {
         return $this->belongsTo('App\Models\Category');

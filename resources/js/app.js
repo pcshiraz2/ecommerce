@@ -73,7 +73,7 @@ window.showPassword = function (selector) {
 
 $(document).ready(function () {
     //select
-    $('select').select2({
+    $('.select').select2({
         dir: "rtl",
         language: "fa"
     });

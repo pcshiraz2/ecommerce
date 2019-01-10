@@ -3,13 +3,10 @@
 namespace App\Models;
 
 use App\Models\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
 
 class Category extends Model
 {
-    use SoftDeletes;
-
     public function articles()
     {
         return $this->hasMany('App\Models\Article');

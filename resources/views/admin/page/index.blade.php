@@ -14,6 +14,24 @@
                             ها</a></li>
                 </ol>
             </nav>
+            <div id="accordion">
+                <div class="card card-info mb-2">
+                    <div data-toggle="collapse" href="#collapseOne" class="card-header collapsed" aria-expanded="false">
+                        <i class="fa fa-arrow-circle-left"></i> جستجو
+                    </div>
+                    <div id="collapseOne" data-parent="#accordion" class="card-body collapse" style="">
+                        <form method="GET" action="{{ route('admin.page') }}">
+                            <div class="form-group">
+                                <label for="search">کلمه کلیدی</label>
+                                <input name="search" id="search" type="text" class="form-control" value="{{ request('search') }}">
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-mobile btn-sm"><i class="fa fa-search"></i>ارسال
+                                جستجو
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
             <div class="card card-default">
                 <div class="card-header">صفحه ها
                     <a href="{{route('admin.page.create')}}" class="btn btn-primary btn-sm pull-left"><i
@@ -21,64 +39,49 @@
                 </div>
 
                 <div class="card-body">
-
-                    <table id="users" class="table table-hover table-striped table-bordered" cellspacing="0"
-                           width="100%">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>عنوان</th>
-                            <th>اقدام ها</th>
-                        </tr>
+                    @include('global.top-table-options',['route' => 'admin.page.export'])
+                    @if($pages->count())
+                    <table class="table table-hover table-striped table-bordered two-axis">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">@sortablelink('title', 'عنوان')</th>
+                                <th scope="col">اقدام ها</th>
+                            </tr>
                         </thead>
-                        <tfoot>
-                        <tr>
-                            <th>#</th>
-                            <th>عنوان</th>
-                            <th>اقدام ها</th>
-                        </tr>
-                        </tfoot>
+                        <tbody>
+                        @foreach($pages as $page)
+                            <tr>
+                                <td scope="row" class="align-middle">
+                                    {{$page->title}}
+                                </td>
+                                <td scope="row" class="align-middle">
+                                    <a href="{{ route('admin.page.edit', ['id' => $page->id]) }}"
+                                       class="btn btn-sm btn-dark"
+                                       data-toggle="tooltip" data-placement="top" title="ویرایش صفحه"><i
+                                                class="fa fa-edit"></i></a>
+                                    <form method="post" class="d-inline"
+                                          action="{{ route('admin.page.delete',['id' => $page->id]) }}"
+                                          style="display:inline;">
+                                        @csrf
+                                        @method('delete')
+                                        <button onclick="return confirm('آیا از عملیات حذف اطمینان دارید؟')"
+                                                class="btn btn-danger btn-sm"
+                                                data-toggle="tooltip" data-placement="top" title="حذف صفحه"><i
+                                                    class="fa fa-trash"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+
+
+                        </tbody>
                     </table>
+                    @else
+                        <div class="alert-warning alert">{{ trans('platform.no-result') }}</div>
+                    @endif
+                    @include('global.pagination',['items' => $pages])
                 </div>
             </div>
         </div>
     </div>
-@endsection
-@section('js')
-    <script>
-        $('#users').DataTable({
-            processing: true,
-            serverSide: true,
-            responsive: true,
-            ajax: '{{ route('admin.page.data') }}',
-            columns: [
-                {data: 'id'},
-                {data: 'title'},
-                {data: 'action', orderable: false, searchable: false}
-            ],
-            oLanguage: {
-                "sEmptyTable": "هیچ داده ای در جدول وجود ندارد",
-                "sInfo": "نمایش _START_ تا _END_ از _TOTAL_ رکورد",
-                "sInfoEmpty": "نمایش 0 تا 0 از 0 رکورد",
-                "sInfoFiltered": "(فیلتر شده از _MAX_ رکورد)",
-                "sInfoPostFix": "",
-                "sInfoThousands": ",",
-                "sLengthMenu": "نمایش _MENU_ رکورد",
-                "sLoadingRecords": "در حال بارگزاری...",
-                "sProcessing": "در حال پردازش...",
-                "sSearch": "جستجو:",
-                "sZeroRecords": "رکوردی با این مشخصات پیدا نشد",
-                "oPaginate": {
-                    "sFirst": "ابتدا",
-                    "sLast": "انتها",
-                    "sNext": "بعدی",
-                    "sPrevious": "قبلی"
-                },
-                "oAria": {
-                    "sSortAscending": ": فعال سازی نمایش به صورت صعودی",
-                    "sSortDescending": ": فعال سازی نمایش به صورت نزولی"
-                }
-            }
-        });
-    </script>
 @endsection
