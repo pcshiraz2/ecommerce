@@ -21,6 +21,7 @@ class CreateProductsTable extends Migration
             $table->decimal('sale_price', 15, 4);
             $table->decimal('purchase_price', 15, 4);
             $table->decimal('renewal_price', 15, 4);
+            $table->decimal('off_price', 15, 4);
             $table->integer('category_id');
             $table->integer('user_id');
 

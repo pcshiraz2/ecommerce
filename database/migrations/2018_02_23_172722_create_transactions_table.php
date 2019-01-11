@@ -29,7 +29,7 @@ class CreateTransactionsTable extends Migration
             $table->string('password')->nullable();
             $table->text('description')->nullable();
 
-            $table->enum('status', ['paid', 'payment', 'accepted'])->default('paid');
+            $table->string('status')->default('paid');
 
             $table->timestamp('due_at')->nullable();
             $table->timestamp('paid_at')->nullable();

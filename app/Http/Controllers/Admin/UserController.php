@@ -118,4 +118,19 @@ class UserController extends Controller
     {
         return Excel::download(new UsersExport, 'users.xlsx');
     }
+
+    public function invoice($id)
+    {
+
+    }
+
+    public function transaction($id)
+    {
+
+    }
+
+    public function ticket($id)
+    {
+
+    }
 }

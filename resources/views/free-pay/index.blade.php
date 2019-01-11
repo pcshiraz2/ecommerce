@@ -180,14 +180,9 @@
                                 انتخابی</label>
 
                             <div class="col-md-7">
-                                <select name="gateway" id="gateway"
-                                        class="form-control{{ $errors->has('gateway') ? ' is-invalid' : '' }}">
-                                    @foreach(config('gateway') as $key => $gateway)
-                                        @if(isset($gateway['enable']))
-                                            @if($gateway['enable'] == 'yes')
-                                                <option value="{{$key}}"{{ old('gateway') == $key  ? ' selected' : '' }}>{{$gateway['title']}}</option>
-                                            @endif
-                                        @endif
+                                <select name="gateway" id="gateway" class="form-control{{ $errors->has('gateway') ? ' is-invalid' : '' }}">
+                                    @foreach(\Parsisolution\Gateway\GatewayManager::activeDrivers() as $gateway)
+                                        <option value="{{$key}}"{{ old('gateway')  ? ' selected' : '' }}>{{$gateway['name']}}</option>
                                     @endforeach
                                 </select>
                                 @if ($errors->has('gateway'))

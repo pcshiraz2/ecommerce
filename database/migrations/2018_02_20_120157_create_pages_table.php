@@ -20,7 +20,8 @@ class CreatePagesTable extends Migration
             $table->text('description')->nullable();
             $table->string('slug')->nullable();
             $table->longText('text')->nullable();
-            $table->enum('access', ['public', 'private'])->default('public');
+            //type: ['public', 'private']
+            $table->string('access')->default('public');
             $table->boolean('enabled');
             $table->timestamps();
             $table->softDeletes();

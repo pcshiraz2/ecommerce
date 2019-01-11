@@ -18,7 +18,9 @@ class CreateInvoicesTable extends Migration
             $table->string('password')->nullable();
             $table->string('number')->nullable();
             $table->integer('user_id');
-            $table->enum('type', ['sale', 'purchase']);
+
+            //type: ['sale', 'purchase']
+            $table->string('type');
 
 
             $table->decimal('total', 15, 4);
@@ -35,8 +37,8 @@ class CreateInvoicesTable extends Migration
             //post:فاکتوری است که به پست تحویل شده است
             //done: فاکتوری است که کالا به دست مشتری رسیده است و کلیه فرآیند های آن از ارسال تا پرداخت انجام شده است.
             //return: فاکتور مرجوعی
-
-            $table->enum('status', ['draft', 'sent', 'submitted', 'approved', 'paid', 'done', 'post', 'payment', 'return'])->default('submitted');
+            //status: ['draft', 'sent', 'submitted', 'approved', 'paid', 'done', 'post', 'payment', 'return']
+            $table->string('status')->default('submitted');
 
 
             //Information
