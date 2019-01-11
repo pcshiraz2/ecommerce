@@ -63,7 +63,10 @@ class ProductController extends Controller
         $product->image = $request->file('image')->store('public');
         $product->purchase_price = MoneyUtil::database($request->purchase_price);
         $product->sale_price = MoneyUtil::database($request->sale_price);
-
+        $product->renewal_price = MoneyUtil::database($request->renewal_price);
+        if($request->off_expire_at) {
+            $product->off_expire_at = \Morilog\Jalali\CalendarUtils::createDatetimeFromFormat('Y/m/d H:i', \App\Utils\TextUtil::convertToEnglish($request->off_expire_at));
+        }
         $product->category_id = $request->category_id;
         $product->user_id = Auth::user()->id;
         $product->initial_balance = $request->initial_balance;
@@ -79,6 +82,12 @@ class ProductController extends Controller
         $product->period = $request->period;
         $product->top = $request->top;
         $product->order = $request->order;
+        $product->tax = $request->tax;
+        $product->marketing = $request->marketing;
+        $product->off = $request->off;
+        $product->tax_percent = $request->tax_percent;
+        $product->marketing_percent = $request->marketing_percent;
+
         $product->save();
 
         if ($request->tags) {
@@ -109,6 +118,11 @@ class ProductController extends Controller
         }
         $product->sale_price = MoneyUtil::database($request->sale_price);
         $product->purchase_price = MoneyUtil::database($request->purchase_price);
+        $product->renewal_price = MoneyUtil::database($request->renewal_price);
+        $product->off_price = MoneyUtil::database($request->off_price);
+        if($request->off_expire_at) {
+            $product->off_expire_at = \Morilog\Jalali\CalendarUtils::createDatetimeFromFormat('Y/m/d H:i', \App\Utils\TextUtil::convertToEnglish($request->off_expire_at));
+        }
         $product->category_id = $request->category_id;
         $product->user_id = Auth::user()->id;
         $product->initial_balance = $request->initial_balance;
@@ -124,6 +138,12 @@ class ProductController extends Controller
         $product->period = $request->period;
         $product->order = $request->order;
         $product->top = $request->top;
+        $product->tax = $request->tax;
+        $product->marketing = $request->marketing;
+        $product->off = $request->off;
+        $product->tax_percent = $request->tax_percent;
+        $product->marketing_percent = $request->marketing_percent;
+
         if ($request->tags) {
             $product->retag($request->tags);
         } else {

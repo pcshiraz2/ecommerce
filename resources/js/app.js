@@ -36,6 +36,8 @@ require('trumbowyg/dist/langs/fa.min');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+import VuePersianDatetimePicker from 'vue-persian-datetime-picker';
+Vue.component('date-picker', VuePersianDatetimePicker);
 Vue.component('notification-navbar-component', require('./components/NotificationNavbarComponent.vue'));
 Vue.component('span-component', require('./components/SpanComponent.vue'));
 

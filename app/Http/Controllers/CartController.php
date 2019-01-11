@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Address;
 use App\Models\Invoice;
-use App\Models\Item;
 use App\Models\Product;
 use App\Models\User;
 use App\Notifications\InvoiceCreated;
@@ -16,6 +14,7 @@ use Illuminate\Support\Facades\Notification;
 use Validator;
 use App\Models\City;
 use App\Models\Province;
+use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
 {
@@ -27,7 +26,18 @@ class CartController extends Controller
     public function add($id)
     {
         $product = Product::findOrFail($id);
-        Cart::add($product->id, $product->title, 1, $product->sale_price, ['description' => $product->description, 'factory' => $product->factory]);
+        $tax = 0;
+        if($product->tax) {
+            $tax = ($product->tax_percent / 100) * $product->sale_price;
+        }
+        if($product->off) {
+            if($product->tax) {
+                $tax = ($product->tax_percent / 100) * $product->off_price;
+            }
+            Cart::add($product->id, $product->title, 1, $product->off_price + $tax, ['description' => $product->description, 'factory' => $product->factory, 'tax_percent' => $product->tax_percent / 100, 'off_price' => $product->off_price, 'sale_price' => $product->sale_price, 'off' => $product->off, 'tax' => $product->tax]);
+        } else {
+            Cart::add($product->id, $product->title, 1, $product->sale_price + $tax, ['description' => $product->description, 'factory' => $product->factory, 'tax_percent' => $product->tax_percent / 100, 'off_price' => $product->off_price, 'sale_price' => $product->sale_price, 'off' => $product->off, 'tax' => $product->tax]);
+        }
         flash($product->title . " به سبد خرید اضافه شد.")->success();
         return redirect()->route('cart');
     }
@@ -35,7 +45,18 @@ class CartController extends Controller
     public function remove($id)
     {
         $product = Product::findOrFail($id);
-        Cart::add($product->id, $product->title, -1, $product->sale_price, ['description' => $product->description, 'factory' => $product->factory]);
+        $tax = 0;
+        if($product->tax) {
+            $tax = ($product->tax_percent / 100) * $product->sale_price;
+        }
+        if($product->off) {
+            if($product->tax) {
+                $tax = ($product->tax_percent / 100) * $product->off_price;
+            }
+            Cart::add($product->id, $product->title, -1, $product->off_price + $tax, ['description' => $product->description, 'factory' => $product->factory, 'tax_percent' => $product->tax_percent / 100, 'off_price' => $product->off_price, 'sale_price' => $product->sale_price, 'off' => $product->off, 'tax' => $product->tax]);
+        } else {
+            Cart::add($product->id, $product->title, -1, $product->sale_price + $tax, ['description' => $product->description, 'factory' => $product->factory, 'tax_percent' => $product->tax_percent / 100, 'off_price' => $product->off_price, 'sale_price' => $product->sale_price, 'off' => $product->off, 'tax' => $product->tax]);
+        }
         foreach (Cart::content() as $productItem) {
             if ($productItem->qty == 0) {
                 Cart::remove($productItem->rowId);
@@ -85,13 +106,40 @@ class CartController extends Controller
 
     public function factory()
     {
+        if (Auth::guest()) {
+            flash("برای تکمیل سفارش نیاز است شما در سایت ثبت نام کنید لذا ابتدا فرم زیر را تکمیل کنید، در صورتی که پیش تر در سایت ثبت نام کردید از گزینه ورود استفاده نمایید.")->warning();
+            return redirect()->route('register');
+        }
+        if(Cart::count()) {
+            $redirectFlag = false;
+            $items = Cart::content();
+            foreach ($items as $item) {
+                if($item->options->factory) {
+                    $className = '\App\Factory\\'.$item->options->factory;
+                    $factory = new $className;
+                    if($factory->factoryCartInformation) {
+                        $redirectFlag = true;
+                        break;
+                    }
+                }
+            }
+            if($redirectFlag) {
+                return view('cart.factory');
+            } else {
+                return redirect()->route('cart.checkout');
+            }
+        } else {
+            return redirect()->route('shop');
+        }
 
     }
 
 
     public function storeFactory(Request $request)
     {
-
+        Session::put('factory_data', $request->all());
+        flash("اطلاعات شما برای محصولات مورد نظر بروز شد.")->success();
+        return redirect()->route('cart.checkout');
     }
 
     public function checkout()
@@ -100,9 +148,12 @@ class CartController extends Controller
             flash("برای تکمیل سفارش نیاز است شما در سایت ثبت نام کنید لذا ابتدا فرم زیر را تکمیل کنید، در صورتی که پیش تر در سایت ثبت نام کردید از گزینه ورود استفاده نمایید.")->warning();
             return redirect()->route('register');
         } else {
+            $tax = 0;
+            $off = 0;
+            $total = 0;
             if (Cart::total() == 0) {
                 flash("سبد خرید شما خالی است لطفا ابتدا کالا مورد نظر خود را انتخاب کنید.")->warning();
-                return redirect()->route('file');
+                return redirect()->route('shop');
             }
             $invoice = new Invoice();
             $invoice->user_id = Auth::user()->id;
@@ -123,18 +174,71 @@ class CartController extends Controller
             $invoice->save();
 
             foreach (Cart::content() as $product) {
-                $record = new Record();
-                $record->invoice_id = $invoice->id;
-                $record->title = $product->name;
-                $record->description = $product->description;
-                $record->quantity = abs($product->qty) * -1;
-                $record->price = $product->price;
-                $record->discount = $product->discount;
-                $record->tax = $product->tax;
-                $record->total = $product->qty * $product->price;
-                $record->product_id = $product->id;
-                $record->save();
+                if($product->options->factory) {
+                    for($i=0;$i<$product->qty;$i++) {
+                        $className = '\App\Factory\\'.$product->options->factory;
+                        $factory = new $className;
+                        $record = new Record();
+                        $record->invoice_id = $invoice->id;
+                        $record->title = $product->name;
+                        $record->description = $product->description;
+                        $record->quantity = -1;
+                        $record->price = $product->options->sale_price;
+                        if($product->options->off) {
+                            $record->discount = ($product->options->sale_price - $product->options->off_price);
+                        } else {
+                            $record->discount = 0;
+                        }
+                        if($product->options->tax) {
+                            $record->tax = ($product->options->sale_price - $record->discount) * $product->options->tax_percent;
+                        } else {
+                            $record->tax = 0;
+                        }
+                        $record->product_id = $product->id;
+                        $options = [];
+                        foreach ($factory->getCartAttribs() as $attrib) {
+                            $options[$attrib] = session('factory_data')[$attrib][$i];
+                        }
+                        $record->options = $options;
+                        $record->total = $record->price - $record->discount + $record->tax;
+                        $record->save();
+                        $tax += $record->tax;
+                        $total += $record->total;
+                        $off += $record->discount;
+                    }
+                } else {
+                    $record = new Record();
+                    $record->invoice_id = $invoice->id;
+                    $record->title = $product->name;
+                    $record->description = $product->description;
+                    $record->quantity = abs($product->qty) * -1;
+                    $record->price = $product->options->sale_price;
+                    if($product->options->off) {
+                        $record->discount = ($product->options->sale_price - $product->options->off_price);
+                    } else {
+                        $record->discount = 0;
+                    }
+                    if($product->options->tax) {
+                        $record->tax = ($product->options->sale_price - $record->discount) * $product->options->tax_percent;
+                    } else {
+                        $record->tax = 0;
+                    }
+
+                    $record->total = $record->price - $record->discount + $record->tax;
+
+                    $record->product_id = $product->id;
+                    $record->save();
+                    $tax += $record->tax;
+                    $total += $record->total;
+                    $off += $record->discount;
+                }
             }
+
+            $invoice->total = $total;
+            $invoice->tax = $tax;
+            $invoice->discount = $off;
+            $invoice->save();
+
             Cart::destroy();
             if (Auth::check()) {
                 $user = Auth::user();

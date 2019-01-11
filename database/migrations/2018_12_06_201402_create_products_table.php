@@ -17,15 +17,18 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->string('image');
+            $table->string('code')->nullable();
+            $table->string('brand')->nullable();
 
             $table->decimal('sale_price', 15, 4);
-            $table->decimal('purchase_price', 15, 4);
-            $table->decimal('renewal_price', 15, 4);
-            $table->decimal('off_price', 15, 4);
+            $table->decimal('purchase_price', 15, 4)->nullable();
+            $table->decimal('renewal_price', 15, 4)->nullable();
+            $table->decimal('off_price', 15, 4)->nullable();
             $table->integer('category_id');
-            $table->integer('user_id');
+            $table->integer('user_id')->nullable();;
 
             $table->double('initial_balance')->nullable();
+            $table->double('asset_balance')->nullable();
             $table->double('period')->nullable();
             $table->string('factory')->nullable();
             $table->string('slug')->nullable();
@@ -37,6 +40,13 @@ class CreateProductsTable extends Migration
             $table->boolean('post');
             $table->boolean('renewal');
             $table->boolean('top');
+
+            $table->boolean('marketing');
+            $table->boolean('tax');
+            $table->boolean('off');
+
+            $table->double('marketing_percent')->nullable();
+            $table->double('tax_percent')->nullable();
 
             $table->integer('order')->nullable();
             $table->text('options')->nullable();

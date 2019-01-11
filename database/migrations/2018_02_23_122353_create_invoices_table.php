@@ -71,11 +71,12 @@ class CreateInvoicesTable extends Migration
             $table->decimal('tax', 15, 4)->nullable()->default(0);
             $table->decimal('discount', 15, 4)->nullable()->default(0);
             $table->decimal('quantity', 15, 4)->default(1);
-            $table->decimal('total', 15, 0);
+            $table->decimal('total', 15, 4)->nullable()->default(0);
             $table->integer('invoice_id');
             $table->integer('product_id')->nullable();
             $table->longText('options')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

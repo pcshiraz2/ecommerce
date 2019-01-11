@@ -65,7 +65,7 @@
                                     <label for="sale_price">قیمت فروش</label>
                                     <div class="input-group mb-2 ml-sm-2">
                                         <input id="sale_price" type="tel" dir="ltr"
-                                               class="sale_price form-control{{ $errors->has('sale_price') ? ' is-invalid' : '' }}"
+                                               class="price form-control{{ $errors->has('sale_price') ? ' is-invalid' : '' }}"
                                                name="sale_price" value="{{ old('sale_price') }}" required>
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">{{ trans('currency.'.config('platform.currency')) }}</div>
@@ -82,7 +82,7 @@
                                     <label for="purchase_price">قیمت خرید</label>
                                     <div class="input-group mb-2 ml-sm-2">
                                         <input id="purchase_price" type="tel" dir="ltr"
-                                               class="purchase_price form-control{{ $errors->has('purchase_price') ? ' is-invalid' : '' }}"
+                                               class="price form-control{{ $errors->has('purchase_price') ? ' is-invalid' : '' }}"
                                                name="purchase_price" value="{{ old('purchase_price') }}" required>
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">{{ trans('currency.'.config('platform.currency')) }}</div>
@@ -98,7 +98,7 @@
                                 <div class="form-group">
                                     <label for="category_id">دسته</label>
 
-                                    <select name="category_id" id="category_id" class="form-control">
+                                    <select name="category_id" id="category_id" class="form-control select2">
                                         @foreach($categories as $category)
                                             <option value="{{ $category->id }}"{{ old('category_id') == $category->id  ? ' selected' : '' }}>{{$category->title}}</option>
                                         @endforeach
@@ -162,7 +162,7 @@
                         <div class="form-group">
                             <label for="factory">سازنده<span
                                         class="font-weight-light font-italic"> - اختیاری</span></label>
-                            <select name="factory" id="factory" class="form-control">
+                            <select name="factory" id="factory" class="form-control select2">
                                 <option value="">بدون سازنده</option>
                                 @foreach(array_diff(scandir(app_path('Factory')), array('..', '.')) as $factory)
                                     @php
@@ -360,6 +360,175 @@
                                     </span>
                             @endif
                         </div>
+
+                        <div class="form-group">
+                            <label for="renewal_price">قیمت تمدید
+                                <span class="font-weight-light font-italic"> - اختیاری</span>
+                            </label>
+                            <div class="input-group mb-2 ml-sm-2">
+                                <input id="renewal_price" type="tel" dir="ltr"
+                                       class="price form-control{{ $errors->has('renewal_price') ? ' is-invalid' : '' }}"
+                                       name="renewal_price" value="{{ old('renewal_price') }}">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">{{ trans('currency.'.config('platform.currency')) }}</div>
+                                </div>
+                            </div>
+                            @if ($errors->has('renewal_price'))
+                                <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('renewal_price') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
+
+
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label for="tax">مالیات</label>
+
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" id="taxRadioYes" name="tax"
+                                           value="1"
+                                           class="custom-control-input"{{ old('top',false) == true  ? ' checked' : '' }}>
+                                    <label class="custom-control-label" for="taxRadioYes">دارد</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" id="taxRadioNo" name="tax"
+                                           value="0"
+                                           class="custom-control-input"{{ old('top',false) == false  ? ' checked' : '' }}>
+                                    <label class="custom-control-label" for="taxRadioNo">ندارد</label>
+                                </div>
+                                @if ($errors->has('tax'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('tax') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="marketing">بازاریابی</label>
+
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" id="marketingRadioYes" name="marketing"
+                                           value="1"
+                                           class="custom-control-input"{{ old('marketing',false) == true  ? ' checked' : '' }}>
+                                    <label class="custom-control-label" for="marketingRadioYes">دارد</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" id="marketingRadioNo" name="marketing"
+                                           value="0"
+                                           class="custom-control-input"{{ old('marketing',false) == false  ? ' checked' : '' }}>
+                                    <label class="custom-control-label" for="marketingRadioNo">ندارد</label>
+                                </div>
+                                @if ($errors->has('marketing'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('marketing') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="off">حراج با قیمت تخفیف</label>
+
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" id="offRadioYes" name="off"
+                                           value="1"
+                                           class="custom-control-input"{{ old('marketing',false) == true  ? ' checked' : '' }}>
+                                    <label class="custom-control-label" for="offRadioYes">دارد</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" id="offRadioNo" name="off"
+                                           value="0"
+                                           class="custom-control-input"{{ old('off',false) == false  ? ' checked' : '' }}>
+                                    <label class="custom-control-label" for="offRadioNo">ندارد</label>
+                                </div>
+                                @if ($errors->has('off'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('off') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="off_expire_at">انقضای حراج<span class="font-weight-light font-italic"> - اختیاری</span></label>
+                            <div dir="ltr">
+                                <date-picker
+                                        id="off_expire_at"
+                                        name="off_expire_at"
+                                        format="jYYYY/jMM/jDD HH:mm"
+                                        display-format="jYYYY/jMM/jDD HH:mm"
+                                        color="#6838b8"
+                                        type="datetime"
+                                        value="{{ old('off_expire_at') }}"
+                                        placeholder="____/__/__ __:__">
+                                </date-picker>
+                            </div>
+                            @if ($errors->has('off_expire_at'))
+                                <span class="invalid-feedback">
+                            <strong>{{ $errors->first('off_expire_at') }}</strong>
+                        </span>
+                            @endif
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <label for="off_price">قیمت حراج
+                                <span class="font-weight-light font-italic"> - اختیاری</span>
+                            </label>
+                            <div class="input-group mb-2 ml-sm-2">
+                                <input id="off_price" type="tel" dir="ltr"
+                                       class="price form-control{{ $errors->has('off_price') ? ' is-invalid' : '' }}"
+                                       name="off_price" value="{{ old('off_price') }}">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">{{ trans('currency.'.config('platform.currency')) }}</div>
+                                </div>
+                            </div>
+                            @if ($errors->has('off_price'))
+                                <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('off_price') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tax">مالیات
+                                <span class="font-weight-light font-italic"> - اختیاری</span>
+                            </label>
+                            <div class="input-group mb-2 ml-sm-2">
+                                <input id="tax_percent" type="tel" dir="ltr"
+                                       class="price form-control{{ $errors->has('tax_percent') ? ' is-invalid' : '' }}"
+                                       name="tax_percent" value="{{ old('tax_percent') }}">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">درصد</div>
+                                </div>
+                            </div>
+                            @if ($errors->has('tax_percent'))
+                                <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('tax_percent') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
+
+                        <div class="form-group">
+                            <label for="marketing_percent">سهم بازاریاب
+                                <span class="font-weight-light font-italic"> - اختیاری</span>
+                            </label>
+                            <div class="input-group mb-2 ml-sm-2">
+                                <input id="marketing_percent" type="tel" dir="ltr"
+                                       class="price form-control{{ $errors->has('marketing_percent') ? ' is-invalid' : '' }}"
+                                       name="marketing_percent" value="{{ old('marketing_percent') }}">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">درصد</div>
+                                </div>
+                            </div>
+                            @if ($errors->has('marketing_percent'))
+                                <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('marketing_percent') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
+
+
                         <div class="form-group">
                             <label for="tags">برچسب ها<span
                                         class="font-weight-light font-italic"> - اختیاری</span></label>

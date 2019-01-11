@@ -33,9 +33,9 @@ final class MoneyUtil
     public static function display($value)
     {
         if (config('platform.currency') == 'IRR') {
-            return $value;
+            return number_format($value);
         } else {
-            return $value / 10;
+            return number_format($value / 10);
         }
     }
 

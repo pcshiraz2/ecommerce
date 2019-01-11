@@ -36,11 +36,29 @@
                                    class="btn btn-danger btn-sm"><i class="fa fa-minus"></i></a>
                             </small>
                         </div>
-                        <p class="mb-1">قیمت
-                            واحد:{{number_format($product->price)}}{{ trans('currency.'.config('platform.currency')) }}
+                        <p class="mb-1">
+                            @if($product->options->off)
+                                <strong>
+                            قیمت با تخفیف:{{number_format($product->options->off_price)}}{{ trans('currency.'.config('platform.currency')) }}
+                                </strong>
                             <br/>
+                            @endif
+                                قیمت واحد:{{number_format($product->options->sale_price)}}{{ trans('currency.'.config('platform.currency')) }}
+                                <br/>
+
+                            @if($product->options->off)
+                                تخفیف:{{number_format($product->options->sale_price - $product->options->off_price)}} {{ trans('currency.'.config('platform.currency')) }}
+                                <br/>
+                            @endif
+
                             تعداد:{{number_format($product->qty)}}
                             <br/>
+                                @if($product->options->tax)
+                                    مالیات و عوارض:{{number_format($product->options->off_price* $product->qty * $product->options->tax_percent)}} {{ trans('currency.'.config('platform.currency')) }}
+                                    <br/>
+                                @endif
+
+
                             جمع:{{number_format($product->price * $product->qty)}}{{ trans('currency.'.config('platform.currency')) }}
                         </p>
                         <small>{{$product->options->description}}</small>

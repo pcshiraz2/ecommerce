@@ -1,14 +1,13 @@
 @extends('layouts.app')
-@section('title', 'اطلاعات تکمیلی - ')
+@section('title', 'اطلاعات شما - ')
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('index') }}">{{ config('platform.name') }}</a></li>
-                    <li class="breadcrumb-item active" aria-current="page"><a href="{{ route('cart') }}">سبد خرید</a>
-                    </li>
-                    <li class="breadcrumb-item"><a href="{{ route('cart.information') }}">اطلاعات تکمیلی</a></li>
+                    <li class="breadcrumb-item" aria-current="page"><a href="{{ route('cart') }}">سبد خرید</a></li>
+                    <li class="breadcrumb-item active"><a href="{{ route('cart.information') }}">اطلاعات شما</a></li>
                 </ol>
             </nav>
             <div class="row mb-2">

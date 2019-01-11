@@ -23,14 +23,17 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-12">
-                    <table class="table table-striped table-bordered table-hover">
+                    <table class="table table-striped table-bordered table-hover two-axis">
                         <thead class="thead-dark">
                         <tr>
                             <th scope="col" class="text-center">ردیف</th>
                             <th scope="col" class="text-center">شرح کالا</th>
                             <th scope="col" class="text-center">تعداد</th>
                             <th scope="col" class="text-center">قیمت واحد</th>
-                            <th scope="col" class="text-center">مبلغ کل</th>
+                            <th scope="col" class="text-center">قیمت کل</th>
+                            <th scope="col" class="text-center">تخفیف</th>
+                            <th scope="col" class="text-center">مالیات و عوارض</th>
+                            <th scope="col" class="text-center">مبلغ کل پس تخفیف و مالیات</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -49,6 +52,9 @@
                                 </td>
                                 <td class="text-center">{{ abs($record->quantity) }}</td>
                                 <td class="text-center">{{number_format($record->price)}}</td>
+                                <td class="text-center">{{number_format(abs($record->price * $record->quantity)) }}</td>
+                                <td class="text-center">{{number_format($record->discount)}}</td>
+                                <td class="text-center">{{number_format($record->tax)}}</td>
                                 <td class="text-center">{{number_format($record->total)}}</td>
                             </tr>
                         @endforeach

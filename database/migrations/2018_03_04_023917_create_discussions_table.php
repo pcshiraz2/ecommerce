@@ -38,6 +38,7 @@ class CreateDiscussionsTable extends Migration
             $table->boolean('enabled')->default(true);
             $table->boolean('best_answer')->default(false);
             $table->timestamps();
+            $table->softDeletes();
         });
 
 
