@@ -16,12 +16,14 @@ class CreateCategoriesTable extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->increments('id');
+
             $table->string('title');
             $table->string('type');
             $table->string('color')->nullable();
             $table->string('image')->nullable();
             $table->string('icon')->nullable();
             $table->string('code')->nullable();
+            $table->integer('category_id')->nullable();
             $table->boolean('enabled');
             $table->longText('options')->nullable();
             $table->timestamps();

@@ -31,7 +31,7 @@
                 <div class="col-md-{{ config('platform.content-size') }}">
                     <div class="row">
                         @foreach($products as $product)
-                            <div class="col-md-4 col-sm-6">
+                            <div class="{{ config('platform.product-card-class') }}">
                                 <div class="card mb-2">
                                     <img class="card-img-top" src="{{ Storage::url($product->image) }}" alt="image"
                                          style="width:100%">

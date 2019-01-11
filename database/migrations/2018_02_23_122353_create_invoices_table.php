@@ -21,9 +21,9 @@ class CreateInvoicesTable extends Migration
             $table->enum('type', ['sale', 'purchase']);
 
 
-            $table->decimal('total', 15, 0);
-            $table->decimal('tax', 15, 0)->nullable();
-            $table->decimal('discount', 15, 0)->nullable();
+            $table->decimal('total', 15, 4);
+            $table->decimal('tax', 15, 4)->nullable();
+            $table->decimal('discount', 15, 4)->nullable();
 
 
             //Status
@@ -65,10 +65,10 @@ class CreateInvoicesTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->string('description')->nullable();
-            $table->decimal('price', 15, 0);
-            $table->decimal('tax', 15, 0)->nullable()->default(0);
-            $table->decimal('discount', 15, 0)->nullable()->default(0);
-            $table->decimal('quantity', 15, 0)->default(1);
+            $table->decimal('price', 15, 4);
+            $table->decimal('tax', 15, 4)->nullable()->default(0);
+            $table->decimal('discount', 15, 4)->nullable()->default(0);
+            $table->decimal('quantity', 15, 4)->default(1);
             $table->decimal('total', 15, 0);
             $table->integer('invoice_id');
             $table->integer('product_id')->nullable();

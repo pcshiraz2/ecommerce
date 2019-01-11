@@ -24,6 +24,10 @@
                 <div class="col-md-12 col-12">
                     <div class="row justify-content-center">
                         <div class="col-md-12 col-xs-12">
+                            <div id="update_notification" style="display:none;" class="alert alert-warning mb-2">
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-xs-12">
                             <div class="alert alert-info">
                                 <i class="fa fa-clock-o" aria-hidden="true"></i>
                                 امروز {{ jdate('now')->format('l j %B Y')  }}
@@ -203,6 +207,16 @@
             }).catch(function (error) {
                 console.log(error);
             });
+
+            axios.get('updater.check').then(function (response) {
+                if(response != ''){
+                    $('#update_notification').append('<strong>نسخه جدید نرم افزار با کد <span class="badge badge-success">'+response.data+'</span> منتشر شده است.</strong><a role="button" href="updater.update" class="btn btn-sm btn-warning pull-left"><i class="fa fa-refresh"></i> شروع بروز رسانی</a>');
+                    $('#update_notification').show();
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
+
         });
     </script>
 @endsection

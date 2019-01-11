@@ -10,4 +10,5 @@ return [
     'Ticket' => 'تیکت',
     'Forum' => 'انجمن',
     'Setting' => 'تنظیمات',
+    'Attribute' => 'ویژگی',
 ];

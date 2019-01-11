@@ -17,7 +17,7 @@ class CreateAccountsTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->integer('order')->nullable();
-            $table->decimal('initial_balance', 15, 0)->nullable();
+            $table->decimal('initial_balance', 15, 4)->nullable();
             $table->boolean('enabled');
             $table->text('options')->nullable();
             $table->text('note')->nullable();

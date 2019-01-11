@@ -20,7 +20,7 @@ class CreateTransactionsTable extends Migration
             $table->integer('account_id');
             $table->integer('user_id')->nullable();
             $table->integer('category_id')->nullable();
-            $table->decimal('amount', 15, 0);
+            $table->decimal('amount', 15, 4);
 
 
             $table->string('name')->nullable();

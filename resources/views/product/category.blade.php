@@ -27,12 +27,30 @@
             </h1>
             <div class="row justify-content-center">
                 <div class="col-md-{{ config('platform.sidebar-size') }}">
-                    @include('product.sidebar',['categories'=>$categories])
+                    @include('product.category-sidebar')
                 </div>
                 <div class="col-md-{{ config('platform.content-size') }}">
                     <div class="row">
+                        <div class="col-md-12">
+                            <ul class="nav nav-pills justify-content-end">
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="#">جدید ترین</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">پرفروش ترین</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">ارزان ترین</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">گران ترین</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
                         @foreach($products as $product)
-                            <div class="col-md-4 col-sm-6">
+                            <div class="{{ config('platform.product-card-class') }}">
                                 <div class="card mb-2">
                                     <img class="card-img-top" src="{{ Storage::url($product->image) }}" alt="image"
                                          style="width:100%">

@@ -9,7 +9,7 @@ class CreateGatewayTransactionsTable extends Migration
 
     private function getTable()
     {
-        return config(\Parsisolution\Gateway\GatewayManager::CONFIG_FILE_NAME . '.table', 'gateway_transactions');
+        return config(\Parsisolution\Gateway\GatewayManager::CONFIG_FILE_NAME.'.table', 'gateway_transactions');
     }
 
     /**
@@ -31,7 +31,8 @@ class CreateGatewayTransactionsTable extends Migration
             $table->enum('status', \Parsisolution\Gateway\Transaction::availableStates())
                 ->default(\Parsisolution\Gateway\Transaction::STATE_INIT);
             $table->string('ip', 20)->nullable();
-            $table->text('extra')->nullable();
+            $table->longText('extra')->nullable();
+            $table->longText('log')->nullable();
             $table->timestamp('paid_at')->nullable();
             $table->nullableTimestamps();
             $table->softDeletes();

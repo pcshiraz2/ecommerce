@@ -161,3 +161,8 @@ table.table-bordered.dataTable td:last-child, table.table-bordered.dataTable th:
 .table .thead-dark th a:hover {
   color: $white;
 }
+
+.nav-pills>li>a {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}

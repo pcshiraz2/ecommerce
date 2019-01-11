@@ -98,7 +98,6 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
         Validator::make($request->all(), [
             'title' => 'required',
-            'image' => 'required|image',
             'purchase_price' => 'required|numeric',
             'sale_price' => 'required|numeric',
             'category_id' => 'required',
@@ -108,7 +107,8 @@ class ProductController extends Controller
             Storage::delete($product->image);
             $product->image = $request->file('image')->store('public');
         }
-        $product->price = MoneyUtil::database($request->price);
+        $product->sale_price = MoneyUtil::database($request->sale_price);
+        $product->purchase_price = MoneyUtil::database($request->purchase_price);
         $product->category_id = $request->category_id;
         $product->user_id = Auth::user()->id;
         $product->initial_balance = $request->initial_balance;

@@ -26,10 +26,10 @@
             <table class="table table-striped table-bordered table-hover">
                 <thead class="thead-dark">
                 <tr>
-                    <th scope="col" class="text-center">شماره</th>
-                    <th scope="col" class="text-center">جمع</th>
-                    <th scope="col" class="text-center">تاریخ</th>
-                    <th scope="col" class="text-right">اقدام</th>
+                    <th scope="col">شماره</th>
+                    <th scope="col">جمع</th>
+                    <th scope="col">تاریخ</th>
+                    <th scope="col">اقدام</th>
                 </tr>
                 </thead>
                 <tbody>

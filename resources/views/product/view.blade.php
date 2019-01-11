@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-{{ config('platform.sidebar-size') }}">
+                <div class="col-md-{{ config('platform.sidebar-size')+1 }}">
                     @if($product->image)
                         <img class="card-img-top mb-2" src="{{ Storage::url($product->image) }}" alt="image"
                              style="width:100%">
@@ -56,7 +56,7 @@
                     </ul>
                 </div>
 
-                <div class="col-md-{{ config('platform.content-size') }}">
+                <div class="col-md-{{ config('platform.content-size')-1 }}">
                     @if(Auth::check())
                         @can('products')
                             <div class="alert alert-danger" id="deleteProduct" role="alert" style="display: none;">

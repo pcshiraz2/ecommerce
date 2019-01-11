@@ -18,8 +18,9 @@ class CreateProductsTable extends Migration
             $table->string('title');
             $table->string('image');
 
-            $table->decimal('sale_price', 15, 0);
-            $table->decimal('purchase_price', 15, 0);
+            $table->decimal('sale_price', 15, 4);
+            $table->decimal('purchase_price', 15, 4);
+            $table->decimal('renewal_price', 15, 4);
             $table->integer('category_id');
             $table->integer('user_id');
 

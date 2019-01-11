@@ -27,7 +27,7 @@
     </div>
     <div class="row justify-content-center mb-2">
         @foreach($products as $product)
-            <div class="col-md-3 col-sm-3">
+            <div class="{{ config('platform.product-card-class') }}">
                 <div class="card mb-2">
                     <img class="card-img-top" src="{{ Storage::url($product->image) }}" alt="{{ $product->title }}"
                          style="width:100%">

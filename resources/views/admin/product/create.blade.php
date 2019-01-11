@@ -25,7 +25,7 @@
                         @csrf
                         @method('post')
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="image">تصویر</label>
                                     <div class="input-group mb-3">
@@ -47,7 +47,7 @@
                                          alt="تصویر شما"/>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-9">
                                 <div class="form-group">
                                     <label for="title">عنوان</label>
                                     <input id="title" type="text"

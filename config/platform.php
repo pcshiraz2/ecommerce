@@ -12,6 +12,7 @@ return [
     'navbar-type' => 'navbar-dark bg-dark',
     'navbar-bottm-type' => 'navbar-light bg-light',
     'navbar-sidebar-type' => 'bg-light',
+    'product-card-class' => 'col-md-3 col-sm-6',
     'sidebar-size' => 2,
     'content-size' => 10,
     'admin-route' => 'admin',
