@@ -39,13 +39,12 @@
                         @csrf
                         @method('post')
                         @foreach($settings as $setting)
-                            <div class="form-group row">
-                                <label for="setting_{{$setting->id}}"
-                                       class="col-md-4 col-form-label @lang('platform.input-pull')">
+                            <div class="form-group">
+                                <label for="setting_{{$setting->id}}">
                                     {{-- <a href="{{route('admin.setting.edit',['id'=>$setting->id])}}" class="btn btn-outline-primary btn-sm"><i class="fa fa-edit"></i></a> --}}
 
                                     {{$setting->title}}</label>
-                                <div class="col-md-7">
+
                                     @if($setting->type == 'text')
                                         <input id="setting_{{$setting->id}}" type="text" class="form-control"
                                                name="setting_{{$setting->id}}"
@@ -66,23 +65,18 @@
                                                   name="setting_{{$setting->id}}">{{ old('setting_'.$setting->id,config($setting->key)) }}</textarea>
                                     @endif
                                     @if($setting->type == 'select')
-                                        <select id="setting_{{$setting->id}}" class="form-control"
-                                                name="setting_{{$setting->id}}">
-                                            @php
-                                                $options = explode(",",$setting->options);
-                                            @endphp
-                                            @foreach($options as $option)
-                                                <option value="{{$option}}"{{ $option == old('setting_'.$setting->id,config($setting->key))  ? ' selected' : '' }}>{{$option}}</option>
+                                        <select id="setting_{{$setting->id}}" class="form-control select2" name="setting_{{$setting->id}}">
+                                            @foreach($setting->options as $key => $value)
+                                                <option value="{{$key}}"{{ $key == old('setting_'.$setting->id,config($setting->key))  ? ' selected' : '' }}>{{$value}}</option>
                                             @endforeach
                                         </select>
                                     @endif
                                     @if($setting->type == 'select-table')
-                                        <select id="setting_{{$setting->id}}" class="form-control"
+                                        <select id="setting_{{$setting->id}}" class="form-control select2"
                                                 name="setting_{{$setting->id}}">
                                             @php
-                                                $options = explode(",",$setting->options);
-                                                $table = $options[0];
-                                                $column = $options[1];
+                                                $table = $setting->options['table'];
+                                                $column = $setting->options['attrib'];
                                                 $products = DB::table($table)->get();
                                             @endphp
                                             @foreach($products as $product)
@@ -90,40 +84,61 @@
                                             @endforeach
                                         </select>
                                     @endif
+                                        @if($setting->type == 'select-model')
+                                            <select id="setting_{{$setting->id}}" class="form-control select2"
+                                                    name="setting_{{$setting->id}}">
+                                                @php
+                                                    $modelClass = $setting->options['model'];
+                                                    $models = $modelClass::all();
+                                                    $column = $setting->options['attrib'];
+                                                @endphp
+                                                @foreach($models as $model)
+                                                    <option value="{{$model->id}}"{{ $model->id == old('setting_'.$setting->id,config($setting->key))  ? ' selected' : '' }}>{{ $model->{$column} }}</option>
+                                                @endforeach
+                                            </select>
+                                        @endif
                                     @if($setting->type == 'yesno')
-                                        <select id="setting_{{$setting->id}}" class="form-control"
-                                                name="setting_{{$setting->id}}">
-                                            <option value="yes"{{ 'yes' == old('setting_'.$setting->id,config($setting->key))  ? ' selected' : '' }}>
-                                                بلی
-                                            </option>
-                                            <option value="no"{{ 'no' == old('setting_'.$setting->id,config($setting->key))  ? ' selected' : '' }}>
-                                                خیر
-                                            </option>
-                                        </select>
+                                    <div class="form-group">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="enable{{$setting->id}}RadioYes" name="setting_{{$setting->id}}"
+                                                   value="1"
+                                                   class="custom-control-input"{{ old('setting_'.$setting->id,config($setting->key)) == true  ? ' checked' : '' }}>
+                                            <label class="custom-control-label" for="enable{{$setting->id}}RadioYes">بله</label>
+                                        </div>
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="enable{{$setting->id}}RadioNo" name="setting_{{$setting->id}}"
+                                                   value="0"
+                                                   class="custom-control-input"{{ old('setting_'.$setting->id,config($setting->key)) == false  ? ' checked' : '' }}>
+                                            <label class="custom-control-label" for="enable{{$setting->id}}RadioNo">خیر</label>
+                                        </div>
+                                    </div>
                                     @endif
                                     @if($setting->type == 'enable')
-                                        <select id="setting_{{$setting->id}}" class="form-control"
-                                                name="setting_{{$setting->id}}">
-                                            <option value="1"{{ '1' == old('setting_'.$setting->id,config($setting->key))  ? ' selected' : '' }}>
-                                                بلی
-                                            </option>
-                                            <option value="0"{{ '0' == old('setting_'.$setting->id,config($setting->key))  ? ' selected' : '' }}>
-                                                خیر
-                                            </option>
-                                        </select>
+                                    <div class="form-group">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="enable{{$setting->id}}RadioYes" name="setting_{{$setting->id}}"
+                                                   value="1"
+                                                   class="custom-control-input"{{ old('setting_'.$setting->id,config($setting->key)) == true  ? ' checked' : '' }}>
+                                            <label class="custom-control-label" for="enable{{$setting->id}}RadioYes">فعال</label>
+                                        </div>
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="enable{{$setting->id}}RadioNo" name="setting_{{$setting->id}}"
+                                                   value="0"
+                                                   class="custom-control-input"{{ old('setting_'.$setting->id,config($setting->key)) == false  ? ' checked' : '' }}>
+                                            <label class="custom-control-label" for="enable{{$setting->id}}RadioNo">غیر فعال</label>
+                                        </div>
+                                    </div>
                                     @endif
+
                                     <small id="setting_{{$setting->id}}Help"
                                            class="form-text">{{$setting->description}}</small>
-                                </div>
                             </div>
                         @endforeach
-                        <div class="form-group row mb-0">
-                            <div class="col-md-7 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                        <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-mobile">
                                     <i class="fa fa-save"></i>
                                     ذخیره تنظیمات
                                 </button>
-                            </div>
                         </div>
                     </form>
                 </div>

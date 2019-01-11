@@ -19,10 +19,10 @@ class SettingController extends Controller
 
     public function index()
     {
-        $id = 1;
-        $settings = Setting::with('category')->where('category_id', $id)->get();
         $categories = Category::where('type', 'Setting')->get();
-        return view('admin.setting.index', ['settings' => $settings, 'categories' => $categories, 'id' => $id]);
+        $first = $categories->first();
+        $settings = Setting::with('category')->where('category_id', $first->id)->get();
+        return view('admin.setting.index', ['settings' => $settings, 'categories' => $categories, 'id' => $first->id]);
     }
 
     public function category($id)

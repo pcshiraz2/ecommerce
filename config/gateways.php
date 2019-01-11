@@ -25,6 +25,7 @@ return [
         'password'     => '',
         'terminalId'   => 0000000,
         'callback-url' => '/',
+        'account_id'   => '1',
     ],
 
     //--------------------------------
@@ -38,6 +39,7 @@ return [
         'transactionKey' => '',
         'terminalId'     => 000000000,
         'callback-url'   => '/',
+        'account_id'   => '1',
     ],
 
     //--------------------------------
@@ -50,6 +52,7 @@ return [
         'merchant'     => '',
         'password'     => '',
         'callback-url' => '/',
+        'account_id'   => '1',
     ],
 
     //--------------------------------
@@ -61,6 +64,7 @@ return [
         'order'        => 4,
         'pin'          => 'xxxxxxxxxxxxxxxxxxxx',
         'callback-url' => '/',
+        'account_id'   => '1',
     ],
 
     //--------------------------------
@@ -72,6 +76,7 @@ return [
         'order'        => 5,
         'terminalId'   => env('MABNA_TERMINAL_ID'),
         'callback-url' => '/',
+        'account_id'   => '1',
     ],
 
     //--------------------------------
@@ -86,6 +91,7 @@ return [
         'public-key'   => storage_path('gateways/mabna/mabna-public-key.pem'),
         'private-key'  => storage_path('gateways/mabna/mabna-private-key.pem'),
         'callback-url' => '/',
+        'account_id'   => '1',
     ],
 
     //--------------------------------
@@ -99,6 +105,7 @@ return [
         'sha1-key'     => 'xxxxxxxxxxxxxxxxxxxx',
         'description'  => 'description',
         'callback-url' => '/',
+        'account_id'   => '1',
     ],
 
     //--------------------------------
@@ -115,6 +122,7 @@ return [
         'key'              => '',
         'iv'               => '',
         'callback-url'     => '/',
+        'account_id'   => '1',
     ],
 
     //--------------------------------
@@ -126,6 +134,7 @@ return [
         'order'        => 9,
         'api'          => env('PAY_IR_API_KEY'),
         'callback-url' => '/',
+        'account_id'   => '1',
     ],
 
     //--------------------------------
@@ -137,6 +146,7 @@ return [
         'order'        => 10,
         'api'          => env('PARDANO_API_KEY', 'test'), // use test or your api key
         'callback-url' => '/',
+        'account_id'   => '1',
     ],
 
     //--------------------------------
@@ -151,6 +161,7 @@ return [
         'server'       => 'test',                // Servers: [germany || iran || test]
         'description'  => 'description',
         'callback-url' => '/',
+        'account_id'   => '1',
     ],
 
     //--------------------------------
@@ -162,6 +173,7 @@ return [
         'order'        => 12,
         'api'          => env('NEXTPAY_API_KEY', 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'),
         'callback-url' => '/',
+        'account_id'   => '1',
     ],
 
     // JiBit gateway
@@ -174,6 +186,7 @@ return [
         'password'     => env('JIBIT_PASS'),
         'callback-url' => '/',
         'user-mobile'  => '09xxxxxxxxx',
+        'account_id'   => '1',
     ],
 
     //--------------------------------
@@ -185,5 +198,6 @@ return [
         'order'        => 14,
         'api'          => env('SABAPAY_API_KEY'),
         'callback-url' => '/',
+        'account_id'   => '1',
     ],
 ];

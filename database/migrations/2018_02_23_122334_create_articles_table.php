@@ -26,6 +26,16 @@ class CreateArticlesTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+        Schema::create('article_comments', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('product_id');
+            $table->integer('user_id');
+            $table->text('question')->nullable();
+            $table->text('answer')->nullable();
+            $table->boolean('enabled');
+            $table->timestamps();
+            $table->softDeletes();
+        });
     }
 
     /**
@@ -36,5 +46,6 @@ class CreateArticlesTable extends Migration
     public function down()
     {
         Schema::dropIfExists('articles');
+        Schema::dropIfExists('article_comments');
     }
 }

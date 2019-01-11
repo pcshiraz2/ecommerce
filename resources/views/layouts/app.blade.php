@@ -29,7 +29,7 @@
                     <i class="fa fa-bars"></i>
                 </button>
                 <a class="navbar-brand mr-auto" href="{{ url('/') }}">
-                    <i class="fa {{ config('platform.main-icon') }}"></i> {{ config('platform.name', 'ShirazPlatform') }}
+                    <i class="{{ config('platform.main-icon') }}"></i> {{ config('platform.name', 'ShirazPlatform') }}
                 </a>
 
                 <div class="d-block d-md-none d-lg-none d-xl-none">
@@ -143,7 +143,7 @@
 
     </main>
     <footer class="{{ config('platform.footer-position') }}">
-        <nav class="navbar navbar-expand-lg {{ config('platform.navbar-bottm-type') }}">
+        <nav class="navbar navbar-expand-lg {{ config('platform.navbar-bottom-type') }}">
             <div class="{{ config('platform.navbar-container') }}">
 
                 <ul class="navbar-nav mr-auto">

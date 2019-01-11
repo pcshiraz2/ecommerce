@@ -20,10 +20,12 @@ class CreateDiscussionsTable extends Migration
             $table->string('title');
             $table->longText('text');
             $table->string('slug')->nullable();
-            $table->enum('important', ['yes', 'no'])->default('no');
-            $table->enum('type', ['normal', 'done', 'close'])->default('normal');
+            $table->boolean('important')->nullable();
+            //Type:['normal', 'done', 'close']
+            $table->string('type')->default('normal');
             $table->string('color')->nullable();
             $table->integer('posts')->default(0);
+            $table->boolean('enabled')->default(true);
             $table->softDeletes();
             $table->timestamps();
         });
@@ -33,7 +35,8 @@ class CreateDiscussionsTable extends Migration
             $table->integer('user_id');
             $table->integer('discussion_id');
             $table->longText('text');
-            $table->enum('answer', ['yes', 'no'])->default('no');
+            $table->boolean('enabled')->default(true);
+            $table->boolean('best_answer')->default(false);
             $table->timestamps();
         });
 

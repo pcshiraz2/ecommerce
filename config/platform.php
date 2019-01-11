@@ -8,9 +8,11 @@
 
 return [
     'name' => 'پی سی شیراز',
-    'main-icon' => 'fa-globe',
+    'keywords' => 'پی سی شیراز',
+    'description' => 'پی سی شیراز',
+    'main-icon' => 'fa fa-globe',
     'navbar-type' => 'navbar-dark bg-dark',
-    'navbar-bottm-type' => 'navbar-light bg-light',
+    'navbar-bottom-type' => 'navbar-light bg-light',
     'navbar-sidebar-type' => 'bg-light',
     'product-card-class' => 'col-md-3 col-sm-6',
     'sidebar-size' => 2,
@@ -20,7 +22,7 @@ return [
     'main-container' => 'container-fluid',
     'navbar-container' => 'container-fluid',
     'cache-time' => '1440',
-    'register-enabled' => true,
+    'register-enabled' => '1',
     'page-cache-time' => 999999999,
     'header-position' => 'sticky-top',
     'footer-position' => 'sticky-bottom',
@@ -33,17 +35,17 @@ return [
 
     'main-admin-user-id' => '1',
 
-    'income-transfer-category-id' => '11',
-    'expense-transfer-category-id' => '15',
+    'income-transfer-category-id' => '12',
+    'expense-transfer-category-id' => '16',
 
-    'income-check-category-id' => '9',
-    'expense-check-category-id' => '12',
+    'income-check-category-id' => '10',
+    'expense-check-category-id' => '13',
 
-    'income-installment-category-id' => '10',
-    'expense-installment-category-id' => '13',
+    'income-installment-category-id' => '11',
+    'expense-installment-category-id' => '12',
 
-    'income-sale-category-id' => '8',
-    'expense-purchase-category-id' => '14',
+    'income-sale-category-id' => '9',
+    'expense-purchase-category-id' => '15',
 
 
     'min-payment-price' => '1000',

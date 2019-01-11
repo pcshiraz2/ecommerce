@@ -1,10 +1,13 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Model;
 
 class Setting extends Model
 {
-    //
+    public function category()
+    {
+        return $this->belongsTo('App\Models\Category');
+    }
 }

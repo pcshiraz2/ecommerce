@@ -17,10 +17,13 @@ class CreateServicesTable extends Migration
             $table->increments('id');
             $table->string('domain')->nullable();
             $table->string('ip', 20)->nullable();
+            $table->string('serial_number')->nullable();
             $table->integer('product_id')->nullable();
             $table->integer('user_id')->nullable();
-            $table->varchar('status')->default('paid');
+            //status:paid,suspned,terminate,active,pendding
+            $table->string('status');
             $table->longText('options')->nullable();
+            $table->boolean('enabled');
             $table->timestamp('expire_at')->nullable();
             $table->timestamp('suspend_at')->nullable();
             $table->timestamps();

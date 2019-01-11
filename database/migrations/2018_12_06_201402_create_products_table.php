@@ -40,6 +40,7 @@ class CreateProductsTable extends Migration
 
             $table->integer('order')->nullable();
             $table->text('options')->nullable();
+            $table->timestamp('off_expire_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -71,19 +72,17 @@ class CreateProductsTable extends Migration
             $table->softDeletes();
         });
 
-        //Only Digital Goods
-        Schema::create('product_purchases', function (Blueprint $table) {
+        Schema::create('product_comments', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('status');
             $table->integer('product_id');
             $table->integer('user_id');
-            $table->string('serial_number')->nullable();
+            $table->text('question')->nullable();
+            $table->text('answer')->nullable();
             $table->boolean('enabled');
-            $table->text('options')->nullable();
-            $table->timestamp('expire_at');
             $table->timestamps();
             $table->softDeletes();
         });
+
     }
 
     /**
@@ -96,6 +95,6 @@ class CreateProductsTable extends Migration
         Schema::dropIfExists('products');
         Schema::dropIfExists('product_files');
         Schema::dropIfExists('product_images');
-        Schema::dropIfExists('product_purchases');
+        Schema::dropIfExists('product_comments');
     }
 }

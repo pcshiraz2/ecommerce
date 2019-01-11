@@ -7,7 +7,7 @@ return [
     'Article' => 'مقاله',
     'Expense' => 'هزینه',
     'Income' => 'درآمد',
-    'Ticket' => 'تیکت',
+    'Ticket' => 'پشتیبانی',
     'Forum' => 'انجمن',
     'Setting' => 'تنظیمات',
     'Attribute' => 'ویژگی',
