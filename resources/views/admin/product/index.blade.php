@@ -2,10 +2,10 @@
 @section('title', 'کالاها - ')
 @section('content')
     <div class="row justify-content-center">
-        <div class="col-md-3">
+        <div class="col-md-{{ config('platform.sidebar-size') }}">
             @include('admin.sidebar')
         </div>
-        <div class="col-md-9">
+        <div class="col-md-{{ config('platform.content-size') }}">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('index') }}">{{ config('platform.name') }}</a></li>
@@ -39,7 +39,8 @@
                 </div>
 
                 <div class="card-body">
-
+                    @include('global.top-table-options',['route' => 'admin.product.export'])
+                    @if($products->count())
                     <table class="table table-striped table-bordered table-hover two-axis">
                         <thead class="thead-dark">
                         <tr>
@@ -86,7 +87,10 @@
                         @endforeach
                         </tbody>
                     </table>
-                    {{ $products->links() }}
+                    @else
+                        <div class="alert-warning alert">{{ trans('platform.no-result') }}</div>
+                    @endif
+                    @include('global.pagination',['items' => $products])
                 </div>
             </div>
         </div>

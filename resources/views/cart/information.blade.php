@@ -191,18 +191,3 @@
         </div>
     </div>
 @endsection
-@section('js')
-    <script>
-        function selectProvince(province_id) {
-            axios.post('{{ route('profile.cities') }}', {'province_id': province_id}).then(function (response) {
-                $('#city_id').html('');
-                for (var i = 0, len = response.data.length; i < len; i++) {
-                    var city = new Option(response.data[i].name, response.data[i].id, false, false);
-                    $('#city_id').append(city).trigger('change');
-                }
-            }).catch(function (error) {
-                console.log(error);
-            });
-        }
-    </script>
-@endsection

@@ -28,10 +28,10 @@
         </div>
         <div class="col-md-12">
             <div class="row justify-content-center">
-                <div class="col-md-3">
+                <div class="col-md-{{ config('platform.sidebar-size') }}">
                     @include('sidebar')
                 </div>
-                <div class="col-md-9">
+                <div class="col-md-{{ config('platform.content-size') }}">
                     <div class="row">
                         <div class="col-md-10">
                             @if($ticket->status == 'lock')

@@ -99,8 +99,8 @@ class DashboardController extends Controller
         }
         $start = $start[0] . '-' . $start[1] . '-' . $start[2] . ' 00:00:00';
         $finish = $finish[0] . '-' . $finish[1] . '-' . $finish[2] . ' 11:59:59';
-        $month_income = Transaction::whereBetween('transaction_at', [$start, $finish])->where('amount', '>', 0)->sum('amount');
-        $month_expense = Transaction::whereBetween('transaction_at', [$start, $finish])->where('amount', '<', 0)->sum('amount');
+        $month_income = Transaction::whereBetween('created_at', [$start, $finish])->where('amount', '>', 0)->sum('amount');
+        $month_expense = Transaction::whereBetween('created_at', [$start, $finish])->where('amount', '<', 0)->sum('amount');
         $num_of_dues = 0;
         return response()->json([
             'total_of_accounts' => number_format($total_of_accounts) . " تومان",

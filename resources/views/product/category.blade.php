@@ -26,10 +26,10 @@
                 @endif
             </h1>
             <div class="row justify-content-center">
-                <div class="col-md-3">
+                <div class="col-md-{{ config('platform.sidebar-size') }}">
                     @include('product.sidebar',['categories'=>$categories])
                 </div>
-                <div class="col-md-9">
+                <div class="col-md-{{ config('platform.content-size') }}">
                     <div class="row">
                         @foreach($products as $product)
                             <div class="col-md-4 col-sm-6">

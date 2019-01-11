@@ -16,10 +16,10 @@
         </div>
     </div>
     <div class="row justify-content-center">
-        <div class="col-md-3">
+        <div class="col-md-{{ config('platform.sidebar-size') }}">
             @include('sidebar')
         </div>
-        <div class="col-md-9">
+        <div class="col-md-{{ config('platform.content-size') }}">
 
             <div class="row justify-content-center">
                 <div class="col-md-12 col-xs-12">

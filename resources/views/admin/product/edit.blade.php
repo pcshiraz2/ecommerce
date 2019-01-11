@@ -2,10 +2,10 @@
 @section('title', 'ویرایش کالا ' .$product->title . " - ")
 @section('content')
     <div class="row justify-content-center">
-        <div class="col-md-3">
+        <div class="col-md-{{ config('platform.sidebar-size') }}">
             @include('admin.sidebar')
         </div>
-        <div class="col-md-9">
+        <div class="col-md-{{ config('platform.content-size') }}">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('index') }}">{{ config('platform.name') }}</a></li>

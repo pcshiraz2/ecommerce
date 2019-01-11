@@ -37,5 +37,14 @@ class Invoice extends Model
         return $this->belongsTo('App\Models\City');
     }
 
+    public function scopeOfUser($query, $user_id)
+    {
+        return $query->where('user_id', $user_id);
+    }
+
+    public function scopeDue($query)
+    {
+        return $query->where('status', '!=', 'paid');
+    }
 
 }

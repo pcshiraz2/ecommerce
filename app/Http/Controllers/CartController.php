@@ -27,7 +27,7 @@ class CartController extends Controller
     public function add($id)
     {
         $product = Product::findOrFail($id);
-        Cart::add($product->id, $product->title, 1, $product->sale_price, ['description' => $product->description]);
+        Cart::add($product->id, $product->title, 1, $product->sale_price, ['description' => $product->description, 'factory' => $product->factory]);
         flash($product->title . " به سبد خرید اضافه شد.")->success();
         return redirect()->route('cart');
     }
@@ -35,7 +35,7 @@ class CartController extends Controller
     public function remove($id)
     {
         $product = Product::findOrFail($id);
-        Cart::add($product->id, $product->title, -1, $product->sale_price, ['description' => $product->description]);
+        Cart::add($product->id, $product->title, -1, $product->sale_price, ['description' => $product->description, 'factory' => $product->factory]);
         foreach (Cart::content() as $productItem) {
             if ($productItem->qty == 0) {
                 Cart::remove($productItem->rowId);
@@ -80,7 +80,18 @@ class CartController extends Controller
         $user->city_id = $request->city_id;
         $user->province_id = $request->province_id;
         $user->save();
-        return redirect()->route('cart.checkout');
+        return redirect()->route('cart.factory');
+    }
+
+    public function factory()
+    {
+
+    }
+
+
+    public function storeFactory(Request $request)
+    {
+
     }
 
     public function checkout()

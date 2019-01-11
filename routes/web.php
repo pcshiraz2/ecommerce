@@ -20,13 +20,11 @@ Route::get('/home', 'DashboardController@index')->name('home');
 
 //Misc
 Route::get('/per-page/{limit}', 'MiscController@setPerPage')->name('misc.per-page');
-Route::post('/editor/upload', 'MiscController@upload')->name('editor.upload')->middleware('auth');
+Route::post('/editor/upload', 'MiscController@upload')->name('editor.upload');
 
 
 Route::post('/ajax/search', 'AjaxController@search')->name('ajax.search');
 Route::post('/ajax/cities', 'AjaxController@cities')->name('ajax.cities');
-
-
 
 Route::get('/dashboard/tickets', 'DashboardController@index')->name('dashboard.tickets');
 Route::get('/dashboard/invoices', 'DashboardController@invoices')->name('dashboard.invoices');
@@ -70,23 +68,6 @@ Route::get('/invoice/pay-link/{id}/{password}', 'InvoiceController@payLinkPasswo
 Route::any('/invoice/callback/{id}', 'InvoiceController@callback')->name('invoice.callback');
 Route::any('/invoice/callback/{id}/{password}', 'InvoiceController@callbackPassword')->name('invoice.callback-password');
 
-Route::get('/file', 'FileController@index')->name('file');
-Route::get('/file/category/{id}', 'FileController@category')->name('file.category');
-Route::get('/file/type/{type}', 'FileController@type')->name('file.type');
-Route::get('/file/create', 'FileController@create')->name('file.create')->middleware('auth');
-Route::post('/file/insert', 'FileController@insert')->name('file.insert')->middleware('auth');
-Route::post('/file/update/{id}', 'FileController@update')->name('file.update')->middleware('auth');
-Route::delete('/file/delete/{id}', 'FileController@delete')->name('file.delete')->middleware('auth');
-Route::get('/file/view/{id}', 'FileController@view')->name('file.view');
-Route::get('/file/edit/{id}', 'FileController@edit')->name('file.edit')->middleware('auth');
-Route::get('/file/view/{id}/{slug}', 'FileController@slug')->name('file.slug');
-Route::get('/file/add-cart/{id}', 'FileController@addCart')->name('file.add-cart');
-Route::get('/file/remove-cart/{id}', 'FileController@removeCart')->name('file.remove-cart');
-Route::get('/file/download/{id}', 'FileController@download')->name('file.download')->middleware('auth');
-Route::get('/file/download/{id}/{version_id}', 'FileController@downloadVersion')->name('file.download-version')->middleware('auth');
-Route::get('/file-version/create/{id}', 'FileVersionController@create')->name('file-version.create')->middleware('auth');
-Route::post('/file-version/insert/{id}', 'FileVersionController@insert')->name('file-version.insert')->middleware('auth');
-
 
 Route::get('/shop', 'ProductController@index')->name('shop');
 Route::get('/product', 'ProductController@index')->name('product');
@@ -98,8 +79,8 @@ Route::get('/product/edit/{id}', 'ProductController@edit')->name('product.edit')
 Route::post('/product/update/{id}', 'ProductController@update')->name('product.update')->middleware('auth');
 Route::delete('/product/delete/{id}', 'ProductController@delete')->name('product.delete')->middleware('auth');
 
-Route::get('/product-image/create', 'ProductImageController@create')->name('product-image.create')->middleware('auth');
-Route::post('/product-image/insert', 'ProductImageController@insert')->name('product-image.insert')->middleware('auth');
+Route::get('/product/image/create/{id}', 'ProductImageController@imageCreate')->name('product.image.create')->middleware('auth');
+Route::post('/product/image/insert/{id}', 'ProductImageController@imageInsert')->name('product.image.insert')->middleware('auth');
 
 Route::get('/article', 'ArticleController@index')->name('article');
 Route::get('/article/view/{id}', 'ArticleController@view')->name('article.view');
@@ -140,7 +121,10 @@ Route::get('/cart/checkout', 'CartController@checkout')->name('cart.checkout');
 Route::get('/cart/information', 'CartController@information')->name('cart.information');
 Route::post('/cart/store/information', 'CartController@storeInformation')->name('cart.store-information');
 Route::get('/cart/add/{id}', 'CartController@add')->name('cart.add');
-Route::get('/cart/remove-cart/{id}', 'CartController@remove')->name('cart.remove');
+Route::get('/cart/remove/{id}', 'CartController@remove')->name('cart.remove');
+
+Route::get('/cart/factory', 'CartController@factory')->name('cart.factory');
+Route::post('/cart/store/factory', 'CartController@storeFactory')->name('cart.store-factory');
 
 
 Route::prefix(Config('platform.admin-route'))->name('admin.')->group(function () {

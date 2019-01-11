@@ -20,10 +20,10 @@
         </div>
     </div>
     <div class="row justify-content-center">
-        <div class="col-md-3">
+        <div class="col-md-{{ config('platform.sidebar-size') }}">
             @include('sidebar')
         </div>
-        <div class="col-md-9">
+        <div class="col-md-{{ config('platform.content-size') }}">
             <div class="card card-default">
                 <div class="card-header">
                     نتیجه پرداخت

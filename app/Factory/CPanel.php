@@ -16,6 +16,7 @@ final class CPanel
     public $factoryName = 'هاست cPanel';
     public $factoryDescription = 'شما با کمک این سازنده می توانید هاست cPanel ایجاد کنید.';
     public $factoryClass = "CPanel";
+    public $factoryInformation = true;
 
     public function create($data)
     {
@@ -43,6 +44,17 @@ final class CPanel
     }
 
     public function update(Request $request)
+    {
+
+    }
+
+
+    public function cartInformation()
+    {
+
+    }
+
+    public function cartStoreInformation(Request $request)
     {
 
     }

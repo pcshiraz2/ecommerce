@@ -19,10 +19,10 @@
     </div>
 
     <div class="row justify-content-center">
-        <div class="col-md-3">
+        <div class="col-md-{{ config('platform.sidebar-size') }}">
             @include('sidebar')
         </div>
-        <div class="col-md-9">
+        <div class="col-md-{{ config('platform.content-size') }}">
             <table class="table table-striped table-bordered table-hover">
                 <thead class="thead-dark">
                 <tr>
