@@ -166,3 +166,9 @@ table.table-bordered.dataTable td:last-child, table.table-bordered.dataTable th:
   padding-top: 5px;
   padding-bottom: 5px;
 }
+
+.rtl .pl-2, .rtl .px-2 {
+  padding-left: 0.5rem!important;
+  padding-right: 0.5rem!important;
+}
+

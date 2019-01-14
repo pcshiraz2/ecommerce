@@ -15,12 +15,12 @@ return [
     'navbar-bottom-type' => 'navbar-light bg-light',
     'navbar-sidebar-type' => 'bg-light',
     'product-card-class' => 'col-md-3 col-sm-6',
-    'sidebar-size' => 2,
-    'content-size' => 10,
+    'sidebar-size' => 3,
+    'content-size' => 9,
     'admin-route' => 'admin',
     'redirectTo' => '/dashboard',
-    'main-container' => 'container-fluid',
-    'navbar-container' => 'container-fluid',
+    'main-container' => 'container',
+    'navbar-container' => 'container',
     'cache-time' => '1440',
     'register-enabled' => '1',
     'page-cache-time' => 999999999,
@@ -52,5 +52,6 @@ return [
     'per-page' => '25',
     'due-days' => '5',
     'captcha-enabled' => true,
-    'currency' => 'IRR'
+    'currency' => 'IRR',
+    'index-page-content-enabled' => false
 ];

@@ -14,6 +14,42 @@
             </h1>
         </div>
     </div>
+    <div class="row justify-content-center mb-2">
+        <div class="col-md-12">
+            <div id="demo" class="carousel slide" data-ride="carousel">
+
+                <!-- Indicators -->
+                <ul class="carousel-indicators">
+                    <li data-target="#demo" data-slide-to="0" class="active"></li>
+                    <li data-target="#demo" data-slide-to="1"></li>
+                    <li data-target="#demo" data-slide-to="2"></li>
+                </ul>
+
+                <!-- The slideshow -->
+                <div class="carousel-inner">
+                    <div class="carousel-item active rounded-2">
+                        <img src="https://www.w3schools.com/bootstrap4/ny.jpg" alt="Los Angeles">
+                    </div>
+                    <div class="carousel-item  rounded-2">
+                        <img src="https://www.w3schools.com/bootstrap4/chicago.jpg" alt="Chicago">
+                    </div>
+                    <div class="carousel-item  rounded-2">
+                        <img src="https://www.w3schools.com/bootstrap4/ny.jpg" alt="New York">
+                    </div>
+                </div>
+
+                <!-- Left and right controls -->
+                <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </a>
+                <a class="carousel-control-next" href="#demo" data-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </a>
+
+            </div>
+        </div>
+    </div>
+    @if(config('platform.index-page-content-enabled'))
     <div class="row justify-content-center">
         <div class="col-md-12 mb-2">
             <div class="card card-default">
@@ -25,42 +61,18 @@
             </div>
         </div>
     </div>
+    @endif
+    <h2>فروش ویژه</h2>
     <div class="row justify-content-center mb-2">
-        @foreach($products as $product)
-            <div class="{{ config('platform.product-card-class') }}">
-                <div class="card mb-2">
-                    <img class="card-img-top" src="{{ Storage::url($product->image) }}" alt="{{ $product->title }}"
-                         style="width:100%">
-                    <div class="card-body">
-                        <h4 class="card-title"><a
-                                    href="{{ route('product.view',['id'=>$product->id]) }}">{{$product->title}}</a></h4>
-                        <p class="card-text">
-                            @if($product->sale_price != 0)
-                                قیمت:
-                                <strong>{{ \App\Utils\MoneyUtil::format($product->sale_price) }}</strong> {{ trans('currency.'.config('platform.currency')) }}
-                            @else
-                                <strong>رایگان</strong>
-                            @endif
-                            <br/>
-                            {{ $product->description }}
-                        </p>
-                        <div class="row">
-                            <div class="col">
-                                <a href="{{ route('product.view',['id'=>$product->id]) }}" class="btn btn-danger btn-block btn-sm">
-                                    <i class="fa fa-eye"></i> مشاهده
-                                </a>
-                            </div>
-                            <div class="col">
-                                <a href="{{ route('cart.add',['id'=>$product->id]) }}" class="btn btn-warning btn-block btn-sm">
-                                    <i class="fa fa-cart-plus"></i> خرید
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="col-md-12">
+            <div class="row">
+                @foreach($products as $product)
+                    @include('product.card',['product'=> $product])
+                @endforeach
             </div>
-        @endforeach
+        </div>
     </div>
+
     <div class="row justify-content-center mb-2">
         <div class="col-md-6 mb-2">
             <div class="card card-default">
@@ -99,8 +111,12 @@
             </div>
         </div>
     </div>
+    <h2>دسته بندی ها</h2>
+    <div class="row justify-content-center">
+
+    </div>
     @include('global.logo')
-    .
+
 @endsection
 
 @section('js')

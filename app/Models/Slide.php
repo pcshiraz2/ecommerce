@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Model;
 
 class Slide extends Model
 {
-    use SoftDeletes;
+    //
 }

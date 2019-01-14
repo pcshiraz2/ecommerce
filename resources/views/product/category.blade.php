@@ -50,37 +50,7 @@
                     </div>
                     <div class="row">
                         @foreach($products as $product)
-                            <div class="{{ config('platform.product-card-class') }}">
-                                <div class="card mb-2">
-                                    <img class="card-img-top" src="{{ Storage::url($product->image) }}" alt="image"
-                                         style="width:100%">
-                                    <div class="card-body">
-                                        <h4 class="card-title"><a
-                                                    href="{{ route('product.view',['id'=>$product->id]) }}">{{$product->title}}</a>
-                                        </h4>
-                                        <p class="card-text">
-                                            @if($product->sale_price)
-                                                قیمت:
-                                                <strong>{{ \App\Utils\MoneyUtil::format($product->sale_price) }}</strong> {{ trans('currency.'.config('platform.currency')) }}
-                                            @else
-                                                <strong>رایگان</strong>
-                                            @endif
-                                            {{$product->description}}</p>
-                                        <div class="row">
-                                            <div class="col">
-                                                <a href="{{ route('product.view',['id'=>$product->id]) }}" class="btn btn-danger btn-block btn-sm">
-                                                    <i class="fa fa-eye"></i> مشاهده
-                                                </a>
-                                            </div>
-                                            <div class="col">
-                                                <a href="{{ route('cart.add',['id'=>$product->id]) }}" class="btn btn-warning btn-block btn-sm">
-                                                    <i class="fa fa-cart-plus"></i> خرید
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            @include('product.card',['product'=> $product])
                         @endforeach
                     </div>
                     {{ $products->links() }}

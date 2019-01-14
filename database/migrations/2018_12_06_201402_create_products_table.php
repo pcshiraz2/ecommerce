@@ -25,7 +25,7 @@ class CreateProductsTable extends Migration
             $table->decimal('renewal_price', 15, 4)->nullable();
             $table->decimal('off_price', 15, 4)->nullable();
             $table->integer('category_id');
-            $table->integer('user_id')->nullable();;
+            $table->integer('user_id')->nullable();
 
             $table->double('initial_balance')->nullable();
             $table->double('asset_balance')->nullable();
