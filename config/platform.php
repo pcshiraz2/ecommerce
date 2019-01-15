@@ -14,7 +14,7 @@ return [
     'navbar-type' => 'navbar-dark bg-dark',
     'navbar-bottom-type' => 'navbar-light bg-light',
     'navbar-sidebar-type' => 'bg-light',
-    'product-card-class' => 'col-md-3 col-sm-6',
+    'product-card-class' => 'col-md-4',
     'sidebar-size' => 3,
     'content-size' => 9,
     'admin-route' => 'admin',
@@ -22,7 +22,8 @@ return [
     'main-container' => 'container',
     'navbar-container' => 'container',
     'cache-time' => '1440',
-    'register-enabled' => '1',
+    'register-enabled' => true,
+    'slide-enabled' => true,
     'page-cache-time' => 999999999,
     'header-position' => 'sticky-top',
     'footer-position' => 'sticky-bottom',
@@ -32,6 +33,7 @@ return [
     'index-page-id' => '1',
     'tos-page-id' => '3',
     'complaint-page-id' => '2',
+
 
     'main-admin-user-id' => '1',
 
@@ -46,7 +48,6 @@ return [
 
     'income-sale-category-id' => '9',
     'expense-purchase-category-id' => '15',
-
 
     'min-payment-price' => '1000',
     'per-page' => '25',

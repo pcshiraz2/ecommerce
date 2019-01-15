@@ -31,7 +31,7 @@
                 </div>
                 <div class="col-md-{{ config('platform.content-size') }}">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-12 mb-2">
                             <ul class="nav nav-pills justify-content-end">
                                 <li class="nav-item">
                                     <a class="nav-link active" href="#">جدید ترین</a>

@@ -67,7 +67,7 @@
         <div class="col-md-12">
             <div class="row">
                 @foreach($products as $product)
-                    @include('product.card',['product'=> $product])
+                    @include('product.card',['product'=> $product,'size' => 'col-md-3'])
                 @endforeach
             </div>
         </div>

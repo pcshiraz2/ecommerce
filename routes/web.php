@@ -165,6 +165,16 @@ Route::prefix(Config('platform.admin-route'))->name('admin.')->group(function ()
     Route::delete('/article/delete/{id}', 'Admin\ArticleController@delete')->name('article.delete');
     Route::get('/article/export', 'Admin\ArticleController@export')->name('article.export');
 
+
+    Route::get('/slide', 'Admin\SlideController@index')->name('slide');
+    Route::get('/slide/edit/{id}', 'Admin\SlideController@edit')->name('slide.edit');
+    Route::post('/slide/update/{id}', 'Admin\SlideController@update')->name('slide.update');
+    Route::get('/slide/create', 'Admin\SlideController@create')->name('slide.create');
+    Route::post('/slide/insert', 'Admin\SlideController@insert')->name('slide.insert');
+    Route::delete('/slide/delete/{id}', 'Admin\SlideController@delete')->name('slide.delete');
+    Route::get('/slide/export', 'Admin\SlideController@export')->name('slide.export');
+
+
     Route::get('/transaction', 'Admin\TransactionController@index')->name('transaction');
     Route::get('/transaction/create/income', 'Admin\TransactionController@createIncome')->name('transaction.create.income');
     Route::get('/transaction/create/expense', 'Admin\TransactionController@createExpense')->name('transaction.create.expense');

@@ -1,6 +1,8 @@
-<div class="{{ config('platform.product-card-class') }}">
+<div class="{{ isset($size) ? $size : config('platform.product-card-class') }}">
     <div class="card mb-2">
-        @if($product->off)
+        @if($product->sale_price == 0)
+            <span class="h6 w-70 mx-auto px-2 py-1 rounded-bottom bg-danger text-white shadow text-center" style="position: absolute;right: 35%;"><i class="fa fa-free-code-camp"></i> رایگان</span>
+        @elseif($product->off)
             <span class="h6 w-70 mx-auto px-2 py-1 rounded-bottom bg-info text-white shadow text-center" style="position: absolute;right: 35%;"><i class="fa fa-star"></i> فروش ویژه</span>
         @endif
         <img class="card-img-top" src="{{ Storage::url($product->image) }}" alt="image"
@@ -12,17 +14,19 @@
             </h4>
 
             <p class="card-text">
-                @if($product->off)
-                    <del>{{ \App\Utils\MoneyUtil::format($product->sale_price) }}</del>
-                    <strong>{{ \App\Utils\MoneyUtil::format($product->off_price) }}</strong> {{ trans('currency.'.config('platform.currency')) }}
+
+                @if($product->sale_price == 0)
+                    <strong>رایگان</strong>
                 @else
-                        @if($product->sale_price)
+                        @if($product->off)
+                            <del>{{ \App\Utils\MoneyUtil::format($product->sale_price) }}</del>
+                            <strong>{{ \App\Utils\MoneyUtil::format($product->off_price) }}</strong> {{ trans('currency.'.config('platform.currency')) }}
+                        @else
                             قیمت:
                             <strong>{{ \App\Utils\MoneyUtil::format($product->sale_price) }}</strong> {{ trans('currency.'.config('platform.currency')) }}
-                        @else
-                            <strong>رایگان</strong>
                         @endif
                 @endif
+
                 {{$product->description}}</p>
             <div class="row">
                 <div class="col-12 clearfix">

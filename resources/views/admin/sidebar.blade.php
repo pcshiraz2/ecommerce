@@ -13,6 +13,10 @@
         <a class="list-group-item list-group-item-action{{ Request::segment(2) == 'article' ? ' active' : '' }}"
            href="{{ route('admin.article') }}"><i class="fa fa-newspaper-o"></i> مقاله ها</a>
     @endcan
+    @can('slides')
+        <a class="list-group-item list-group-item-action{{ Request::segment(2) == 'slide' ? ' active' : '' }}"
+           href="{{ route('admin.slide') }}"><i class="fa fa-picture-o"></i> اسلایدها</a>
+    @endcan
     @can('transactions')
         <a class="list-group-item list-group-item-action{{ Request::segment(2) == 'transaction' ? ' active' : '' }}"
            href="{{ route('admin.transaction') }}"><i class="fa fa-money"></i> تراکنش ها </a>

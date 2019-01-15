@@ -100,6 +100,7 @@ class CartController extends Controller
         $user->address = $request->address;
         $user->city_id = $request->city_id;
         $user->province_id = $request->province_id;
+        $user->national_code = $request->national_code;
         $user->save();
         return redirect()->route('cart.factory');
     }

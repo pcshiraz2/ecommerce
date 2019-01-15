@@ -10,6 +10,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManagerStatic as Image;
+use Illuminate\Support\Facades\Input;
 
 class ProductController extends Controller
 {
@@ -60,7 +63,15 @@ class ProductController extends Controller
 
         $product = new Product();
         $product->title = $request->title;
-        $product->image = $request->file('image')->store('public');
+
+        $file = $request->file('image');
+        $product->image = $file->hashName('public');
+        $image = Image::make($file);
+        $image->fit(300, 300, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+        Storage::put($product->image, (string) $image->encode());
+
         $product->purchase_price = MoneyUtil::database($request->purchase_price);
         $product->sale_price = MoneyUtil::database($request->sale_price);
         $product->renewal_price = MoneyUtil::database($request->renewal_price);
@@ -114,7 +125,13 @@ class ProductController extends Controller
         $product->title = $request->title;
         if ($request->image) {
             Storage::delete($product->image);
-            $product->image = $request->file('image')->store('public');
+            $file = $request->file('image');
+            $product->image = $file->hashName('public');
+            $image = Image::make($file);
+            $image->fit(300, 300, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            Storage::put($product->image, (string) $image->encode());
         }
         $product->sale_price = MoneyUtil::database($request->sale_price);
         $product->purchase_price = MoneyUtil::database($request->purchase_price);

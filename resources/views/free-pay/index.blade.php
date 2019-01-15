@@ -21,7 +21,7 @@
                     اطلاعات پرداخت
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('free-pay.start') }}" onsubmit="$('#amount').unmask();">
+                    <form method="POST" action="{{ route('free-pay.start') }}" onsubmit="$('.price').unmask();">
                         @csrf
                         @method('post')
                         @guest

@@ -24,7 +24,7 @@
                         @csrf
                         @method('post')
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="image">تصویر</label>
                                     <div class="input-group mb-3">
@@ -46,7 +46,7 @@
                                          alt="تصویر شما"/>
                                 </div>
                             </div>
-                            <div class="col-md-9">
+                            <div class="col-md-8">
                                 <div class="form-group">
                                     <label for="title">عنوان</label>
                                     <input id="title" type="text"
@@ -558,8 +558,18 @@
 
 @section('js')
     <script>
-        $(function () {
-            $('.price').mask('#,##0', {reverse: true});
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#previewSource').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#image").change(function () {
+            readURL(this);
         });
     </script>
 @endsection
