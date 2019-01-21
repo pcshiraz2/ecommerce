@@ -567,7 +567,6 @@
                 reader.readAsDataURL(input.files[0]);
             }
         }
-
         $("#image").change(function () {
             readURL(this);
         });
