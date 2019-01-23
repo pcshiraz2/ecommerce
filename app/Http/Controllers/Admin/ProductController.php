@@ -67,7 +67,7 @@ class ProductController extends Controller
         $file = $request->file('image');
         $product->image = $file->hashName('public');
         $image = Image::make($file);
-        $image->fit(300, 300, function ($constraint) {
+        $image->fit(config('platform.card-image-width'), config('platform.card-image-height'), function ($constraint) {
             $constraint->aspectRatio();
         });
         Storage::put($product->image, (string) $image->encode());
@@ -128,7 +128,7 @@ class ProductController extends Controller
             $file = $request->file('image');
             $product->image = $file->hashName('public');
             $image = Image::make($file);
-            $image->fit(300, 300, function ($constraint) {
+            $image->fit(config('platform.card-image-width'), config('platform.card-image-height'), function ($constraint) {
                 $constraint->aspectRatio();
             });
             Storage::put($product->image, (string) $image->encode());

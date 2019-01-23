@@ -54,5 +54,11 @@ return [
     'due-days' => '5',
     'captcha-enabled' => true,
     'currency' => 'IRR',
-    'index-page-content-enabled' => false
+    'index-page-content-enabled' => false,
+
+    'card-image-height' => 300,
+    'card-image-width' => 300,
+
+    'slide-image-height' => 500,
+    'slide-image-width' => 1100,
 ];
