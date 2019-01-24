@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use App\Models\Slide;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class SlideController extends Controller
 {
@@ -44,6 +46,7 @@ class SlideController extends Controller
         $slide->title = $request->title;
         $slide->enabled = $request->enabled;
         $slide->order = $request->order;
+        $slide->link = $request->link;
         $slide->description = $request->description;
 
         $file = $request->file('image');
@@ -73,6 +76,7 @@ class SlideController extends Controller
         $slide->title = $request->title;
         $slide->enabled = $request->enabled;
         $slide->order = $request->order;
+        $slide->link = $request->link;
         $slide->description = $request->description;
         if ($request->image) {
             Storage::delete($slide->image);

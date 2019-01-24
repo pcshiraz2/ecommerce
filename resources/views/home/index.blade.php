@@ -16,33 +16,41 @@
     </div>
     <div class="row justify-content-center mb-2">
         <div class="col-md-12">
-            <div id="demo" class="carousel slide" data-ride="carousel">
+            <div id="slides" class="carousel slide" data-ride="carousel">
 
                 <!-- Indicators -->
                 <ul class="carousel-indicators">
-                    <li data-target="#demo" data-slide-to="0" class="active"></li>
-                    <li data-target="#demo" data-slide-to="1"></li>
-                    <li data-target="#demo" data-slide-to="2"></li>
+                    @foreach($slides as $slide)
+                        @if ($loop->first)
+                            <li data-target="#slide_{{$loop->index}}" data-slide-to="{{$loop->index}}" class="active"></li>
+                        @else
+                            <li data-target="#slide_{{$loop->index}}" data-slide-to="{{$loop->index}}"></li>
+                        @endif
+
+                    @endforeach
                 </ul>
 
                 <!-- The slideshow -->
                 <div class="carousel-inner">
-                    <div class="carousel-item active rounded-2">
-                        <img src="https://www.w3schools.com/bootstrap4/ny.jpg" alt="Los Angeles">
-                    </div>
-                    <div class="carousel-item  rounded-2">
-                        <img src="https://www.w3schools.com/bootstrap4/chicago.jpg" alt="Chicago">
-                    </div>
-                    <div class="carousel-item  rounded-2">
-                        <img src="https://www.w3schools.com/bootstrap4/ny.jpg" alt="New York">
-                    </div>
+                    @foreach($slides as $slide)
+                        @if ($loop->first)
+                            <a href="{{$slide->link}}" class="carousel-item active rounded-2">
+                                <img src="{{ Storage::url($slide->image) }}" alt="{{$slide->title}}">
+                            </a>
+                        @else
+                            <a href="{{$slide->link}}" class="carousel-item rounded-2">
+                                <img src="{{ Storage::url($slide->image) }}" alt="{{$slide->title}}">
+                            </a>
+                        @endif
+
+                    @endforeach
                 </div>
 
                 <!-- Left and right controls -->
-                <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                <a class="carousel-control-prev" href="#slides" data-slide="prev">
                     <span class="carousel-control-prev-icon"></span>
                 </a>
-                <a class="carousel-control-next" href="#demo" data-slide="next">
+                <a class="carousel-control-next" href="#slides" data-slide="next">
                     <span class="carousel-control-next-icon"></span>
                 </a>
 

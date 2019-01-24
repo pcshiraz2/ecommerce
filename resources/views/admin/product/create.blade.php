@@ -430,7 +430,7 @@
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="offRadioYes" name="off"
                                            value="1"
-                                           class="custom-control-input"{{ old('marketing',false) == true  ? ' checked' : '' }}>
+                                           class="custom-control-input"{{ old('off',false) == true  ? ' checked' : '' }}>
                                     <label class="custom-control-label" for="offRadioYes">دارد</label>
                                 </div>
                                 <div class="custom-control custom-radio">
