@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Model;
-
 class Ticket extends Model
 {
     public function category()

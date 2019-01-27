@@ -93,6 +93,17 @@ class CreateProductsTable extends Migration
             $table->softDeletes();
         });
 
+        Schema::create('product_attributes', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('product_id');
+            $table->integer('attribute_id');
+            $table->text('value')->nullable();
+            $table->longText('options')->nullable();
+            $table->boolean('enabled');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
     }
 
     /**
@@ -106,5 +117,6 @@ class CreateProductsTable extends Migration
         Schema::dropIfExists('product_files');
         Schema::dropIfExists('product_images');
         Schema::dropIfExists('product_comments');
+        Schema::dropIfExists('product_attributes');
     }
 }

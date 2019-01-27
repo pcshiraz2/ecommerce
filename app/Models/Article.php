@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Model;
 use Illuminate\Support\Facades\Cache;
 
 class Article extends Model

@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Model;
-
 class Transaction extends Model
 {
     public function category()

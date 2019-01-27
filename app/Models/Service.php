@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Model;
-
 class Service extends Model
 {
     public function category()

@@ -82,23 +82,33 @@
                     <div class="card card-default">
                         <div class="card-header">
                             <ul class="nav nav-tabs card-header-tabs" id="file-tabs" role="tablist">
+
                                 <li class="nav-item"><a class="nav-link active" id="text" data-toggle="tab"
-                                                        href="#file-text" role="tab" aria-controls="text"
-                                                        aria-selected="true">توضیحات</a></li>
-                                <li class="nav-item"><a class="nav-link" id="versions" data-toggle="tab"
-                                                        href="#file-versions" role="tab" aria-controls="versions"
-                                                        aria-selected="false">فایل ها</a></li>
+                                                        href="#product-text" role="tab" aria-controls="text"
+                                                        aria-selected="true"><i class="fa fa-file-text"></i> توضیحات</a></li>
+
+                                <li class="nav-item"><a class="nav-link" id="spec" data-toggle="tab"
+                                                        href="#product-spec" role="tab" aria-controls="text"
+                                                        aria-selected="true"><i class="fa fa-cogs"></i> مشخصات</a></li>
+
+                                <li class="nav-item"><a class="nav-link" id="files" data-toggle="tab"
+                                                        href="#product-files" role="tab" aria-controls="files"
+                                                        aria-selected="false"><i class="fa fa-files-o"></i> فایل ها</a></li>
                             </ul>
                         </div>
                         <div class="card-body">
                             <div class="tab-content" id="file-tabsContent">
-                                <div class="tab-pane fade show active" id="file-text" role="tabpanel"
-                                     aria-labelledby="file-tab">{!! $product->text  !!}</div>
-                                <div class="tab-pane fade" id="file-versions" role="tabpanel"
-                                     aria-labelledby="versions-tab">
-
-                                    </ul>
+                                <div class="tab-pane fade show active" id="product-text" role="tabpanel"
+                                     aria-labelledby="text-tab">{!! $product->text  !!}</div>
+                                <div class="tab-pane fade" id="product-spec" role="tabpanel"
+                                     aria-labelledby="spec-tab">
+                                    <i class="fa fa-cogs"></i> مشخصات
                                 </div>
+                                <div class="tab-pane fade" id="product-files" role="tabpanel"
+                                     aria-labelledby="files-tab">
+                                    فایل ها
+                                </div>
+
                             </div>
                         </div>
                     </div>

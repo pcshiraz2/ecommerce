@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class Province extends Model
+class ProductAttribute extends Model
 {
     //
 }
