@@ -19,7 +19,7 @@
                         <small class="text-muted">{{ $product->description }}</small>
                         @if(Auth::check())
                             @can('products')
-                                <div class="btn-group pull-left" role="group" aria-label="Basic example">
+                                <div class="btn-group pull-left mb-1" role="group" aria-label="Basic example">
                                     <a href="{{ route('admin.product.edit',['id' => $product->id])  }}"
                                        class="btn btn-mobile btn-primary btn-sm"><i class="fa fa-edit"></i> ویرایش کالا</a>
                                     <button type="button" onclick="$('#deleteProduct').toggle();"
@@ -28,8 +28,12 @@
                                     </button>
                                     <a type="button"
                                        href="{{ route('admin.product.image.create',['id' => $product->id]) }}"
-                                       class="btn btn-mobile btn-dark btn-sm"><i class="fa fa-plus"></i> افزودن
+                                       class="btn btn-mobile btn-dark btn-sm"><i class="fa fa-file-image-o"></i> افزودن
                                         تصویر</a>
+                                    <a type="button"
+                                       href="{{ route('admin.product.file.create',['id' => $product->id]) }}"
+                                       class="btn btn-mobile btn-info btn-sm"><i class="fa fa-files-o"></i> افزودن
+                                        فایل</a>
                                 </div>
                             @endcan
                         @endif

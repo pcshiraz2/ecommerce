@@ -128,6 +128,9 @@ Route::post('/cart/store/factory', 'CartController@storeFactory')->name('cart.st
 
 
 Route::prefix(Config('platform.admin-route'))->name('admin.')->group(function () {
+
+    Route::get('/ajax/users', 'Admin\AjaxController@users')->name('ajax.users');
+
     Route::get('/dashboard', 'Admin\DashboardController@index')->name('dashboard');
     Route::get('/dashboard/tiles', 'Admin\DashboardController@tiles')->name('dashboard.tiles');
     Route::get('/dashboard/incomes', 'Admin\DashboardController@incomes')->name('dashboard.incomes');

@@ -68,6 +68,14 @@
                                 </td>
 
                                 <td scope="row" class="text-center align-middle">
+                                    <a href="{{ route('admin.product.file', ['id' => $product->id]) }}"
+                                       class="btn btn-sm btn-warning"
+                                       data-toggle="tooltip" data-placement="top" title="فایل های محصول"><i
+                                                class="fa fa-files-o"></i></a>
+                                    <a href="{{ route('admin.product.image', ['id' => $product->id]) }}"
+                                       class="btn btn-sm btn-info"
+                                       data-toggle="tooltip" data-placement="top" title="تصاویر محصول"><i
+                                                class="fa fa-file-image-o"></i></a>
                                     <a href="{{ route('admin.product.edit', ['id' => $product->id]) }}"
                                        class="btn btn-sm btn-dark"
                                        data-toggle="tooltip" data-placement="top" title="ویرایش کالا"><i

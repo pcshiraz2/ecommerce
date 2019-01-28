@@ -17,6 +17,7 @@ class CreateAttributesTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->integer('category_id');
+            $table->integer('icon')->nullable();
             $table->longText('description')->nullable();
             $table->longText('options')->nullable();
             $table->integer('order')->nullable();

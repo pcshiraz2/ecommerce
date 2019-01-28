@@ -5,9 +5,9 @@
     @section('title', 'ثبت هزینه - ')
 @endif
 @section('css')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"/>
-    <link rel="stylesheet" href="https://unpkg.com/persian-datepicker@latest/dist/css/persian-datepicker.min.css"/>
+
 @endsection
+
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-{{ config('platform.sidebar-size') }}">
@@ -121,10 +121,6 @@
                             <label for="user_id">شخص</label>
 
                             <select name="user_id" id="user_id" class="form-control">
-                                <option value="">بدون شخص</option>
-                                @foreach($users as $user)
-                                    <option value="{{ $user->id }}"{{ old('user_id') == $user->id  ? ' selected' : '' }}>{{$user->name}}</option>
-                                @endforeach
                             </select>
                             @if ($errors->has('user_id'))
                                 <span class="invalid-feedback">
@@ -144,19 +140,44 @@
 @endsection
 
 @section('js')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script src="https://unpkg.com/persian-date@latest/dist/persian-date.min.js"></script>
-    <script src="https://unpkg.com/persian-datepicker@latest/dist/js/persian-datepicker.min.js"></script>
-    <script>
-        $(function () {
-            $('#amount').mask('#,##0', {reverse: true});
-            $('#transaction_at').mask('0000/00/00');
-            $("#transaction_at").persianDatepicker({
-                format: 'YYYY/MM/DD',
-                initialValue: false,
-                autoClose: true,
-                persianDigit: false
-            });
-        });
-    </script>
+<script>
+    $('#user_id').select2({
+        ajax: {
+            url: '{{ route('admin.ajax.users') }}',
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                var query = {
+                    search: params.term,
+                    page: params.page
+                }
+                return query;
+            },
+            processResults: function (data) {
+                var data = $.map(data, function (obj) {
+                    obj.id = obj.id;
+                    obj.text = obj.first_name + " " + obj.last_name;
+                    return obj;
+                });
+                return {
+                    results: data,
+                };
+            },
+            cache: true
+        },
+        placeholder: 'Search for a repository',
+        escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+        minimumInputLength: 1,
+        templateResult: formatRepo,
+        templateSelection: formatRepoSelection
+    });
+    function formatRepo (repo) {
+        return repo.name;
+    }
+    function formatRepoSelection (repo) {
+        return repo.name;
+    }
+</script>
+
+
 @endsection
