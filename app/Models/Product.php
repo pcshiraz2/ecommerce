@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-
 class Product extends Model
 {
     public function category()

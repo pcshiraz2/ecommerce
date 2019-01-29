@@ -47,8 +47,8 @@ class CreateTicketsTable extends Migration
         Schema::create('ticket_attachments', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('ticket_id');
-            $table->integer('replay_id');
-            $table->string('title');
+            $table->integer('replay_id')->nullable();
+            $table->string('title')->nullable();
             $table->string('attachment');
             $table->timestamps();
             $table->softDeletes();

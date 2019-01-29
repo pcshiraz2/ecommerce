@@ -19,9 +19,7 @@ class Model extends Eloquent
     use SoftDeletes, Sortable, Filterable, Taggable;
 
     protected $dates = ['deleted_at'];
-    protected $casts = [
-        'options' => 'array',
-    ];
+    protected $casts = ['options' => 'array'];
 
     public function scopeCollect($query, $sort = 'name')
     {

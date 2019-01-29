@@ -21,6 +21,7 @@ class CreateAttributesTable extends Migration
             $table->longText('description')->nullable();
             $table->longText('options')->nullable();
             $table->integer('order')->nullable();
+            $table->boolean('enabled');
             $table->timestamps();
             $table->softDeletes();
         });

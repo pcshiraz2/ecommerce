@@ -34,6 +34,7 @@ class CreateProductsTable extends Migration
             $table->string('slug')->nullable();
             $table->text('description')->nullable();
             $table->longText('text')->nullable();
+
             $table->boolean('enabled');
             $table->boolean('shop');
             $table->boolean('asset');

@@ -34,4 +34,10 @@ class ProductController extends Controller
         $products = $products = Product::where('category_id', $id)->orderBy('updated_at', 'desc')->paginate(config('platform.product-per-page'));
         return view('product.category', ['products' => $products, 'categories' => $categories, 'category' => $category]);
     }
+
+    public function find()
+    {
+        $products = Product::enabled()->collect();
+        return view('product.find', ['products' => $products]);
+    }
 }

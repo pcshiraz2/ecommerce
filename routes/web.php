@@ -71,6 +71,7 @@ Route::any('/invoice/callback/{id}/{password}', 'InvoiceController@callbackPassw
 
 Route::get('/shop', 'ProductController@index')->name('shop');
 Route::get('/product', 'ProductController@index')->name('product');
+Route::get('/product/find', 'ProductController@find')->name('product.find');
 Route::get('/product/category/{id}', 'ProductController@category')->name('product.category');
 Route::get('/product/view/{id}', 'ProductController@view')->name('product.view');
 Route::get('/product/create', 'ProductController@create')->name('product.create')->middleware('auth');
