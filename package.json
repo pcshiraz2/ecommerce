@@ -16,7 +16,7 @@
     "jquery": "^3.3.1",
     "laravel-mix": "^4.0.14",
     "lodash": "^4.17.11",
-    "popper.js": "^1.14.6",
+    "popper.js": "^1.14.7",
     "resolve-url-loader": "^2.3",
     "sass": "^1.16.0",
     "sass-loader": "^7.1.0",
@@ -32,7 +32,7 @@
     "izitoast": "^1.4.0",
     "jquery-mask-plugin": "^1.14.15",
     "select2": "^4.0.6-rc.1",
-    "trumbowyg": "^2.13.0",
+    "trumbowyg": "^2.14.0",
     "vazir-font": "^19.1.0",
     "vue-persian-datetime-picker": "^1.1.7"
   }

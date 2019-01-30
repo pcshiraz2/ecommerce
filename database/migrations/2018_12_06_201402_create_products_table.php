@@ -28,7 +28,7 @@ class CreateProductsTable extends Migration
             $table->integer('user_id')->nullable();
 
             $table->double('initial_balance')->nullable();
-            $table->double('asset_balance')->nullable();
+            $table->double('asset_balance')->default(0)->nullable();
             $table->double('period')->nullable();
             $table->string('factory')->nullable();
             $table->string('slug')->nullable();

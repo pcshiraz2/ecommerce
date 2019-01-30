@@ -26,7 +26,6 @@
                         @else
                             <li data-target="#slide_{{$loop->index}}" data-slide-to="{{$loop->index}}"></li>
                         @endif
-
                     @endforeach
                 </ul>
 
@@ -35,11 +34,11 @@
                     @foreach($slides as $slide)
                         @if ($loop->first)
                             <a href="{{$slide->link}}" class="carousel-item active rounded-2">
-                                <img src="{{ Storage::url($slide->image) }}" alt="{{$slide->title}}">
+                                <img src="{{ Storage::url($slide->image) }}" alt="{{$slide->title}}" class="rounded">
                             </a>
                         @else
                             <a href="{{$slide->link}}" class="carousel-item rounded-2">
-                                <img src="{{ Storage::url($slide->image) }}" alt="{{$slide->title}}">
+                                <img src="{{ Storage::url($slide->image) }}" alt="{{$slide->title}}" class="rounded">
                             </a>
                         @endif
 
@@ -70,7 +69,7 @@
         </div>
     </div>
     @endif
-    <h2>فروش ویژه</h2>
+    <h2>کالاهای اصلی</h2>
     <div class="row justify-content-center mb-2">
         <div class="col-md-12">
             <div class="row">

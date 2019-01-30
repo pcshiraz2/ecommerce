@@ -80,6 +80,16 @@ $(document).ready(function () {
         language: "fa"
     });
 
+
+    //shadow product card
+    $(".card-product").hover(
+        function() {
+            $(this).addClass('shadow-lg').css('cursor', 'pointer');
+        }, function() {
+            $(this).removeClass('shadow-lg');
+        }
+    );
+
     //tags
     $(".tags").select2({
         dir: "rtl",
