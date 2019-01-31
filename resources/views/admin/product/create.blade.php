@@ -98,7 +98,7 @@
                                 <div class="form-group">
                                     <label for="category_id">دسته</label>
 
-                                    <select name="category_id" id="category_id" class="form-control select2">
+                                    <select name="category_id" id="category_id" class="form-control selector">
                                         @foreach($categories as $category)
                                             <option value="{{ $category->id }}"{{ old('category_id') == $category->id  ? ' selected' : '' }}>{{$category->title}}</option>
                                         @endforeach
@@ -162,7 +162,7 @@
                         <div class="form-group">
                             <label for="factory">سازنده<span
                                         class="font-weight-light font-italic"> - اختیاری</span></label>
-                            <select name="factory" id="factory" class="form-control select2">
+                            <select name="factory" id="factory" class="form-control selector">
                                 <option value="">بدون سازنده</option>
                                 @foreach(array_diff(scandir(app_path('Factory')), array('..', '.')) as $factory)
                                     @php

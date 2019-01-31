@@ -19,6 +19,7 @@ class CreateProductsTable extends Migration
             $table->string('image');
             $table->string('code')->nullable();
             $table->string('brand')->nullable();
+            $table->string('model')->nullable();
 
             $table->decimal('sale_price', 15, 4);
             $table->decimal('purchase_price', 15, 4)->nullable();

@@ -34,6 +34,7 @@ class CreateTransactionsTable extends Migration
 
             $table->timestamp('due_at')->nullable();
             $table->timestamp('paid_at')->nullable();
+            $table->text('options')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

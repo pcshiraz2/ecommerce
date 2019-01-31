@@ -65,14 +65,14 @@
                                                   name="setting_{{$setting->id}}">{{ old('setting_'.$setting->id,config($setting->key)) }}</textarea>
                                     @endif
                                     @if($setting->type == 'select')
-                                        <select id="setting_{{$setting->id}}" class="form-control select2" name="setting_{{$setting->id}}">
+                                        <select id="setting_{{$setting->id}}" class="form-control selector" name="setting_{{$setting->id}}">
                                             @foreach($setting->options as $key => $value)
                                                 <option value="{{$key}}"{{ $key == old('setting_'.$setting->id,config($setting->key))  ? ' selected' : '' }}>{{$value}}</option>
                                             @endforeach
                                         </select>
                                     @endif
                                     @if($setting->type == 'select-table')
-                                        <select id="setting_{{$setting->id}}" class="form-control select2"
+                                        <select id="setting_{{$setting->id}}" class="form-control selector"
                                                 name="setting_{{$setting->id}}">
                                             @php
                                                 $table = $setting->options['table'];
@@ -85,7 +85,7 @@
                                         </select>
                                     @endif
                                         @if($setting->type == 'select-model')
-                                            <select id="setting_{{$setting->id}}" class="form-control select2"
+                                            <select id="setting_{{$setting->id}}" class="form-control selector"
                                                     name="setting_{{$setting->id}}">
                                                 @php
                                                     $modelClass = $setting->options['model'];

@@ -92,7 +92,7 @@
                                     @endcan
                                     <a class="dropdown-item{{ Request::segment(1) == 'notification' ? ' active' : '' }}"
                                            href="{{ route('notification') }}"><i class="fa fa-bullhorn"></i> اطلاعیه ها
-                                            <notification-navbar-component></notification-navbar-component>
+
                                         </a>
                                     <a class="dropdown-item{{ Request::segment(1) == 'profile' ? ' active' : '' }}"
                                        href="{{ route('profile') }}">

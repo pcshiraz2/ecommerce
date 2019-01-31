@@ -75,11 +75,10 @@ window.showPassword = function (selector) {
 
 $(document).ready(function () {
     //select
-    $('.select2').select2({
+    $('.selector').select2({
         dir: "rtl",
         language: "fa"
     });
-
 
     //shadow product card
     $(".card-product").hover(

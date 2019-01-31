@@ -49,6 +49,23 @@
                             <input type="hidden" name="type" value="expense"/>
                         @endif
                         <div class="form-group">
+                            <label for="type">نوع هزینه</label>
+                            <div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
+                                <label class="btn btn-outline-primary active">
+                                    <input type="radio" name="status" id="paid" value="paid" autocomplete="off" checked>
+                                   عادی
+                                </label>
+                                <label class="btn btn-outline-primary">
+                                    <input type="radio" name="status" id="payment" value="payment" autocomplete="off">
+                                    آتی
+                                </label>
+                                <label class="btn btn-outline-primary">
+                                    <input type="radio" name="status" id="transfer" value="transfer" autocomplete="off">
+                                    انتقال
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label for="amount">مبلغ</label>
                             <div class="input-group mb-2 ml-sm-2">
                                 <input id="amount" type="text" dir="ltr"
@@ -66,10 +83,18 @@
                         </div>
                         <div class="form-group">
                             <label for="transaction_at">تاریخ</label>
-                            <input id="transaction_at" placeholder="____/__/__" dir="ltr" type="text"
-                                   class="form-control{{ $errors->has('transaction_at') ? ' is-invalid' : '' }}"
-                                   name="transaction_at" value="{{ old('transaction_at') }}" required>
-
+                            <div dir="ltr">
+                                <date-picker
+                                        id="transaction_at"
+                                        name="transaction_at"
+                                        format="jYYYY/jMM/jDD"
+                                        display-format="jYYYY/jMM/jDD"
+                                        color="#6838b8"
+                                        type="date"
+                                        value="{{ old('transaction_at') }}"
+                                        placeholder="____/__/__ __:__">
+                                </date-picker>
+                            </div>
                             @if ($errors->has('transaction_at'))
                                 <span class="invalid-feedback">
                                         <strong>{{ $errors->first('transaction_at') }}</strong>
@@ -120,8 +145,7 @@
                         <div class="form-group">
                             <label for="user_id">شخص</label>
 
-                            <select name="user_id" id="user_id" class="form-control">
-                            </select>
+                            <select name="user_id" id="user_id" class="form-control"></select>
                             @if ($errors->has('user_id'))
                                 <span class="invalid-feedback">
                                         <strong>{{ $errors->first('user_id') }}</strong>
@@ -140,44 +164,35 @@
 @endsection
 
 @section('js')
-<script>
-    $('#user_id').select2({
-        ajax: {
-            url: '{{ route('admin.ajax.users') }}',
-            dataType: 'json',
-            delay: 250,
-            data: function (params) {
-                var query = {
-                    search: params.term,
-                    page: params.page
-                }
-                return query;
-            },
-            processResults: function (data) {
-                var data = $.map(data, function (obj) {
-                    obj.id = obj.id;
-                    obj.text = obj.first_name + " " + obj.last_name;
-                    return obj;
-                });
-                return {
-                    results: data,
-                };
-            },
-            cache: true
-        },
-        placeholder: 'Search for a repository',
-        escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
-        minimumInputLength: 1,
-        templateResult: formatRepo,
-        templateSelection: formatRepoSelection
-    });
-    function formatRepo (repo) {
-        return repo.name;
-    }
-    function formatRepoSelection (repo) {
-        return repo.name;
-    }
-</script>
+    <script>
+        $("#user_id").select2({
+            dir: "rtl",
+            language: "fa",
+            ajax: {
+                url: "{{ route('admin.ajax.users') }}",
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        search: params.term, // search term
+                    };
+                },
+                processResults: function (data, params) {
+                    return {
+                        results: $.map(data.data, function(item) {
+                            if(item.title) {
+                                return { id: item.id, text: item.first_name + ' ' + item.last_name + '(' + item.title + ')' };
+                            } else {
+                                return { id: item.id, text: item.first_name + ' ' + item.last_name };
+                            }
 
-
+                        })
+                    };
+                },
+                cache: true
+            },
+            placeholder: 'جستجوی شخص',
+            minimumInputLength: 3,
+        });
+    </script>
 @endsection

@@ -16,9 +16,13 @@
             </nav>
             <div class="card card-default">
                 <div class="card-header">تراکنش ها
-                    <div class="btn-group pull-left" role="group" aria-label="Basic example">
+                    <div class="btn-group pull-left" role="group" aria-label="transaction type">
                         <a href="{{route('admin.transaction.create.expense')}}" class="btn btn-danger btn-sm"><i
                                     class="fa fa-minus-circle"></i> ثبت هزینه</a>
+
+                        <a href="{{route('admin.transaction.create.transfer')}}" class="btn btn-warning btn-sm"><i
+                                    class="fa fa-exchange"></i> انتقال وجه</a>
+
                         <a href="{{route('admin.transaction.create.income')}}" class="btn btn-success btn-sm"><i
                                     class="fa fa-plus-circle"></i> ثبت درآمد</a>
                     </div>

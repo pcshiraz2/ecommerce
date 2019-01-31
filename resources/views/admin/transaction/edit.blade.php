@@ -46,12 +46,18 @@
                         </div>
                         <div class="form-group">
                             <label for="transaction_at">تاریخ</label>
-                            <input id="transaction_at" autocomplete="off"
-                                   value="{{ old('transaction_at', jdate($transaction->transaction_at)->format('Y/m/d')) }}"
-                                   data-date="{{ old('transaction_at', jdate($transaction->transaction_at)->format('Y/m/d')) }}"
-                                   placeholder="____/__/__" dir="ltr" type="text"
-                                   class="form-control{{ $errors->has('transaction_at') ? ' is-invalid' : '' }}"
-                                   name="transaction_at" required>
+                            <div dir="ltr">
+                                <date-picker
+                                        id="transaction_at"
+                                        name="transaction_at"
+                                        format="jYYYY/jMM/jDD"
+                                        display-format="jYYYY/jMM/jDD"
+                                        color="#6838b8"
+                                        type="date"
+                                        value="{{ old('transaction_at', jdate($transaction->transaction_at)->format("Y/m/d")) }}"
+                                        placeholder="____/__/__ __:__">
+                                </date-picker>
+                            </div>
 
                             @if ($errors->has('transaction_at'))
                                 <span class="invalid-feedback">
@@ -106,9 +112,7 @@
 
                             <select name="user_id" id="user_id" class="form-control">
                                 <option value="">بدون شخص</option>
-                                @foreach($users as $user)
-                                    <option value="{{ $user->id }}"{{ old('user_id',$transaction->user_id) == $user->id  ? ' selected' : '' }}>{{$user->name}}</option>
-                                @endforeach
+                                <option value="{{ $transaction->user->id }}" selected>{{ $transaction->user->name }}</option>
                             </select>
                             @if ($errors->has('user_id'))
                                 <span class="invalid-feedback">
@@ -128,19 +132,35 @@
 @endsection
 
 @section('js')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script src="https://unpkg.com/persian-date@latest/dist/persian-date.min.js"></script>
-    <script src="https://unpkg.com/persian-datepicker@latest/dist/js/persian-datepicker.min.js"></script>
     <script>
-        $(function () {
-            $('#amount').mask('#,##0', {reverse: true});
-            $('#transaction_at').mask('0000/00/00');
-            $("#transaction_at").persianDatepicker({
-                format: 'YYYY/MM/DD',
-                initialValue: false,
-                autoClose: true,
-                persianDigit: false
-            });
+        $("#user_id").select2({
+            dir: "rtl",
+            language: "fa",
+            ajax: {
+                url: "{{ route('admin.ajax.users') }}",
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        search: params.term, // search term
+                    };
+                },
+                processResults: function (data, params) {
+                    return {
+                        results: $.map(data.data, function(item) {
+                            if(item.title) {
+                                return { id: item.id, text: item.first_name + ' ' + item.last_name + '(' + item.title + ')' };
+                            } else {
+                                return { id: item.id, text: item.first_name + ' ' + item.last_name };
+                            }
+
+                        })
+                    };
+                },
+                cache: true
+            },
+            placeholder: 'جستجوی شخص',
+            minimumInputLength: 3,
         });
     </script>
 @endsection
