@@ -37,10 +37,10 @@
                             <div class="input-group mb-2 ml-sm-2">
                                 <input id="amount" type="text" dir="ltr"
                                        class="form-control{{ $errors->has('amount',$transaction->amount) ? ' is-invalid' : '' }}"
-                                       name="amount" value="{{ old('amount',$transaction->amount) }}" required
+                                       name="amount" value="{{ old('amount',\App\Utils\MoneyUtil::display($transaction->amount)) }}" required
                                        autofocus>
                                 <div class="input-group-prepend">
-                                    <div class="input-group-text">تومان</div>
+                                    <div class="input-group-text">{{ trans('currency.'.config('platform.currency')) }}</div>
                                 </div>
                             </div>
                         </div>
@@ -55,7 +55,7 @@
                                         color="#6838b8"
                                         type="date"
                                         value="{{ old('transaction_at', jdate($transaction->transaction_at)->format("Y/m/d")) }}"
-                                        placeholder="____/__/__ __:__">
+                                        placeholder="____/__/__">
                                 </date-picker>
                             </div>
 

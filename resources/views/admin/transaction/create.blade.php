@@ -40,7 +40,7 @@
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('admin.transaction.insert') }}"
-                          onsubmit="$('#amount').unmask();">
+                          onsubmit="$('.price').unmask();">
                         @csrf
                         @method('post')
                         @if(Request::segment(4) == 'income')
@@ -69,10 +69,10 @@
                             <label for="amount">مبلغ</label>
                             <div class="input-group mb-2 ml-sm-2">
                                 <input id="amount" type="text" dir="ltr"
-                                       class="form-control{{ $errors->has('amount') ? ' is-invalid' : '' }}"
+                                       class="price form-control{{ $errors->has('amount') ? ' is-invalid' : '' }}"
                                        name="amount" value="{{ old('amount') }}" required autofocus>
                                 <div class="input-group-prepend">
-                                    <div class="input-group-text">تومان</div>
+                                    <div class="input-group-text">{{ trans('currency.'.config('platform.currency')) }}</div>
                                 </div>
                             </div>
                             @if ($errors->has('amount'))
@@ -92,7 +92,7 @@
                                         color="#6838b8"
                                         type="date"
                                         value="{{ old('transaction_at') }}"
-                                        placeholder="____/__/__ __:__">
+                                        placeholder="____/__/__">
                                 </date-picker>
                             </div>
                             @if ($errors->has('transaction_at'))

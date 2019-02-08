@@ -459,7 +459,7 @@
                                         display-format="jYYYY/jMM/jDD HH:mm"
                                         color="#6838b8"
                                         type="datetime"
-                                        value="{{ old('off_expire_at', jdate($product->off_expire_at)->format("Y/m/d H:i")) }}"
+                                        value="{{ old('off_expire_at', jdate($product->off_expire_at)->format("Y/m/d")) }}"
                                         placeholder="____/__/__ __:__">
                                 </date-picker>
                             </div>

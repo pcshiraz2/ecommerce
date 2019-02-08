@@ -29,11 +29,12 @@ class CreateTransactionsTable extends Migration
             $table->string('password')->nullable();
             $table->text('description')->nullable();
 
-            //Status:paid,payment,transfer
-            $table->string('status')->default('paid');
+            //Status:income,expense,transfer
+            $table->string('type');
 
-            $table->timestamp('due_at')->nullable();
+            $table->timestamp('transaction_at')->nullable();
             $table->timestamp('paid_at')->nullable();
+
             $table->text('options')->nullable();
             $table->timestamps();
             $table->softDeletes();

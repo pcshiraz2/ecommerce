@@ -18,10 +18,10 @@
     "lodash": "^4.17.11",
     "popper.js": "^1.14.7",
     "resolve-url-loader": "^2.3",
-    "sass": "^1.16.0",
+    "sass": "^1.17.0",
     "sass-loader": "^7.1.0",
-    "vue": "^2.5.22",
-    "vue-template-compiler": "^2.5.22"
+    "vue": "^2.6.3",
+    "vue-template-compiler": "^2.6.3"
   },
   "dependencies": {
     "basictable": "^1.0.8",
@@ -32,6 +32,7 @@
     "izitoast": "^1.4.0",
     "jquery-mask-plugin": "^1.14.15",
     "select2": "^4.0.6-rc.1",
+    "tinycolorpicker": "^0.9.5",
     "trumbowyg": "^2.14.0",
     "vazir-font": "^19.1.0",
     "vue-persian-datetime-picker": "^1.1.7"

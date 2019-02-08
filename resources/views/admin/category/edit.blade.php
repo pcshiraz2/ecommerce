@@ -107,7 +107,6 @@
 @endsection
 
 @section('js')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinyColorPicker/1.1.1/jqColorPicker.min.js"></script>
     <script type="text/javascript">
         $('.color').colorPicker(); // that's it
     </script>

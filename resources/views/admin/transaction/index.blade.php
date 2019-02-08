@@ -46,11 +46,14 @@
                         @foreach($transactions as $transaction)
                             <tr>
                                 <td scope="row" class="text-center">
-                                    @if($transaction->category['title'])
-                                        {{ $transaction->category['title'] }}
-                                    @else
-                                        فاقد دسته بندی
+                                    @if($transaction->type == 'expense')
+                                        <i class="fa fa-minus-circle"></i>
+                                    @elseif($transaction->type == 'transfer')
+                                        <i class="fa fa-exchange"></i>
+                                    @elseif($transaction->type == 'income')
+                                        <i class="fa fa-plus-circle"></i>
                                     @endif
+                                    {{ $transaction->category['title'] }}
                                 </td>
                                 <td class="text-center">
                                     @if($transaction->account['title'])
@@ -60,11 +63,11 @@
                                     @endif
                                 </td>
                                 @if($transaction->amount < 0)
-                                    <td class="text-center table-danger">{{ number_format($transaction->amount) }}</td>
+                                    <td class="text-center table-danger">{{ \App\Utils\MoneyUtil::format($transaction->amount) }}</td>
                                 @else
-                                    <td class="text-center">{{ number_format($transaction->amount) }}</td>
+                                    <td class="text-center table-success">{{ \App\Utils\MoneyUtil::format($transaction->amount) }}</td>
                                 @endif
-                                <td class="text-center">{{ jdate($transaction->transaction_at)->format('Y/m/d H:i:s') }}</td>
+                                <td class="text-center">{{ jdate($transaction->transaction_at)->format('Y/m/d') }}</td>
                                 <td class="text-center">
                                     @if($transaction->invoice_id)
                                         <a href="{{route('admin.invoice.view',['id'=>$transaction->invoice_id])}}">{{ $transaction->description }}</a>
