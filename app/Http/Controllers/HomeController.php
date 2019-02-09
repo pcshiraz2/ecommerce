@@ -8,6 +8,7 @@ use App\Models\File;
 use App\Models\Discussion;
 use App\Models\Product;
 use App\Models\Slide;
+
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -20,6 +21,7 @@ class HomeController extends Controller
     public function index()
     {
         //TODO: Need Cache system for more speed.
+
         $slides = Slide::enabled()->orderBy('order', 'asc')->get();
         $articles = Article::enabled()->limit(5)->orderBy('created_at', 'desc')->get();
         $products = Product::enabled()->top()->limit(4)->orderBy('updated_at', 'desc')->get();
