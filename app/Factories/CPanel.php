@@ -2,17 +2,19 @@
 /**
  * Created by PhpStorm.
  * User: Ali Ghasemzadeh
- * Date: 1/21/2019
- * Time: 5:58 AM
+ * Date: 5/24/2018
+ * Time: 5:49 PM
  */
 
-namespace App\Factory;
+namespace App\Factories;
 
+use Illuminate\Http\Request;
+use App\Service;
 
-final class BaseFactory
+final class CPanel
 {
-    public $factoryName = '';
-    public $factoryDescription = '';
+    public $factoryName = 'هاست cPanel';
+    public $factoryDescription = 'شما با کمک این سازنده می توانید هاست cPanel ایجاد کنید.';
     public $factoryClass = "CPanel";
     public $factoryCartInformation = true;
 
@@ -49,7 +51,7 @@ final class BaseFactory
 
     public function cartInformation()
     {
-
+        return view('factory.cpanel.cart');
     }
 
     public function cartStoreInformation(Request $request)
@@ -59,6 +61,6 @@ final class BaseFactory
 
     public function getCartAttribs()
     {
-        return [];
+        return ['cpanel_domain'];
     }
 }

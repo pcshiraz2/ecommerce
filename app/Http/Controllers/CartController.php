@@ -66,6 +66,13 @@ class CartController extends Controller
         return redirect()->back();
     }
 
+    public function empty()
+    {
+        Cart::destroy();
+        flash("سبد کالا شما بروز رسانی شد.")->success();
+        return redirect()->back();
+    }
+
     public function information()
     {
         if (Auth::guest()) {
@@ -177,7 +184,7 @@ class CartController extends Controller
             foreach (Cart::content() as $product) {
                 if($product->options->factory) {
                     for($i=0;$i<$product->qty;$i++) {
-                        $className = '\App\Factory\\'.$product->options->factory;
+                        $className = '\App\Factories\\'.$product->options->factory;
                         $factory = new $className;
                         $record = new Record();
                         $record->invoice_id = $invoice->id;

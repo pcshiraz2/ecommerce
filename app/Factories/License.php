@@ -6,7 +6,7 @@
  * Time: 5:49 PM
  */
 
-namespace App\Factory;
+namespace App\Factories;
 
 use Illuminate\Http\Request;
 use App\Service;

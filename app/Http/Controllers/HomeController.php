@@ -8,7 +8,7 @@ use App\Models\File;
 use App\Models\Discussion;
 use App\Models\Product;
 use App\Models\Slide;
-
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller

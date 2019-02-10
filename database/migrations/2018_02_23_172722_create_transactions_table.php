@@ -20,6 +20,8 @@ class CreateTransactionsTable extends Migration
             $table->integer('account_id');
             $table->integer('user_id')->nullable();
             $table->integer('category_id')->nullable();
+            $table->string('currency_code')->default(config('platform.currency'))->nullable();
+            $table->double('currency_rate', 15, 8)->nullable();
             $table->decimal('amount', 15, 4);
 
 
@@ -32,10 +34,13 @@ class CreateTransactionsTable extends Migration
             //Status:income,expense,transfer
             $table->string('type');
 
+
             $table->timestamp('transaction_at')->nullable();
             $table->timestamp('paid_at')->nullable();
 
-            $table->text('options')->nullable();
+            $table->string('attachment')->nullable();
+
+            $table->longText('options')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

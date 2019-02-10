@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Tax;
 use App\Utils\MoneyUtil;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -28,15 +29,17 @@ class ProductController extends Controller
 
     public function create()
     {
+        $taxes = Tax::enabled()->get();
         $categories = Category::findType('Product');
-        return view('admin.product.create', ['categories' => $categories]);
+        return view('admin.product.create', ['categories' => $categories, 'taxes' => $taxes]);
     }
 
     public function edit($id)
     {
+        $taxes = Tax::enabled()->get();
         $product = Product::findOrFail($id);
         $categories = Category::findType('Product');
-        return view('admin.product.edit', ['categories' => $categories, 'product' => $product]);
+        return view('admin.product.edit', ['categories' => $categories, 'product' => $product, 'taxes' => $taxes]);
     }
 
     public function inventory($id)
@@ -73,7 +76,8 @@ class ProductController extends Controller
 
         $product->purchase_price = MoneyUtil::database($request->purchase_price);
         $product->sale_price = MoneyUtil::database($request->sale_price);
-        $product->renewal_price = MoneyUtil::database($request->renewal_price);
+        $product->period_price = MoneyUtil::database($request->period_price);
+        $product->off_price = MoneyUtil::database($request->off_price);
         if($request->off_expire_at) {
             $product->off_expire_at = \Morilog\Jalali\CalendarUtils::createDatetimeFromFormat('Y/m/d H:i', \App\Utils\TextUtil::convertToEnglish($request->off_expire_at));
         }
@@ -82,22 +86,18 @@ class ProductController extends Controller
         $product->initial_balance = $request->initial_balance;
         $product->factory = $request->factory;
         $product->slug = $request->slug;
+        $product->code = $request->code;
         $product->description = $request->description;
         $product->text = $request->text;
         $product->enabled = $request->enabled;
         $product->shop = $request->shop;
         $product->asset = $request->asset;
         $product->post = $request->post;
-        $product->renewal = $request->renewal;
         $product->period = $request->period;
         $product->top = $request->top;
         $product->order = $request->order;
-        $product->tax = $request->tax;
-        $product->marketing = $request->marketing;
+        $product->tax_id = $request->tax_id;
         $product->off = $request->off;
-        $product->tax_percent = $request->tax_percent;
-        $product->marketing_percent = $request->marketing_percent;
-
         $product->save();
 
         if ($request->tags) {
@@ -134,7 +134,7 @@ class ProductController extends Controller
         }
         $product->sale_price = MoneyUtil::database($request->sale_price);
         $product->purchase_price = MoneyUtil::database($request->purchase_price);
-        $product->renewal_price = MoneyUtil::database($request->renewal_price);
+        $product->period_price = MoneyUtil::database($request->period_price);
         $product->off_price = MoneyUtil::database($request->off_price);
         if($request->off_expire_at) {
             $product->off_expire_at = \Morilog\Jalali\CalendarUtils::createDatetimeFromFormat('Y/m/d H:i', \App\Utils\TextUtil::convertToEnglish($request->off_expire_at));
@@ -144,21 +144,18 @@ class ProductController extends Controller
         $product->initial_balance = $request->initial_balance;
         $product->factory = $request->factory;
         $product->slug = $request->slug;
+        $product->code = $request->code;
         $product->description = $request->description;
         $product->text = $request->text;
         $product->enabled = $request->enabled;
         $product->shop = $request->shop;
         $product->asset = $request->asset;
         $product->post = $request->post;
-        $product->renewal = $request->renewal;
         $product->period = $request->period;
-        $product->order = $request->order;
         $product->top = $request->top;
-        $product->tax = $request->tax;
-        $product->marketing = $request->marketing;
+        $product->order = $request->order;
+        $product->tax_id = $request->tax_id;
         $product->off = $request->off;
-        $product->tax_percent = $request->tax_percent;
-        $product->marketing_percent = $request->marketing_percent;
 
         if ($request->tags) {
             $product->retag($request->tags);

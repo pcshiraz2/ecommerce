@@ -19,7 +19,7 @@ class CreateSettingsTable extends Migration
             $table->string('title');
             $table->string('key');
             $table->string('type'); //file,yesno,text,textarea,select,select-table,enabled
-            $table->text('options')->nullable();
+            $table->longText('options')->nullable();
             $table->text('description')->nullable();
             $table->longText('value')->nullable();
             $table->timestamps();

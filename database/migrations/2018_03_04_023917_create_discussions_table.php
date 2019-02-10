@@ -25,6 +25,7 @@ class CreateDiscussionsTable extends Migration
             $table->string('type')->default('normal');
             $table->string('color')->nullable();
             $table->integer('posts')->default(0);
+            $table->longText('options')->nullable();
             $table->boolean('enabled')->default(true);
             $table->softDeletes();
             $table->timestamps();
@@ -35,6 +36,7 @@ class CreateDiscussionsTable extends Migration
             $table->integer('user_id');
             $table->integer('discussion_id');
             $table->longText('text');
+            $table->longText('options')->nullable();
             $table->boolean('enabled')->default(true);
             $table->boolean('best_answer')->default(false);
             $table->timestamps();

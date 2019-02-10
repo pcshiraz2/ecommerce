@@ -3,9 +3,8 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Facades\DB;
 
-class CreateCategoriesTable extends Migration
+class CreateTaxesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,18 +13,10 @@ class CreateCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('taxes', function (Blueprint $table) {
             $table->increments('id');
-
             $table->string('title');
-            $table->string('type');
-            $table->string('color')->nullable();
-            $table->string('image')->nullable();
-            $table->string('icon')->nullable();
-            $table->string('code')->nullable();
-            $table->string('slug')->nullable();
-            $table->string('order')->nullable();
-            $table->integer('category_id')->nullable();
+            $table->decimal('rate', 15, 4);
             $table->boolean('enabled');
             $table->longText('options')->nullable();
             $table->timestamps();
@@ -40,6 +31,6 @@ class CreateCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('taxes');
     }
 }

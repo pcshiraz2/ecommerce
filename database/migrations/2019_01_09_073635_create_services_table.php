@@ -26,6 +26,7 @@ class CreateServicesTable extends Migration
             $table->boolean('enabled');
             $table->timestamp('expire_at')->nullable();
             $table->timestamp('suspend_at')->nullable();
+            $table->timestamp('renew_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

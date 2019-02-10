@@ -171,3 +171,27 @@ table.table-bordered.dataTable td:last-child, table.table-bordered.dataTable th:
   padding-left: 0.5rem!important;
   padding-right: 0.5rem!important;
 }
+
+.rtl .card-title {
+  font-size: 0.8125rem;
+}
+
+.rtl .card-price {
+  color: $primary;
+  font-size: 0.9125rem;
+}
+
+.rtl .card-price-del {
+  color: $danger;
+  font-size: 0.6125rem;
+}
+
+.rtl .card-price-off {
+  color: $success;
+  font-size: 0.9125rem;
+}
+
+.rtl .card-price-free {
+  color: $success;
+  font-size: 0.9125rem;
+}

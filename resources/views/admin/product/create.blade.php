@@ -115,6 +115,21 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="code">
+                                کد یکتا محصول
+                                <span class="font-weight-light font-italic"> - اختیاری</span>
+                            </label>
+                            <input id="code" type="text" dir="ltr"
+                                   class="form-control{{ $errors->has('code') ? ' is-invalid' : '' }}"
+                                   name="code" value="{{ old('code') }}">
+                            @if ($errors->has('code'))
+                                <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('code') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
+
+                        <div class="form-group">
                             <label for="slug">
                                 متن لینک
                                 <span class="font-weight-light font-italic"> - اختیاری</span>
@@ -164,9 +179,9 @@
                                         class="font-weight-light font-italic"> - اختیاری</span></label>
                             <select name="factory" id="factory" class="form-control selector">
                                 <option value="">بدون سازنده</option>
-                                @foreach(array_diff(scandir(app_path('Factory')), array('..', '.')) as $factory)
+                                @foreach(array_diff(scandir(app_path('Factories')), array('..', '.')) as $factory)
                                     @php
-                                        $factoryPath = '\App\Factory'."\\".basename($factory, ".php");
+                                        $factoryPath = '\App\Factories'."\\".basename($factory, ".php");
                                         $factoryClass = new $factoryPath();
                                     @endphp
                                     <option value="{{ $factoryClass->factoryClass }}"{{ (old('factory') == $factoryClass->factoryClass)  ? ' selected' : '' }}>
@@ -227,7 +242,7 @@
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="enableRadioNo" name="enabled"
                                            value="0"
-                                           class="custom-control-input"{{ old('enable',true) == false  ? ' checked' : '' }}>
+                                           class="custom-control-input"{{ old('enabled',true) == false  ? ' checked' : '' }}>
                                     <label class="custom-control-label" for="enableRadioNo">خیر</label>
                                 </div>
                                 @if ($errors->has('enable'))
@@ -258,7 +273,7 @@
                                 @endif
                             </div>
                             <div class="form-group col-md-2">
-                                <label for="shop">فروش آنلاین</label>
+                                <label for="shop">قابلیت فروش</label>
 
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="shopRadioYes" name="shop"
@@ -299,27 +314,7 @@
                                     </span>
                                 @endif
                             </div>
-                            <div class="form-group col-md-2">
-                                <label for="renewal">دوره ای</label>
 
-                                <div class="custom-control custom-radio">
-                                    <input type="radio" id="renewalRadioYes" name="renewal"
-                                           value="1"
-                                           class="custom-control-input"{{ old('renewal',false) == true  ? ' checked' : '' }}>
-                                    <label class="custom-control-label" for="renewalRadioYes">دارد</label>
-                                </div>
-                                <div class="custom-control custom-radio">
-                                    <input type="radio" id="renewalRadioNo" name="renewal"
-                                           value="0"
-                                           class="custom-control-input"{{ old('renewal',false) == false  ? ' checked' : '' }}>
-                                    <label class="custom-control-label" for="renewalRadioNo">ندارد</label>
-                                </div>
-                                @if ($errors->has('renewal'))
-                                    <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('renewal') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
                             <div class="form-group col-md-2">
                                 <label for="top">صفحه اول</label>
 
@@ -341,92 +336,8 @@
                                     </span>
                                 @endif
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="period">دوره تمدید
-                                <span class="font-weight-light font-italic"> - اختیاری</span>
-                            </label>
-                            <div class="input-group mb-2 ml-sm-2">
-                                <input id="period" type="tel" dir="ltr"
-                                       class="form-control{{ $errors->has('period') ? ' is-invalid' : '' }}"
-                                       name="period" value="{{ old('period') }}">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">روز</div>
-                                </div>
-                            </div>
-                            @if ($errors->has('period'))
-                                <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('period') }}</strong>
-                                    </span>
-                            @endif
-                        </div>
-
-                        <div class="form-group">
-                            <label for="renewal_price">قیمت تمدید
-                                <span class="font-weight-light font-italic"> - اختیاری</span>
-                            </label>
-                            <div class="input-group mb-2 ml-sm-2">
-                                <input id="renewal_price" type="tel" dir="ltr"
-                                       class="price form-control{{ $errors->has('renewal_price') ? ' is-invalid' : '' }}"
-                                       name="renewal_price" value="{{ old('renewal_price') }}">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">{{ trans('currency.'.config('platform.currency')) }}</div>
-                                </div>
-                            </div>
-                            @if ($errors->has('renewal_price'))
-                                <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('renewal_price') }}</strong>
-                                    </span>
-                            @endif
-                        </div>
-
-
-                        <div class="row">
-                            <div class="form-group col-md-4">
-                                <label for="tax">مالیات</label>
-
-                                <div class="custom-control custom-radio">
-                                    <input type="radio" id="taxRadioYes" name="tax"
-                                           value="1"
-                                           class="custom-control-input"{{ old('top',false) == true  ? ' checked' : '' }}>
-                                    <label class="custom-control-label" for="taxRadioYes">دارد</label>
-                                </div>
-                                <div class="custom-control custom-radio">
-                                    <input type="radio" id="taxRadioNo" name="tax"
-                                           value="0"
-                                           class="custom-control-input"{{ old('top',false) == false  ? ' checked' : '' }}>
-                                    <label class="custom-control-label" for="taxRadioNo">ندارد</label>
-                                </div>
-                                @if ($errors->has('tax'))
-                                    <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('tax') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="marketing">بازاریابی</label>
-
-                                <div class="custom-control custom-radio">
-                                    <input type="radio" id="marketingRadioYes" name="marketing"
-                                           value="1"
-                                           class="custom-control-input"{{ old('marketing',false) == true  ? ' checked' : '' }}>
-                                    <label class="custom-control-label" for="marketingRadioYes">دارد</label>
-                                </div>
-                                <div class="custom-control custom-radio">
-                                    <input type="radio" id="marketingRadioNo" name="marketing"
-                                           value="0"
-                                           class="custom-control-input"{{ old('marketing',false) == false  ? ' checked' : '' }}>
-                                    <label class="custom-control-label" for="marketingRadioNo">ندارد</label>
-                                </div>
-                                @if ($errors->has('marketing'))
-                                    <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('marketing') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="off">حراج با قیمت تخفیف</label>
-
+                            <div class="form-group col-md-2">
+                                <label for="off">حراج</label>
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="offRadioYes" name="off"
                                            value="1"
@@ -446,84 +357,103 @@
                                 @endif
                             </div>
                         </div>
-
-
                         <div class="form-group">
-                            <label for="off_expire_at">انقضای حراج<span class="font-weight-light font-italic"> - اختیاری</span></label>
-                            <div dir="ltr">
-                                <date-picker
-                                        id="off_expire_at"
-                                        name="off_expire_at"
-                                        format="jYYYY/jMM/jDD HH:mm"
-                                        display-format="jYYYY/jMM/jDD HH:mm"
-                                        color="#6838b8"
-                                        type="datetime"
-                                        value="{{ old('off_expire_at') }}"
-                                        placeholder="____/__/__ __:__">
-                                </date-picker>
-                            </div>
-                            @if ($errors->has('off_expire_at'))
-                                <span class="invalid-feedback">
-                            <strong>{{ $errors->first('off_expire_at') }}</strong>
-                        </span>
-                            @endif
-                        </div>
-
-
-
-                        <div class="form-group">
-                            <label for="off_price">قیمت حراج
+                            <label for="period">دوره تمدید
                                 <span class="font-weight-light font-italic"> - اختیاری</span>
                             </label>
                             <div class="input-group mb-2 ml-sm-2">
-                                <input id="off_price" type="tel" dir="ltr"
-                                       class="price form-control{{ $errors->has('off_price') ? ' is-invalid' : '' }}"
-                                       name="off_price" value="{{ old('off_price') }}">
+                                <input id="period" type="tel" dir="ltr"
+                                       class="form-control{{ $errors->has('period') ? ' is-invalid' : '' }}"
+                                       name="period" value="{{ old('period',0) }}">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">روز</div>
+                                </div>
+                            </div>
+                            @if ($errors->has('period'))
+                                <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('period') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
+
+                        <div class="form-group">
+                            <label for="period_price">قیمت تمدید
+                                <span class="font-weight-light font-italic"> - اختیاری</span>
+                            </label>
+                            <div class="input-group mb-2 ml-sm-2">
+                                <input id="period_price" type="tel" dir="ltr"
+                                       class="price form-control{{ $errors->has('period_price') ? ' is-invalid' : '' }}"
+                                       name="period_price" value="{{ old('period_price') }}">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">{{ trans('currency.'.config('platform.currency')) }}</div>
                                 </div>
                             </div>
-                            @if ($errors->has('off_price'))
+                            @if ($errors->has('period_price'))
                                 <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('period_price') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
+
+
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="off_expire_at">انقضای حراج<span class="font-weight-light font-italic"> - اختیاری</span></label>
+                                <div dir="ltr">
+                                    <date-picker
+                                            id="off_expire_at"
+                                            name="off_expire_at"
+                                            format="jYYYY/jMM/jDD HH:mm"
+                                            display-format="jYYYY/jMM/jDD HH:mm"
+                                            color="#6838b8"
+                                            type="datetime"
+                                            value="{{ old('off_expire_at') }}"
+                                            placeholder="____/__/__ __:__">
+                                    </date-picker>
+                                </div>
+                                @if ($errors->has('off_expire_at'))
+                                    <span class="invalid-feedback">
+                            <strong>{{ $errors->first('off_expire_at') }}</strong>
+                        </span>
+                                @endif
+                            </div>
+
+
+
+                            <div class="form-group col-md-6">
+                                <label for="off_price">قیمت حراج
+                                    <span class="font-weight-light font-italic"> - اختیاری</span>
+                                </label>
+                                <div class="input-group mb-2 ml-sm-2">
+                                    <input id="off_price" type="tel" dir="ltr"
+                                           class="price form-control{{ $errors->has('off_price') ? ' is-invalid' : '' }}"
+                                           name="off_price" value="{{ old('off_price') }}">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">{{ trans('currency.'.config('platform.currency')) }}</div>
+                                    </div>
+                                </div>
+                                @if ($errors->has('off_price'))
+                                    <span class="invalid-feedback">
                                         <strong>{{ $errors->first('off_price') }}</strong>
                                     </span>
-                            @endif
+                                @endif
+                            </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="tax">مالیات
+                            <label for="tax_id">مالیات
                                 <span class="font-weight-light font-italic"> - اختیاری</span>
                             </label>
-                            <div class="input-group mb-2 ml-sm-2">
-                                <input id="tax_percent" type="tel" dir="ltr"
-                                       class="price form-control{{ $errors->has('tax_percent') ? ' is-invalid' : '' }}"
-                                       name="tax_percent" value="{{ old('tax_percent') }}">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">درصد</div>
-                                </div>
-                            </div>
-                            @if ($errors->has('tax_percent'))
-                                <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('tax_percent') }}</strong>
-                                    </span>
-                            @endif
-                        </div>
 
-                        <div class="form-group">
-                            <label for="marketing_percent">سهم بازاریاب
-                                <span class="font-weight-light font-italic"> - اختیاری</span>
-                            </label>
-                            <div class="input-group mb-2 ml-sm-2">
-                                <input id="marketing_percent" type="tel" dir="ltr"
-                                       class="price form-control{{ $errors->has('marketing_percent') ? ' is-invalid' : '' }}"
-                                       name="marketing_percent" value="{{ old('marketing_percent') }}">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">درصد</div>
-                                </div>
-                            </div>
-                            @if ($errors->has('marketing_percent'))
+                            <select name="tax_id" id="tax_id" class="form-control selector">
+                                <option value="0"{{ old('tax_id') == 0 ? ' selected' : '' }}>-- مالیات --</option>
+                                @foreach($taxes as $tax)
+                                    <option value="{{ $tax->id }}"{{ old('tax_id') == $tax->id  ? ' selected' : '' }}>{{$tax->name}}</option>
+                                @endforeach
+                            </select>
+                            @if ($errors->has('tax_id'))
                                 <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('marketing_percent') }}</strong>
+                                        <strong>{{ $errors->first('tax_id') }}</strong>
                                     </span>
                             @endif
                         </div>

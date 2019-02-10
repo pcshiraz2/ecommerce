@@ -21,7 +21,7 @@ class CreateSlidesTable extends Migration
             $table->string('description')->nullable();
             $table->boolean('enabled');
             $table->integer('order')->nullable();
-            $table->text('options')->nullable();
+            $table->longText('options')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

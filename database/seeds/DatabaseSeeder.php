@@ -15,6 +15,8 @@ class DatabaseSeeder extends Seeder
         $this->call([RolesAndPermissionsSeeder::class]);
         $this->call([CategoriesSeeder::class]);
         $this->call([SettingsSeeder::class]);
-
+        $this->call([AttributesSeeder::class]);
+        $this->call([TaxesSeeder::class]);
+        $this->call([CurrenciesSeeder::class]);
     }
 }

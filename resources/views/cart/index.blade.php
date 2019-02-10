@@ -13,10 +13,17 @@
             <div class="row mb-2">
 
                 <div class="col-md-12">
-                    <a href="{{ route('product')  }}" class="btn btn-primary pull-right"><i
+                    <a href="{{ route('product')  }}" class="btn btn-primary btn-sm pull-right"><i
                                 class="fa fa-shopping-basket"></i> ادامه خرید</a>
+                    @if(Auth::check())
+                        @can('products')
+                            <a href="{{ route('cart.empty') }}"
+                               data-toggle="tooltip" data-placement="top" title="حذف همه آیتم ها از سبد خرید"
+                               class="btn btn-danger btn-sm pull-left"><i class="fa fa-trash-o"></i></a>
+                        @endcan
+                    @endif
                     @if(Cart::total() != 0)
-                        <a href="{{ route('cart.information')  }}" class="btn btn-warning pull-left"><i
+                        <a href="{{ route('cart.information')  }}" class="btn btn-warning btn-sm pull-left"><i
                                     class="fa fa-user-circle-o"></i>تکمیل اطلاعات</a>
                     @endif
                 </div>

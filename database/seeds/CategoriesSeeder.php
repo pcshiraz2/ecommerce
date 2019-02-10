@@ -175,5 +175,14 @@ class CategoriesSeeder extends Seeder
         $category->enabled =  true;
         $category->save();
 
+
+        $category = new Category();
+        $category->id =  23;
+        $category->title =  'مشخصات کلی';
+        $category->type =  'Attribute';
+        $category->enabled =  true;
+        $category->save();
+
+
     }
 }

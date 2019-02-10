@@ -22,7 +22,8 @@ class CreateUsersTable extends Migration
             $table->string('title')->nullable();
             $table->string('email')->unique()->nullable();
             $table->string('mobile')->unique();
-
+            $table->string('economical_number')->nullable();
+            $table->string('currency_code')->default(config('platform.currency'))->nullable();
             $table->decimal('credit', 15, 4)->default(0)->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('mobile_verified_at')->nullable();
@@ -58,6 +59,24 @@ class CreateUsersTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
+
+        Schema::create('addresses', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('user_id');
+            $table->string('phone')->nullable();
+            $table->string('zip_code')->nullable();
+            $table->text('address')->nullable();
+            $table->text('location')->nullable();
+            $table->integer('province_id')->nullable();
+            $table->integer('city_id')->nullable();
+            $table->text('note')->nullable();
+            $table->boolean('enabled');
+            $table->longText('options')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
         DB::table('users')->insert([
             'first_name' => 'علی',
             'last_name' => 'قاسم زاده',
@@ -77,5 +96,6 @@ class CreateUsersTable extends Migration
     public function down()
     {
         Schema::dropIfExists('users');
+        Schema::dropIfExists('addresses');
     }
 }

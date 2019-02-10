@@ -6,7 +6,7 @@
  * Time: 6:04 AM
  */
 
-namespace App\Factory;
+namespace App\Factories;
 
 
 final class IrNic

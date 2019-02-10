@@ -22,6 +22,9 @@ class CreateInvoicesTable extends Migration
             //type: ['sale', 'purchase']
             $table->string('type');
 
+            $table->string('currency_code')->default(config('platform.currency'))->nullable();
+            $table->double('currency_rate', 15, 8)->nullable();
+
 
             $table->decimal('total', 15, 4);
             $table->decimal('tax', 15, 4)->nullable();
@@ -69,6 +72,7 @@ class CreateInvoicesTable extends Migration
             $table->string('description')->nullable();
             $table->decimal('price', 15, 4);
             $table->decimal('tax', 15, 4)->nullable()->default(0);
+            $table->integer('tax_id')->nullable();
             $table->decimal('discount', 15, 4)->nullable()->default(0);
             $table->decimal('quantity', 15, 4)->default(1);
             $table->decimal('total', 15, 4)->nullable()->default(0);

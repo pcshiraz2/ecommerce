@@ -123,6 +123,7 @@ Route::get('/cart/information', 'CartController@information')->name('cart.inform
 Route::post('/cart/store/information', 'CartController@storeInformation')->name('cart.store-information');
 Route::get('/cart/add/{id}', 'CartController@add')->name('cart.add');
 Route::get('/cart/remove/{id}', 'CartController@remove')->name('cart.remove');
+Route::get('/cart/empty', 'CartController@empty')->name('cart.empty');
 
 Route::get('/cart/factory', 'CartController@factory')->name('cart.factory');
 Route::post('/cart/store/factory', 'CartController@storeFactory')->name('cart.store-factory');

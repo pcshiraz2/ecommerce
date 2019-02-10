@@ -28,6 +28,8 @@ class CreateTicketsTable extends Migration
             //Priority: ['normal', 'urgent', 'important']
             $table->string('priority')->default('normal');
             $table->ipAddress('ip')->nullable();
+            $table->boolean('enabled')->default(true);
+            $table->longText('options')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -40,6 +42,8 @@ class CreateTicketsTable extends Migration
             //Type: ['normal', 'system', 'forward']
             $table->string('type')->default('normal');
             $table->ipAddress('ip')->nullable();
+            $table->boolean('enabled')->default(true);
+            $table->longText('options')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -50,6 +54,8 @@ class CreateTicketsTable extends Migration
             $table->integer('replay_id')->nullable();
             $table->string('title')->nullable();
             $table->string('attachment');
+            $table->boolean('enabled')->default(true);
+            $table->longText('options')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

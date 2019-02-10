@@ -6,7 +6,7 @@
  * Time: 5:48 PM
  */
 
-namespace App\Factory;
+namespace App\Factories;
 
 
 final class DirectAdmin

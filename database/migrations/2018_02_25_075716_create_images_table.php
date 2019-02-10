@@ -18,7 +18,7 @@ class CreateImagesTable extends Migration
             $table->integer('user_id');
             $table->string('source');
             $table->double('size');
-            $table->text('options')->nullable();
+            $table->longText('options')->nullable();
             $table->timestamps();
         });
     }

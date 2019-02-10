@@ -17,41 +17,33 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->string('image');
+            $table->string('slug')->nullable();
             $table->string('code')->nullable();
-            $table->string('brand')->nullable();
-            $table->string('model')->nullable();
-
+            $table->integer('category_id');
             $table->decimal('sale_price', 15, 4);
             $table->decimal('purchase_price', 15, 4)->nullable();
-            $table->decimal('renewal_price', 15, 4)->nullable();
+            $table->decimal('period_price', 15, 4)->nullable();
             $table->decimal('off_price', 15, 4)->nullable();
-            $table->integer('category_id');
             $table->integer('user_id')->nullable();
-
-            $table->double('initial_balance')->nullable();
+            $table->double('initial_balance')->default(0)->nullable();
             $table->double('asset_balance')->default(0)->nullable();
-            $table->double('period')->nullable();
+            $table->double('period')->default(0)->nullable();
             $table->string('factory')->nullable();
-            $table->string('slug')->nullable();
+
             $table->text('description')->nullable();
             $table->longText('text')->nullable();
 
-            $table->boolean('enabled');
             $table->boolean('shop');
             $table->boolean('asset');
             $table->boolean('post');
-            $table->boolean('renewal');
             $table->boolean('top');
-
-            $table->boolean('marketing');
-            $table->boolean('tax');
             $table->boolean('off');
 
-            $table->double('marketing_percent')->nullable();
-            $table->double('tax_percent')->nullable();
-
+            $table->integer('tax_id')->nullable();
             $table->integer('order')->nullable();
-            $table->text('options')->nullable();
+            $table->longText('options')->nullable();
+            $table->boolean('enabled');
+
             $table->timestamp('off_expire_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
@@ -63,11 +55,11 @@ class CreateProductsTable extends Migration
             $table->string('title');
             $table->string('name');
             $table->string('source');
-
             $table->text('description')->nullable();
-            $table->boolean('enabled');
             $table->boolean('free');
+            $table->boolean('public');
             $table->integer('order')->nullable();
+            $table->boolean('enabled');
             $table->timestamps();
             $table->softDeletes();
         });

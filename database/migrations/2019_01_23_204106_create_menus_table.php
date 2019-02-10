@@ -23,7 +23,7 @@ class CreateMenusTable extends Migration
             $table->string('icon')->nullable();
             $table->string('route')->nullable();
             $table->string('link')->nullable();
-            $table->string('order')->nullable();
+            $table->integer('order')->nullable();
             $table->integer('menu_id')->nullable();
             $table->boolean('enabled');
             $table->longText('options')->nullable();

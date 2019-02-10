@@ -17,10 +17,11 @@ class CreateAccountsTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->integer('order')->nullable();
+            $table->string('currency_code')->default(config('platform.currency'))->nullable();
             $table->decimal('initial_balance', 15, 4)->nullable();
             $table->decimal('balance', 15, 4)->nullable();
             $table->boolean('enabled');
-            $table->text('options')->nullable();
+            $table->longText('options')->nullable();
             $table->text('note')->nullable();
             $table->timestamps();
             $table->softDeletes();
@@ -28,10 +29,12 @@ class CreateAccountsTable extends Migration
 
         DB::table('accounts')->insert([
             'title' => 'نقدی',
+            'currency_code' => config('platform.currency'),
             'enabled' => true
         ]);
         DB::table('accounts')->insert([
             'title' => 'بانکی',
+            'currency_code' => config('platform.currency'),
             'enabled' => true
         ]);
     }
