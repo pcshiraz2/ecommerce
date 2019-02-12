@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', "فروشگاه - ")
+@section('title', "محصولات " .  $category->title . " - ")
 
 @section('css')
 

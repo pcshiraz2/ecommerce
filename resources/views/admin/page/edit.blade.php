@@ -71,21 +71,48 @@
                             @endif
 
                         </div>
-                        <div class="form-group">
-                            <label for="access">دسترسی</label>
-                            <select name="access" id="access" class="form-control">
-                                <option value="public"{{ old('access', $page->access) == 'public'  ? ' selected' : '' }}>
-                                    عمومی
-                                </option>
-                                <option value="private"{{ old('access', $page->access) == 'private' ? ' selected' : '' }}>
-                                    فقط اعضا
-                                </option>
-                            </select>
-                            @if ($errors->has('access'))
-                                <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('access') }}</strong>
-                                    </span>
-                            @endif
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="access">دسترسی</label>
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" id="accessRadioPublic" name="access"
+                                           value="public"
+                                           class="custom-control-input"{{ old('access',$page->access) == true  ? ' checked' : '' }}>
+                                    <label class="custom-control-label" for="accessRadioPublic">عمومی</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" id="accessRadioPrivate" name="access"
+                                           value="private"
+                                           class="custom-control-input"{{ old('access',$page->access) == false  ? ' checked' : '' }}>
+                                    <label class="custom-control-label" for="accessRadioPrivate">فقط اعضا</label>
+                                </div>
+                                @if ($errors->has('access'))
+                                    <span class="invalid-feedback">
+                                            <strong>{{ $errors->first('access') }}</strong>
+                                        </span>
+                                @endif
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="enable">فعال</label>
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" id="enableRadioYes" name="enabled"
+                                           value="1"
+                                           class="custom-control-input"{{ old('enabled',$page->enabled) == true  ? ' checked' : '' }}>
+                                    <label class="custom-control-label" for="enableRadioYes">بلی</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" id="enableRadioNo" name="enabled"
+                                           value="0"
+                                           class="custom-control-input"{{ old('enabled',$page->enabled) == false  ? ' checked' : '' }}>
+                                    <label class="custom-control-label" for="enableRadioNo">خیر</label>
+                                </div>
+                                @if ($errors->has('enabled'))
+                                    <span class="invalid-feedback">
+                                            <strong>{{ $errors->first('enabled') }}</strong>
+                                        </span>
+                                @endif
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-primary">
                             <i class="fa fa-save"></i>

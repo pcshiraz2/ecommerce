@@ -157,7 +157,7 @@ return [
         'version_name' => 'نام فایل نسخه',
         'support_link' => 'آدرس پشتیبانی',
         'learn_link' => 'آدرس آموزش',
-        'tax' => 'مالیات',
+        'tax_id' => 'مالیات',
         'total' => 'جمع کل',
         'discount' => 'تخفیف',
         'invoice_at' => 'تاریخ فاکتور',
@@ -165,7 +165,7 @@ return [
         'period' => 'دوره زمانی',
         'zip_code' => 'کد پستی',
         'qty' => 'تعداد',
-        'g-recaptcha-response' => 'کد ضد ربات',
-        'image' => 'تصویر'
+        'image' => 'تصویر',
+        'enabled' => 'فعال بودن',
     ],
 ];

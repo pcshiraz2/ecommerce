@@ -132,7 +132,6 @@
     </div>
 @endsection
 @section('js')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
     <script>
         $(function () {
             axios.get('{{ route('admin.dashboard.incomes') }}').then(function (response) {
@@ -204,15 +203,6 @@
                 $('#num_of_dues').html(response.data.num_of_dues);
                 $('#month_income').html(response.data.month_income);
                 $('#month_expense').html(response.data.month_expense);
-            }).catch(function (error) {
-                console.log(error);
-            });
-
-            axios.get('updater.check').then(function (response) {
-                if(response != ''){
-                    $('#update_notification').append('<strong>نسخه جدید نرم افزار با کد <span class="badge badge-success">'+response.data+'</span> منتشر شده است.</strong><a role="button" href="updater.update" class="btn btn-sm btn-warning pull-left"><i class="fa fa-refresh"></i> شروع بروز رسانی</a>');
-                    $('#update_notification').show();
-                }
             }).catch(function (error) {
                 console.log(error);
             });

@@ -58,7 +58,7 @@ class LoginController extends Controller
 
     protected function validateLogin(Request $request)
     {
-        if (config('platform.captcha-enabled')) {
+        if (config('platform.captcha-login-enabled')) {
             $this->validate($request, [
                 $this->username() => 'required',
                 'password' => 'required',

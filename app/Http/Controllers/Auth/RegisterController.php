@@ -48,7 +48,7 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        if (config('platform.captcha-enabled')) {
+        if (config('platform.captcha-register-enabled')) {
             return Validator::make($data, [
                 'last_name' => 'required|string|max:191',
                 'email' => 'required|string|email|max:191|unique:users,email',

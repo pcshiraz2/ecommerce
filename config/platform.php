@@ -32,7 +32,7 @@ return [
     'about-us-page-id' => '2',
     'index-page-id' => '1',
     'tos-page-id' => '3',
-    'complaint-page-id' => '2',
+    'complaint-page-id' => '5',
 
 
     'main-admin-user-id' => '1',
@@ -52,7 +52,8 @@ return [
     'min-payment-price' => '1000',
     'per-page' => '25',
     'due-days' => '5',
-    'captcha-enabled' => true,
+    'captcha-register-enabled' => true,
+    'captcha-login-enabled' => true,
     'currency' => 'IRR',
     'index-page-content-enabled' => false,
 

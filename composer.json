@@ -27,7 +27,6 @@
     "morilog/jalali": "^3.0",
     "nwidart/laravel-modules": "^3.3",
     "parsisolution/gateway": "^2",
-    "pcinaglia/laraupdater": "^1.0",
     "rtconner/laravel-tagging": "^3.0",
     "sofa/eloquence": "^5.6",
     "spatie/laravel-permission": "^2.23",

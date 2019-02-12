@@ -42,7 +42,7 @@
                                     </span>
                                 @endif
                         </div>
-                        @if(config('platform.captcha-enabled'))
+                        @if(config('platform.captcha-login-enabled'))
                             <div class="form-group">
                                 <label for="captcha">عبارت
                                     امنیتی</label>

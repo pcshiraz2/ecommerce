@@ -24,10 +24,19 @@ class HomeController extends Controller
 
         $slides = Slide::enabled()->orderBy('order', 'asc')->get();
         $articles = Article::enabled()->limit(5)->orderBy('created_at', 'desc')->get();
-        $products = Product::enabled()->top()->limit(4)->orderBy('updated_at', 'desc')->get();
+        $topProducts = Product::enabled()->top()->limit(4)->orderBy('updated_at', 'desc')->get();
+        $newProducts = Product::enabled()->top()->limit(4)->orderBy('updated_at', 'desc')->get();
+        $offProducts = Product::enabled()->top()->limit(4)->orderBy('updated_at', 'desc')->get();
         $discussions = Discussion::enabled()->limit(5)->orderBy('updated_at', 'desc')->get();
         $page = Page::findWithCache(config('platform.index-page-id'));
-        return view('home.index', ['page' => $page, 'products' => $products, 'articles' => $articles, 'discussions' => $discussions, 'slides' => $slides]);
+        return view('home.index', [
+            'page' => $page,
+            'newProducts' => $newProducts,
+            'topProducts' => $topProducts,
+            'offProducts' => $offProducts,
+            'articles' => $articles,
+            'discussions' => $discussions,
+            'slides' => $slides]);
     }
 
     public function getLastArticles()

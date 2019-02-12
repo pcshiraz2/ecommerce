@@ -69,15 +69,27 @@
         </div>
     </div>
     @endif
-    <h2>کالاهای اصلی</h2>
+
+    <h2>پیشنهاد های شگفت انگیز</h2>
     <div class="row justify-content-center mb-2">
-        <div class="col-md-12">
-            <div class="row">
-                @foreach($products as $product)
+                @foreach($offProducts as $product)
                     @include('product.card',['product'=> $product,'size' => 'col-md-3'])
                 @endforeach
-            </div>
-        </div>
+
+    </div>
+
+    <h2>کالاهای جدید</h2>
+    <div class="row justify-content-center mb-2">
+            @foreach($newProducts as $product)
+                @include('product.card',['product'=> $product,'size' => 'col-md-3'])
+            @endforeach
+    </div>
+
+    <h2>کالاهای اصلی</h2>
+    <div class="row justify-content-center mb-2">
+            @foreach($topProducts as $product)
+                @include('product.card',['product'=> $product,'size' => 'col-md-3'])
+            @endforeach
     </div>
 
     <div class="row justify-content-center mb-2">
