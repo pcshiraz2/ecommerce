@@ -28,8 +28,10 @@ class CartController extends Controller
         $product = Product::with(['tax'])->findOrFail($id);
         if($product->tax_id) {
             $tax_rate = ($product->tax->rate);
+            $tax_name = ($product->tax->name);
         } else {
             $tax_rate = 0;
+            $tax_name = "";
         }
         if($product->discount) {
             $price = $product->discount_price;
@@ -40,7 +42,7 @@ class CartController extends Controller
             $discount = 0;
             $tax = $price * $tax_rate;
         }
-        Cart::add($product->id, $product->title, 1, $price + $tax, ['description' => $product->description, 'factory' => $product->factory, 'tax_rate' => $tax_rate , 'price' => $price,'discount_price' => $product->discount_price, 'sale_price' => $product->sale_price, 'discount' => $discount, 'tax_name' => $product->tax->name]);
+        Cart::add($product->id, $product->title, 1, $price + $tax, ['description' => $product->description, 'factory' => $product->factory, 'tax_rate' => $tax_rate , 'price' => $price,'discount_price' => $product->discount_price, 'sale_price' => $product->sale_price, 'discount' => $discount, 'tax_name' => $tax_name, 'tax' => $tax]);
         flash($product->title . " به سبد خرید اضافه شد.")->success();
         return redirect()->route('cart');
     }
@@ -50,8 +52,10 @@ class CartController extends Controller
         $product = Product::with(['tax'])->findOrFail($id);
         if($product->tax_id) {
             $tax_rate = ($product->tax->rate);
+            $tax_name = ($product->tax->name);
         } else {
             $tax_rate = 0;
+            $tax_name = "";
         }
         if($product->discount) {
             $price = $product->discount_price;
@@ -62,7 +66,7 @@ class CartController extends Controller
             $discount = 0;
             $tax = $price * $tax_rate;
         }
-        Cart::add($product->id, $product->title, -1, $price + $tax, ['description' => $product->description, 'factory' => $product->factory, 'tax_rate' => $tax_rate , 'discount_price' => $product->discount_price, 'sale_price' => $product->sale_price, 'discount' => $discount, 'tax_name' => $product->tax->name]);
+        Cart::add($product->id, $product->title, -1, $price + $tax, ['description' => $product->description, 'factory' => $product->factory, 'tax_rate' => $tax_rate , 'price' => $price,'discount_price' => $product->discount_price, 'sale_price' => $product->sale_price, 'discount' => $discount, 'tax_name' => $tax_name, 'tax' => $tax]);
 
         foreach (Cart::content() as $productItem) {
             if ($productItem->qty == 0) {
@@ -174,8 +178,8 @@ class CartController extends Controller
             $invoice = new Invoice();
             $invoice->user_id = Auth::user()->id;
             $invoice->status = 'sent';
-            $invoice->total = Cart::total();
-            $invoice->tax = Cart::tax();
+            $invoice->total = 0;
+            $invoice->tax = 0;
             $invoice->type = 'sale';
             $invoice->password = uniqid();
             $invoice->invoice_at = date("Y-m-d H:i:s");
@@ -198,18 +202,13 @@ class CartController extends Controller
                         $record->invoice_id = $invoice->id;
                         $record->title = $product->name;
                         $record->description = $product->description;
-                        $record->quantity = -1;
+
+                        $record->quantity = abs($product->qty) * -1;
                         $record->price = $product->options->sale_price;
-                        if($product->options->discount) {
-                            $record->discount = ($product->options->sale_price - $product->options->discount_price);
-                        } else {
-                            $record->discount = 0;
-                        }
-                        if($product->options->tax) {
-                            $record->tax = ($product->options->sale_price - $record->discount) * $product->options->tax_percent;
-                        } else {
-                            $record->tax = 0;
-                        }
+                        $record->discount = $product->options->discount;
+                        $record->tax = $product->options->tax;
+                        $record->total = (($record->price - $record->discount) + $record->tax) * abs($product->qty);
+
                         $record->product_id = $product->id;
                         $options = [];
                         foreach ($factory->getCartAttribs() as $attrib) {
@@ -229,18 +228,9 @@ class CartController extends Controller
                     $record->description = $product->description;
                     $record->quantity = abs($product->qty) * -1;
                     $record->price = $product->options->sale_price;
-                    if($product->options->discount) {
-                        $record->discount = ($product->options->sale_price - $product->options->discount_price);
-                    } else {
-                        $record->discount = 0;
-                    }
-                    if($product->options->tax) {
-                        $record->tax = ($product->options->sale_price - $record->discount) * $product->options->tax_percent;
-                    } else {
-                        $record->tax = 0;
-                    }
-
-                    $record->total = $record->price - $record->discount + $record->tax;
+                    $record->discount = $product->options->discount;
+                    $record->tax = $product->options->tax;
+                    $record->total = (($record->price - $record->discount) + $record->tax) * abs($product->qty);
 
                     $record->product_id = $product->id;
                     $record->save();

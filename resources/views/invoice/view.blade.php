@@ -53,8 +53,8 @@
                                 <td class="text-center">{{ abs($record->quantity) }}</td>
                                 <td class="text-center">{{number_format($record->price)}}</td>
                                 <td class="text-center">{{number_format(abs($record->price * $record->quantity)) }}</td>
-                                <td class="text-center">{{number_format($record->discount)}}</td>
-                                <td class="text-center">{{number_format($record->tax)}}</td>
+                                <td class="text-center">{{number_format(abs($record->discount * $record->quantity))}}</td>
+                                <td class="text-center">{{number_format(abs($record->tax * $record->quantity)) }}</td>
                                 <td class="text-center">{{number_format($record->total)}}</td>
                             </tr>
                         @endforeach
@@ -112,7 +112,7 @@
                                     <label for="gateway text-center">درگاه انتخابی</label>
                                     <select name="gateway" id="gateway"
                                             class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}">
-                                        @foreach(Gateway::activeDrivers() as $gateway)
+                                        @foreach(\Parsisolution\Gateway\Facades\Gateway::activeDrivers() as $gateway)
                                             <option value="{{ $gateway['key'] }}"{{ old('gateway') == $gateway['key']  ? ' selected' : '' }}>{{ $gateway['name'] }}</option>
                                         @endforeach
                                     </select>
