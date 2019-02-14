@@ -25,38 +25,45 @@ class CartController extends Controller
 
     public function add($id)
     {
-        $product = Product::findOrFail($id);
-        $tax = 0;
-        if($product->tax) {
-            $tax = ($product->tax_percent / 100) * $product->sale_price;
-        }
-        if($product->off) {
-            if($product->tax) {
-                $tax = ($product->tax_percent / 100) * $product->off_price;
-            }
-            Cart::add($product->id, $product->title, 1, $product->off_price + $tax, ['description' => $product->description, 'factory' => $product->factory, 'tax_percent' => $product->tax_percent / 100, 'off_price' => $product->off_price, 'sale_price' => $product->sale_price, 'off' => $product->off, 'tax' => $product->tax]);
+        $product = Product::with(['tax'])->findOrFail($id);
+        if($product->tax_id) {
+            $tax_rate = ($product->tax->rate);
         } else {
-            Cart::add($product->id, $product->title, 1, $product->sale_price + $tax, ['description' => $product->description, 'factory' => $product->factory, 'tax_percent' => $product->tax_percent / 100, 'off_price' => $product->off_price, 'sale_price' => $product->sale_price, 'off' => $product->off, 'tax' => $product->tax]);
+            $tax_rate = 0;
         }
+        if($product->discount) {
+            $price = $product->discount_price;
+            $discount = $product->sale_price - $product->discount_price;
+            $tax = $price * $tax_rate;
+        } else {
+            $price = $product->sale_price;
+            $discount = 0;
+            $tax = $price * $tax_rate;
+        }
+        Cart::add($product->id, $product->title, 1, $price + $tax, ['description' => $product->description, 'factory' => $product->factory, 'tax_rate' => $tax_rate , 'price' => $price,'discount_price' => $product->discount_price, 'sale_price' => $product->sale_price, 'discount' => $discount, 'tax_name' => $product->tax->name]);
         flash($product->title . " به سبد خرید اضافه شد.")->success();
         return redirect()->route('cart');
     }
 
     public function remove($id)
     {
-        $product = Product::findOrFail($id);
-        $tax = 0;
-        if($product->tax) {
-            $tax = ($product->tax_percent / 100) * $product->sale_price;
-        }
-        if($product->off) {
-            if($product->tax) {
-                $tax = ($product->tax_percent / 100) * $product->off_price;
-            }
-            Cart::add($product->id, $product->title, -1, $product->off_price + $tax, ['description' => $product->description, 'factory' => $product->factory, 'tax_percent' => $product->tax_percent / 100, 'off_price' => $product->off_price, 'sale_price' => $product->sale_price, 'off' => $product->off, 'tax' => $product->tax]);
+        $product = Product::with(['tax'])->findOrFail($id);
+        if($product->tax_id) {
+            $tax_rate = ($product->tax->rate);
         } else {
-            Cart::add($product->id, $product->title, -1, $product->sale_price + $tax, ['description' => $product->description, 'factory' => $product->factory, 'tax_percent' => $product->tax_percent / 100, 'off_price' => $product->off_price, 'sale_price' => $product->sale_price, 'off' => $product->off, 'tax' => $product->tax]);
+            $tax_rate = 0;
         }
+        if($product->discount) {
+            $price = $product->discount_price;
+            $discount = $product->sale_price - $product->discount_price;
+            $tax = $price * $tax_rate;
+        } else {
+            $price = $product->sale_price;
+            $discount = 0;
+            $tax = $price * $tax_rate;
+        }
+        Cart::add($product->id, $product->title, -1, $price + $tax, ['description' => $product->description, 'factory' => $product->factory, 'tax_rate' => $tax_rate , 'discount_price' => $product->discount_price, 'sale_price' => $product->sale_price, 'discount' => $discount, 'tax_name' => $product->tax->name]);
+
         foreach (Cart::content() as $productItem) {
             if ($productItem->qty == 0) {
                 Cart::remove($productItem->rowId);
@@ -108,6 +115,7 @@ class CartController extends Controller
         $user->city_id = $request->city_id;
         $user->province_id = $request->province_id;
         $user->national_code = $request->national_code;
+        $user->economical_number = $request->economical_number;
         $user->save();
         return redirect()->route('cart.factory');
     }
@@ -157,7 +165,7 @@ class CartController extends Controller
             return redirect()->route('register');
         } else {
             $tax = 0;
-            $off = 0;
+            $discount = 0;
             $total = 0;
             if (Cart::total() == 0) {
                 flash("سبد خرید شما خالی است لطفا ابتدا کالا مورد نظر خود را انتخاب کنید.")->warning();
@@ -192,8 +200,8 @@ class CartController extends Controller
                         $record->description = $product->description;
                         $record->quantity = -1;
                         $record->price = $product->options->sale_price;
-                        if($product->options->off) {
-                            $record->discount = ($product->options->sale_price - $product->options->off_price);
+                        if($product->options->discount) {
+                            $record->discount = ($product->options->sale_price - $product->options->discount_price);
                         } else {
                             $record->discount = 0;
                         }
@@ -212,7 +220,7 @@ class CartController extends Controller
                         $record->save();
                         $tax += $record->tax;
                         $total += $record->total;
-                        $off += $record->discount;
+                        $discount += $record->discount;
                     }
                 } else {
                     $record = new Record();
@@ -221,8 +229,8 @@ class CartController extends Controller
                     $record->description = $product->description;
                     $record->quantity = abs($product->qty) * -1;
                     $record->price = $product->options->sale_price;
-                    if($product->options->off) {
-                        $record->discount = ($product->options->sale_price - $product->options->off_price);
+                    if($product->options->discount) {
+                        $record->discount = ($product->options->sale_price - $product->options->discount_price);
                     } else {
                         $record->discount = 0;
                     }
@@ -238,13 +246,13 @@ class CartController extends Controller
                     $record->save();
                     $tax += $record->tax;
                     $total += $record->total;
-                    $off += $record->discount;
+                    $discount += $record->discount;
                 }
             }
 
             $invoice->total = $total;
             $invoice->tax = $tax;
-            $invoice->discount = $off;
+            $invoice->discount = $discount;
             $invoice->save();
 
             Cart::destroy();

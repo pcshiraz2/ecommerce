@@ -44,27 +44,24 @@
                             </small>
                         </div>
                         <p class="mb-1">
-                            @if($product->options->off)
-                                <strong>
-                            قیمت با تخفیف:{{number_format($product->options->off_price)}}{{ trans('currency.'.config('platform.currency')) }}
-                                </strong>
+                            قیمت واحد:{{number_format($product->options->sale_price)}}{{ trans('currency.'.config('platform.currency')) }}
                             <br/>
-                            @endif
-                                قیمت واحد:{{number_format($product->options->sale_price)}}{{ trans('currency.'.config('platform.currency')) }}
-                                <br/>
 
-                            @if($product->options->off)
-                                تخفیف:{{number_format($product->options->sale_price - $product->options->off_price)}} {{ trans('currency.'.config('platform.currency')) }}
+                            @if($product->options->discount)
+                                <strong>
+                            قیمت با تخفیف:{{number_format($product->options->discount_price)}}{{ trans('currency.'.config('platform.currency')) }}
+                                </strong>
+                                <br/>
+                                تخفیف:{{number_format($product->options->discount)}} {{ trans('currency.'.config('platform.currency')) }}
+                                <br/>
+                            @endif
+                            @if($product->options->tax_rate)
+                                مالیات و عوارض:{{number_format($product->options->price * $product->options->tax_rate)}} {{ trans('currency.'.config('platform.currency')) }}
                                 <br/>
                             @endif
 
                             تعداد:{{number_format($product->qty)}}
                             <br/>
-                                @if($product->options->tax)
-                                    مالیات و عوارض:{{number_format($product->options->off_price* $product->qty * $product->options->tax_percent)}} {{ trans('currency.'.config('platform.currency')) }}
-                                    <br/>
-                                @endif
-
 
                             جمع:{{number_format($product->price * $product->qty)}}{{ trans('currency.'.config('platform.currency')) }}
                         </p>
@@ -86,7 +83,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="alert alert-dark">
-                        <strong>جمع کل عدد:</strong>{{ number_format(Cart::total()) }} {{ trans('currency.'.config('platform.currency')) }}
+                        <strong>جمع کل عدد:</strong>{{ \App\Utils\MoneyUtil::format(Cart::total()) }} {{ trans('currency.'.config('platform.currency')) }}
                     </div>
                 </div>
             </div>

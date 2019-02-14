@@ -30,16 +30,18 @@ class Model extends Eloquent
         } else {
             $limit = $request->get('limit', config('platform.per-page'));
         }
+        //dd($input, $query->filter($input)->sortable($sort));
+
         return $query->filter($input)->sortable($sort)->paginate($limit);
     }
 
     public function scopeEnabled($query)
     {
-        return $query->where('enabled', 1);
+        return $query->where('enabled', true);
     }
 
     public function scopeDisabled($query)
     {
-        return $query->where('enabled', 0);
+        return $query->where('enabled', false);
     }
 }

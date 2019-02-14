@@ -61,7 +61,7 @@ class CreateUsersTable extends Migration
         });
 
 
-        Schema::create('addresses', function (Blueprint $table) {
+        Schema::create('user_addresses', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
             $table->string('phone')->nullable();
@@ -73,6 +73,17 @@ class CreateUsersTable extends Migration
             $table->text('note')->nullable();
             $table->boolean('enabled');
             $table->longText('options')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('user_attributes', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('user_id');
+            $table->string('code');
+            $table->text('value')->nullable();
+            $table->longText('options')->nullable();
+            $table->boolean('enabled');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -96,6 +107,7 @@ class CreateUsersTable extends Migration
     public function down()
     {
         Schema::dropIfExists('users');
-        Schema::dropIfExists('addresses');
+        Schema::dropIfExists('user_addresses');
+        Schema::dropIfExists('user_attributes');
     }
 }

@@ -336,22 +336,22 @@
                                 @endif
                             </div>
                             <div class="form-group col-md-2">
-                                <label for="off">حراج</label>
+                                <label for="discount">حراج</label>
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" id="offRadioYes" name="off"
+                                    <input type="radio" id="discountRadioYes" name="discount"
                                            value="1"
-                                           class="custom-control-input"{{ old('off', $product->off) == true  ? ' checked' : '' }}>
-                                    <label class="custom-control-label" for="offRadioYes">دارد</label>
+                                           class="custom-control-input"{{ old('discount', $product->discount) == true  ? ' checked' : '' }}>
+                                    <label class="custom-control-label" for="discountRadioYes">دارد</label>
                                 </div>
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" id="offRadioNo" name="off"
+                                    <input type="radio" id="discountRadioNo" name="discount"
                                            value="0"
-                                           class="custom-control-input"{{ old('off', $product->off) == false  ? ' checked' : '' }}>
-                                    <label class="custom-control-label" for="offRadioNo">ندارد</label>
+                                           class="custom-control-input"{{ old('discount', $product->discount) == false  ? ' checked' : '' }}>
+                                    <label class="custom-control-label" for="discountRadioNo">ندارد</label>
                                 </div>
-                                @if ($errors->has('off'))
+                                @if ($errors->has('discount'))
                                     <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('off') }}</strong>
+                                        <strong>{{ $errors->first('discount') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -397,22 +397,22 @@
 
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label for="off_expire_at">انقضای حراج<span class="font-weight-light font-italic"> - اختیاری</span></label>
+                                <label for="discount_expire_at">انقضای حراج<span class="font-weight-light font-italic"> - اختیاری</span></label>
                                 <div dir="ltr">
                                     <date-picker
-                                            id="off_expire_at"
-                                            name="off_expire_at"
+                                            id="discount_expire_at"
+                                            name="discount_expire_at"
                                             format="jYYYY/jMM/jDD HH:mm"
                                             display-format="jYYYY/jMM/jDD HH:mm"
                                             color="#6838b8"
                                             type="datetime"
-                                            value="{{ old('off_expire_at', jdate($product->off_expire_at)->format("Y/m/d HH:ii")) }}"
+                                            value="{{ old('discount_expire_at', jdate($product->discount_expire_at)->format("Y/m/d HH:ii")) }}"
                                             placeholder="____/__/__ __:__">
                                     </date-picker>
                                 </div>
-                                @if ($errors->has('off_expire_at'))
+                                @if ($errors->has('discount_expire_at'))
                                     <span class="invalid-feedback">
-                            <strong>{{ $errors->first('off_expire_at') }}</strong>
+                            <strong>{{ $errors->first('discount_expire_at') }}</strong>
                         </span>
                                 @endif
                             </div>
@@ -420,20 +420,20 @@
 
 
                             <div class="form-group col-md-6">
-                                <label for="off_price">قیمت حراج
+                                <label for="discount_price">قیمت حراج
                                     <span class="font-weight-light font-italic"> - اختیاری</span>
                                 </label>
                                 <div class="input-group mb-2 ml-sm-2">
-                                    <input id="off_price" type="tel" dir="ltr"
-                                           class="price form-control{{ $errors->has('off_price') ? ' is-invalid' : '' }}"
-                                           name="off_price" value="{{ old('off_price', \App\Utils\MoneyUtil::display($product->off_price)) }}">
+                                    <input id="discount_price" type="tel" dir="ltr"
+                                           class="price form-control{{ $errors->has('discount_price') ? ' is-invalid' : '' }}"
+                                           name="discount_price" value="{{ old('discount_price', \App\Utils\MoneyUtil::display($product->discount_price)) }}">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">{{ trans('currency.'.config('platform.currency')) }}</div>
                                     </div>
                                 </div>
-                                @if ($errors->has('off_price'))
+                                @if ($errors->has('discount_price'))
                                     <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('off_price') }}</strong>
+                                        <strong>{{ $errors->first('discount_price') }}</strong>
                                     </span>
                                 @endif
                             </div>

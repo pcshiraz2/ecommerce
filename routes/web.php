@@ -74,14 +74,7 @@ Route::get('/product', 'ProductController@index')->name('product');
 Route::get('/product/find', 'ProductController@find')->name('product.find');
 Route::get('/product/category/{id}', 'ProductController@category')->name('product.category');
 Route::get('/product/view/{id}', 'ProductController@view')->name('product.view');
-Route::get('/product/create', 'ProductController@create')->name('product.create')->middleware('auth');
-Route::post('/product/insert', 'ProductController@insert')->name('product.insert')->middleware('auth');
-Route::get('/product/edit/{id}', 'ProductController@edit')->name('product.edit')->middleware('auth');
-Route::post('/product/update/{id}', 'ProductController@update')->name('product.update')->middleware('auth');
-Route::delete('/product/delete/{id}', 'ProductController@delete')->name('product.delete')->middleware('auth');
 
-Route::get('/product/image/create/{id}', 'ProductImageController@imageCreate')->name('product.image.create')->middleware('auth');
-Route::post('/product/image/insert/{id}', 'ProductImageController@imageInsert')->name('product.image.insert')->middleware('auth');
 
 Route::get('/article', 'ArticleController@index')->name('article');
 Route::get('/article/view/{id}', 'ArticleController@view')->name('article.view');

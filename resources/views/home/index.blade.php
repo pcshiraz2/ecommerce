@@ -72,7 +72,7 @@
 
     <h2>پیشنهاد های شگفت انگیز</h2>
     <div class="row justify-content-center mb-2">
-                @foreach($offProducts as $product)
+                @foreach($discountProducts as $product)
                     @include('product.card',['product'=> $product,'size' => 'col-md-3'])
                 @endforeach
 

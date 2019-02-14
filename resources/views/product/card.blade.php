@@ -3,7 +3,7 @@
         @if($product->sale_price == 0)
             <span class="h6 w-70 mx-auto px-2 py-1 rounded-bottom bg-danger text-white shadow text-center"
                   style="position: absolute;right: 35%;"><i class="fa fa-free-code-camp"></i> رایگان</span>
-        @elseif($product->off)
+        @elseif($product->discount)
             <span class="h6 w-70 mx-auto px-2 py-1 rounded-bottom bg-primary text-white shadow text-center"
                   style="position: absolute;right: 35%;"><i class="fa fa-star"></i> فروش ویژه</span>
         @endif
@@ -19,9 +19,9 @@
                         @if($product->sale_price == 0)
                             <div class="card-price-free"><strong>رایگان</strong></div>
                         @else
-                            @if($product->off)
+                            @if($product->discount)
                                 <del class="clearfix card-price-del">{{ \App\Utils\MoneyUtil::format($product->sale_price) }}</del>
-                                <strong class="clearfix card-price-off">{{ \App\Utils\MoneyUtil::format($product->off_price) }}  {{ trans('currency.'.config('platform.currency')) }}</strong>
+                                <strong class="clearfix card-price-discount">{{ \App\Utils\MoneyUtil::format($product->discount_price) }}  {{ trans('currency.'.config('platform.currency')) }}</strong>
                             @else
                         <strong class="clearfix card-price">{{ \App\Utils\MoneyUtil::format($product->sale_price) }}  {{ trans('currency.'.config('platform.currency')) }}</strong>
                         @endif

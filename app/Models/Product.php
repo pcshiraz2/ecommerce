@@ -9,6 +9,11 @@ class Product extends Model
         return $this->belongsTo('App\Models\Category');
     }
 
+    public function tax()
+    {
+        return $this->belongsTo('App\Models\Tax');
+    }
+
     public function images()
     {
         return $this->hasMany('App\Models\ProductImage');
@@ -38,6 +43,16 @@ class Product extends Model
     public function scopeTop($query)
     {
         return $query->where('top', true);
+    }
+
+    public function scopeDiscount($query)
+    {
+        return $query->where('discount', true);
+    }
+
+    public function scopeNew($query)
+    {
+        return $query->orderBy('created_at', 'desc');
     }
 
 

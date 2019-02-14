@@ -23,7 +23,7 @@ class CreateProductsTable extends Migration
             $table->decimal('sale_price', 15, 4);
             $table->decimal('purchase_price', 15, 4)->nullable();
             $table->decimal('period_price', 15, 4)->nullable();
-            $table->decimal('off_price', 15, 4)->nullable();
+            $table->decimal('discount_price', 15, 4)->nullable();
             $table->integer('user_id')->nullable();
             $table->double('initial_balance')->default(0)->nullable();
             $table->double('asset_balance')->default(0)->nullable();
@@ -32,19 +32,21 @@ class CreateProductsTable extends Migration
 
             $table->text('description')->nullable();
             $table->longText('text')->nullable();
+            $table->text('pros')->nullable();
+            $table->text('cons')->nullable();
 
             $table->boolean('shop');
             $table->boolean('asset');
             $table->boolean('post');
             $table->boolean('top');
-            $table->boolean('off');
+            $table->boolean('discount');
 
             $table->integer('tax_id')->nullable();
             $table->integer('order')->nullable();
             $table->longText('options')->nullable();
             $table->boolean('enabled');
 
-            $table->timestamp('off_expire_at')->nullable();
+            $table->timestamp('discount_expire_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -90,7 +92,7 @@ class CreateProductsTable extends Migration
         Schema::create('product_attributes', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('product_id');
-            $table->integer('attribute_id');
+            $table->string('code');
             $table->text('value')->nullable();
             $table->longText('options')->nullable();
             $table->boolean('enabled');

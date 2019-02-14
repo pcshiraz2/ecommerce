@@ -19,7 +19,7 @@
             <h1>فروشگاه
                 @if(Auth::check())
                     @can('products')
-                        <a href="{{ route('product.create')  }}" class="btn btn-primary pull-left btn-sm"><i
+                        <a href="{{ route('admin.product.create')  }}" class="btn btn-primary pull-left btn-sm"><i
                                     class="fa fa-plus"></i>افزودن کالا</a>
                     @endcan
                 @endif

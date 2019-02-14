@@ -27,6 +27,7 @@ class CreateCategoriesTable extends Migration
             $table->string('order')->nullable();
             $table->integer('category_id')->nullable();
             $table->boolean('enabled');
+            $table->boolean('visible')->nullable();
             $table->longText('options')->nullable();
             $table->timestamps();
             $table->softDeletes();

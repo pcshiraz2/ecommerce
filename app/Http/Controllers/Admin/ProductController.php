@@ -77,9 +77,9 @@ class ProductController extends Controller
         $product->purchase_price = MoneyUtil::database($request->purchase_price);
         $product->sale_price = MoneyUtil::database($request->sale_price);
         $product->period_price = MoneyUtil::database($request->period_price);
-        $product->off_price = MoneyUtil::database($request->off_price);
-        if($request->off_expire_at) {
-            $product->off_expire_at = \Morilog\Jalali\CalendarUtils::createDatetimeFromFormat('Y/m/d H:i', \App\Utils\TextUtil::convertToEnglish($request->off_expire_at));
+        $product->discount_price = MoneyUtil::database($request->discount_price);
+        if($request->discount_expire_at) {
+            $product->discount_expire_at = \Morilog\Jalali\CalendarUtils::createDatetimeFromFormat('Y/m/d H:i', \App\Utils\TextUtil::convertToEnglish($request->discount_expire_at));
         }
         $product->category_id = $request->category_id;
         $product->user_id = Auth::user()->id;
@@ -97,7 +97,7 @@ class ProductController extends Controller
         $product->top = $request->top;
         $product->order = $request->order;
         $product->tax_id = $request->tax_id;
-        $product->off = $request->off;
+        $product->discount = $request->discount;
         $product->save();
 
         if ($request->tags) {
@@ -135,9 +135,9 @@ class ProductController extends Controller
         $product->sale_price = MoneyUtil::database($request->sale_price);
         $product->purchase_price = MoneyUtil::database($request->purchase_price);
         $product->period_price = MoneyUtil::database($request->period_price);
-        $product->off_price = MoneyUtil::database($request->off_price);
-        if($request->off_expire_at) {
-            $product->off_expire_at = \Morilog\Jalali\CalendarUtils::createDatetimeFromFormat('Y/m/d H:i', \App\Utils\TextUtil::convertToEnglish($request->off_expire_at));
+        $product->discount_price = MoneyUtil::database($request->discount_price);
+        if($request->discount_expire_at) {
+            $product->discount_expire_at = \Morilog\Jalali\CalendarUtils::createDatetimeFromFormat('Y/m/d H:i', \App\Utils\TextUtil::convertToEnglish($request->discount_expire_at));
         }
         $product->category_id = $request->category_id;
         $product->user_id = Auth::user()->id;
@@ -155,7 +155,8 @@ class ProductController extends Controller
         $product->top = $request->top;
         $product->order = $request->order;
         $product->tax_id = $request->tax_id;
-        $product->off = $request->off;
+        $product->discount = $request->discount;
+
 
         if ($request->tags) {
             $product->retag($request->tags);

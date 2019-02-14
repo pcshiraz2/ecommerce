@@ -17,7 +17,7 @@
     "bkwld/cloner": "^3.3",
     "fideloper/proxy": "^4.0",
     "guzzlehttp/guzzle": "^6.3",
-    "hardevine/shoppingcart": "^2.5",
+    "hardevine/shoppingcart": "^2.6",
     "intervention/image": "^2.4",
     "kyslik/column-sortable": "^5.7",
     "laracasts/flash": "^3.0",

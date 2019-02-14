@@ -20,7 +20,7 @@ class CreateAttributesTable extends Migration
             $table->string('color')->nullable();
             $table->string('image')->nullable();
             $table->string('icon')->nullable();
-            $table->string('code')->nullable();
+            $table->string('code')->unique()->nullable();
             $table->longText('description')->nullable();
             $table->longText('options')->nullable();
             $table->integer('order')->nullable();
