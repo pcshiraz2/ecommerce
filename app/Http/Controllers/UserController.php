@@ -34,7 +34,7 @@ class UserController extends Controller
 
     public function profile()
     {
-        $provinces = Province::all();
+        $provinces = Province::enabled()->get();
         if (Auth::user()->province_id) {
             $cities = City::where('province_id', Auth::user()->province_id)->get();
         } else {

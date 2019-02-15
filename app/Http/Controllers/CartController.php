@@ -90,7 +90,7 @@ class CartController extends Controller
             flash("برای تکمیل سفارش نیاز است شما در سایت ثبت نام کنید لذا ابتدا فرم زیر را تکمیل کنید، در صورتی که پیش تر در سایت ثبت نام کردید از گزینه ورود استفاده نمایید.")->warning();
             return redirect()->route('register');
         } else {
-            $provinces = Province::all();
+            $provinces = Province::enabled()->get();
             if (Auth::user()->province_id) {
                 $cities = City::where('province_id', Auth::user()->province_id)->get();
             } else {

@@ -157,7 +157,7 @@
                             شکایت</a></li>
                 </ul>
                 <div class="ml-auto">
-                    <a href="https://pcshiraz.com" target="_blank">قدرت گرفته از پی سی شیراز</a>
+                    <a href="https://pcshiraz.ir" target="_blank">قدرت گرفته از پی سی شیراز</a>
                 </div>
             </div>
         </nav>
