@@ -44,6 +44,9 @@ class CategoryController extends Controller
         $category->type = $request->type;
         $category->color = $request->color;
         $category->icon = $request->icon;
+        $category->order = $request->order;
+        $category->code = $request->code;
+        $category->enabled = $request->enabled;
         $category->save();
         Cache::forget('categories_' . $category->type);
         flash('دسته با موفقیت اضافه شد.')->success();
@@ -61,6 +64,9 @@ class CategoryController extends Controller
         $category->type = $request->type;
         $category->color = $request->color;
         $category->icon = $request->icon;
+        $category->order = $request->order;
+        $category->code = $request->code;
+        $category->enabled = $request->enabled;
         $category->save();
         Cache::forget('categories_' . $category->type);
         flash('دسته با موفقیت ویرایش شد.')->success();

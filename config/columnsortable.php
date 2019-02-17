@@ -11,7 +11,7 @@ return [
             'class' => 'pull-right fa fa-sort-alpha',
         ],
         'amount'  => [
-            'rows'  => ['amount', 'price'],
+            'rows'  => ['amount', 'price', 'order'],
             'class' => 'pull-right fa fa-sort-amount',
         ],
         'numeric' => [

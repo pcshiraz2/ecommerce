@@ -16,8 +16,8 @@
     </div>
     <div class="row justify-content-center mb-2">
         <div class="col-md-12">
-            <div id="slides" class="carousel slide" data-ride="carousel">
 
+            <div id="slides" class="carousel slide" data-ride="carousel">
                 <!-- Indicators -->
                 <ul class="carousel-indicators">
                     @foreach($slides as $slide)
@@ -33,15 +33,14 @@
                 <div class="carousel-inner">
                     @foreach($slides as $slide)
                         @if ($loop->first)
-                            <a href="{{$slide->link}}" class="carousel-item active rounded-2">
+                            <a href="{{$slide->link}}" class="carousel-item active">
                                 <img src="{{ Storage::url($slide->image) }}" alt="{{$slide->title}}" class="rounded">
                             </a>
                         @else
-                            <a href="{{$slide->link}}" class="carousel-item rounded-2">
+                            <a href="{{$slide->link}}" class="carousel-item">
                                 <img src="{{ Storage::url($slide->image) }}" alt="{{$slide->title}}" class="rounded">
                             </a>
                         @endif
-
                     @endforeach
                 </div>
 
@@ -129,10 +128,6 @@
                 </ul>
             </div>
         </div>
-    </div>
-    <h2>دسته بندی ها</h2>
-    <div class="row justify-content-center">
-
     </div>
     @include('global.logo')
 

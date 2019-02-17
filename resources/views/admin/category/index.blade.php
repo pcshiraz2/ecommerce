@@ -35,6 +35,7 @@
                                     @endforeach
                                 </select>
                             </div>
+
                             <button type="submit" class="btn btn-primary btn-mobile btn-sm"><i class="fa fa-search"></i>ارسال
                                 جستجو
                             </button>
@@ -56,6 +57,7 @@
                         <tr>
                             <th scope="col">@sortablelink('title', 'عنوان')</th>
                             <th scope="col">نوع</th>
+                            <th scope="col">@sortablelink('order', 'ترتیب')</th>
                             <th scope="col">اقدام ها</th>
                         </tr>
                         </thead>
@@ -63,6 +65,7 @@
                         <tr>
                             <td>{{ $category->title }}</td>
                             <td>{{ trans('category.'.$category->type) }}</td>
+                            <td>{{ $category->order }}</td>
                             <td>
                                 <a href="{{ route('admin.category.edit', ['id' => $category->id]) }}"
                                    class="btn btn-sm btn-dark"

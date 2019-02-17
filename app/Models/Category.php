@@ -53,7 +53,7 @@ class Category extends Model
         if (Cache::has('categories_' . $type)) {
             return Cache::get('categories_' . $type);
         } else {
-            $categories = Category::where('type', $type)->get();
+            $categories = Category::where('type', $type)->orderBy('order', 'asc')->get();
             Cache::forever('categories_' . $type, $categories);
             return $categories;
         }

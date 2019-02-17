@@ -181,10 +181,11 @@
 
                             <div class="col-md-7">
                                 <select name="gateway" id="gateway" class="form-control{{ $errors->has('gateway') ? ' is-invalid' : '' }}">
-                                    @foreach(\Parsisolution\Gateway\GatewayManager::activeDrivers() as $gateway)
+                                    @foreach(\Parsisolution\Gateway\Facades\Gateway::activeDrivers() as $gateway)
                                         <option value="{{$key}}"{{ old('gateway')  ? ' selected' : '' }}>{{$gateway['name']}}</option>
                                     @endforeach
                                 </select>
+
                                 @if ($errors->has('gateway'))
                                     <span class="invalid-feedback">
                                         <strong>{{ $errors->first('gateway') }}</strong>

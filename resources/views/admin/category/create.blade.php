@@ -74,6 +74,30 @@
                             @endif
                         </div>
                         <div class="form-group">
+                            <label for="code">کد</label>
+                            <input dir="ltr" id="code" type="text"
+                                   class="form-control{{ $errors->has('code') ? ' is-invalid' : '' }}" name="code"
+                                   value="{{ old('code') }}">
+
+                            @if ($errors->has('code'))
+                                <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('code') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
+                        <div class="form-group">
+                            <label for="order">ترتیب</label>
+                            <input dir="ltr" id="order" type="text"
+                                   class="form-control{{ $errors->has('order') ? ' is-invalid' : '' }}" name="order"
+                                   value="{{ old('order') }}">
+
+                            @if ($errors->has('order'))
+                                <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('order') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
+                        <div class="form-group">
                             <label for="enabled">فعال</label>
                             <div class="custom-control custom-radio">
                                 <input type="radio" id="enableRadioYes" name="enabled"

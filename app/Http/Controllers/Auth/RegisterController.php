@@ -51,6 +51,7 @@ class RegisterController extends Controller
         if (config('platform.captcha-register-enabled')) {
             return Validator::make($data, [
                 'last_name' => 'required|string|max:191',
+                'first_name' => 'required|string|max:191',
                 'email' => 'required|string|email|max:191|unique:users,email',
                 'mobile' => 'required|numeric|digits:11|unique:users,mobile',
                 'password' => 'required|string|min:6|confirmed',
@@ -59,6 +60,7 @@ class RegisterController extends Controller
         } else {
             return Validator::make($data, [
                 'last_name' => 'required|string|max:191',
+                'first_name' => 'required|string|max:191',
                 'email' => 'required|string|email|max:191|unique:users,email',
                 'mobile' => 'required|numeric|digits:11|unique:users,mobile',
                 'password' => 'required|string|min:6|confirmed',
@@ -75,16 +77,17 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $user = User::create([
+            'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'mobile' => $data['mobile'],
             'password' => Hash::make($data['password']),
+            'enabled' => true
         ]);
 
-        $user->first_name = $data['first_name'];
         $user->title = $data['title'];
         $user->email = $data['email'];
         $user->register_ip = request()->ip();
-        $user->login_ip = request()->ip();
+        $user->last_ip = request()->ip();
         $user->save();
 
         return $user;

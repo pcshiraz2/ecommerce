@@ -154,6 +154,7 @@ table.table-bordered.dataTable td:last-child, table.table-bordered.dataTable th:
 .table .thead-dark th a {
   color: $white;
 }
+
 .table .thead-dark th a:active {
   color: $white;
 }
@@ -162,14 +163,14 @@ table.table-bordered.dataTable td:last-child, table.table-bordered.dataTable th:
   color: $white;
 }
 
-.nav-pills>li>a {
+.nav-pills > li > a {
   padding-top: 5px;
   padding-bottom: 5px;
 }
 
 .rtl .pl-2, .rtl .px-2 {
-  padding-left: 0.5rem!important;
-  padding-right: 0.5rem!important;
+  padding-left: 0.5rem !important;
+  padding-right: 0.5rem !important;
 }
 
 .rtl .card-title {
@@ -194,4 +195,28 @@ table.table-bordered.dataTable td:last-child, table.table-bordered.dataTable th:
 .rtl .card-price-free {
   color: $success;
   font-size: 0.9125rem;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .carousel-inner {
+    height: 400px;
+  }
+
+  .carousel-item, .carousel-item img {
+    height: 400px;
+    width: 100%;
+  }
+
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 767px) {
+  .carousel-inner {
+    height: 160px;
+  }
+
+  .carousel-item, .carousel-item img {
+    height: 160px;
+    width: 100%
+  }
 }
