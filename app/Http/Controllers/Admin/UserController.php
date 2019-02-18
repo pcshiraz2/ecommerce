@@ -46,25 +46,27 @@ class UserController extends Controller
     public function insert(Request $request)
     {
         Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email',
             'mobile' => 'required|numeric|digits:11|unique:users,mobile',
-            'password' => 'required|string|min:6|confirmed',
-            'level' => 'required',
+            'password' => 'required|string|min:6|confirmed'
         ])->validate();
         $user = new User();
-        $user->name = $request->name;
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
         $user->email = $request->email;
         $user->mobile = $request->mobile;
         $user->note = $request->note;
         $user->title = $request->title;
-        $user->level = $request->level;
+        $user->enabled = true;
         $user->password = Hash::make($request->password);
         $user->save();
 
         try {
             Notification::send($user, new UserWelcome($user, $request->password));
         } catch (\Exception $e) {
+
         }
 
         flash('کاربر با موفقیت اضافه شد.')->success();

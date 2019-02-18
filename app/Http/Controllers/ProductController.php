@@ -26,7 +26,22 @@ class ProductController extends Controller
         return view('product.view', compact('product'));
     }
 
+    public function slug($id)
+    {
+        $product = Product::findOrFail($id);
+        return view('product.view', compact('product'));
+    }
+
     public function category($id)
+    {
+        $category = Category::findWithCache($id);
+        $categories = Category::findType('Product');
+        $products = $products = Product::where('category_id', $id)->orderBy('updated_at', 'desc')->paginate(config('platform.product-per-page'));
+        return view('product.category', ['products' => $products, 'categories' => $categories, 'category' => $category]);
+    }
+
+
+    public function code($id)
     {
         $category = Category::findWithCache($id);
         $categories = Category::findType('Product');

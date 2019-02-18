@@ -73,7 +73,9 @@ Route::get('/shop', 'ProductController@index')->name('shop');
 Route::get('/product', 'ProductController@index')->name('product');
 Route::get('/product/find', 'ProductController@find')->name('product.find');
 Route::get('/product/category/{id}', 'ProductController@category')->name('product.category');
+Route::get('/product/category/{id}/{code}', 'ProductController@category')->name('product.category.code');
 Route::get('/product/view/{id}', 'ProductController@view')->name('product.view');
+Route::get('/product/view/{id}/{slug}', 'ProductController@slug')->name('product.view.slug');
 
 
 Route::get('/article', 'ArticleController@index')->name('article');
@@ -120,6 +122,13 @@ Route::get('/cart/empty', 'CartController@empty')->name('cart.empty');
 
 Route::get('/cart/factory', 'CartController@factory')->name('cart.factory');
 Route::post('/cart/store/factory', 'CartController@storeFactory')->name('cart.store-factory');
+
+
+
+Route::get('/sitemap', 'SitemapController@index')->name('sitemap');
+Route::get('/sitemap.xml', 'SitemapController@index')->name('sitemap.xml');
+Route::get('/sitemap/products', 'SitemapController@products')->name('sitemap.products');
+Route::get('/sitemap/categories', 'SitemapController@categories')->name('sitemap.categories');
 
 
 Route::prefix(Config('platform.admin-route'))->name('admin.')->group(function () {

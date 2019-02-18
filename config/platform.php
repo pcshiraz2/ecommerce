@@ -62,4 +62,6 @@ return [
 
     'slide-image-height' => 500,
     'slide-image-width' => 1100,
+
+    'contact-phone' => '07132317271'
 ];

@@ -438,7 +438,27 @@
                                 @endif
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="call_price">قیمت با تماس</label>
 
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="call_priceRadioYes" name="call_price"
+                                       value="1"
+                                       class="custom-control-input"{{ old('call_price', $product->call_price) == true  ? ' checked' : '' }}>
+                                <label class="custom-control-label" for="call_priceRadioYes">بله</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="call_priceRadioNo" name="call_price"
+                                       value="0"
+                                       class="custom-control-input"{{ old('call_price', $product->call_price) == false  ? ' checked' : '' }}>
+                                <label class="custom-control-label" for="call_priceRadioNo">خیر</label>
+                            </div>
+                            @if ($errors->has('call_price'))
+                                <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('call_price') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
                         <div class="form-group">
                             <label for="tax_id">مالیات
                                 <span class="font-weight-light font-italic"> - اختیاری</span>

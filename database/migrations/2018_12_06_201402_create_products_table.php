@@ -40,6 +40,7 @@ class CreateProductsTable extends Migration
             $table->boolean('post');
             $table->boolean('top');
             $table->boolean('discount');
+            $table->boolean('call_price');
 
             $table->integer('tax_id')->nullable();
             $table->integer('order')->nullable();

@@ -182,7 +182,7 @@
                             <div class="col-md-7">
                                 <select name="gateway" id="gateway" class="form-control{{ $errors->has('gateway') ? ' is-invalid' : '' }}">
                                     @foreach(\Parsisolution\Gateway\Facades\Gateway::activeDrivers() as $gateway)
-                                        <option value="{{$key}}"{{ old('gateway')  ? ' selected' : '' }}>{{$gateway['name']}}</option>
+                                        <option value="{{ $gateway['key'] }}"{{ old('gateway') == $gateway['key']  ? ' selected' : '' }}>{{ $gateway['name'] }}</option>
                                     @endforeach
                                 </select>
 

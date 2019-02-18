@@ -26,6 +26,14 @@ class CartController extends Controller
     public function add($id)
     {
         $product = Product::with(['tax'])->findOrFail($id);
+        if(!$product->shop) {
+            flash($product->title . "در حال حاضر این کالا موجود نمی باشد.")->danger();
+            return redirect()->route('product.view',[$product->id]);
+        }
+        if($product->call_price) {
+            flash("برای استعلام قیمت " . $product->title .  " از طریق تماس تلفنی اقدام نمایید.")->info();
+            return redirect()->route('product.view',[$product->id]);
+        }
         if($product->tax_id) {
             $tax_rate = ($product->tax->rate);
             $tax_name = ($product->tax->name);

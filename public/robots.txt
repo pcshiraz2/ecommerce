@@ -1,2 +1,4 @@
 User-agent: *
 Disallow:
+
+https://pcshiraz.ir/sitemap.xml

@@ -46,15 +46,47 @@
                         <img class="card-img-top mb-2" src="{{ Storage::url($product->image) }}" alt="image"
                              style="width:100%">
                     @endif
-                    <a href="{{ route('cart.add',['id' => $product->id]) }}"
-                       class="btn btn-mobile btn-warning btn-lg btn-block"><i class="fa fa-cart-plus"></i> خرید</a>
-                    <ul class="list-group mt-2">
+                        @if($product->sale_price != 0)
+                            @if($product->shop)
+                                    @if($product->call_price)
+                                        <button class="btn btn-mobile btn-info btn-lg btn-block"><i class="fa fa-phone-square"></i> تماس:{{ config('platform.contact-phone') }}</button>
+
+                                    @else
+                                        <a href="{{ route('cart.add',['id' => $product->id]) }}"
+                                           class="btn btn-mobile btn-warning btn-lg btn-block"><i class="fa fa-cart-plus"></i> خرید</a>
+
+                                        @endif
+                            @endif
+                        @endif
+                            <ul class="list-group mt-2">
                         <li class="list-group-item">
-                            @if($product->sale_price)
-                                قیمت:
-                                <strong>{{ \App\Utils\MoneyUtil::format($product->sale_price) }}</strong> {{ trans('currency.'.config('platform.currency')) }}
-                            @else
-                                <strong>رایگان</strong>
+                            @if($product->shop)
+                            @if($product->call_price)
+                                <strong>استعلام قیمت تلفنی</strong>
+
+                                @else
+
+                                @if($product->sale_price)
+                                        @if($product->sale_price != 0)
+                                            قیمت:
+                                            @if($product->discount)
+                                                <del class="clearfix card-price-del">{{ \App\Utils\MoneyUtil::format($product->sale_price) }}</del>
+                                                <strong class="clearfix card-price-discount">{{ \App\Utils\MoneyUtil::format($product->discount_price) }}  {{ trans('currency.'.config('platform.currency')) }}</strong>
+                                            @else
+                                                <strong class="clearfix card-price">{{ \App\Utils\MoneyUtil::format($product->sale_price) }}  {{ trans('currency.'.config('platform.currency')) }}</strong>
+                                            @endif
+                                        @else
+                                            <strong>رایگان</strong>
+                                        @endif
+                                @else
+                                    <strong>رایگان</strong>
+                                @endif
+
+                            @endif
+
+                           @else
+
+                            <strong>ناموجود</strong>
                             @endif
                         </li>
                     </ul>

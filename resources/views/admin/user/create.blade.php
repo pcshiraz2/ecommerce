@@ -23,45 +23,49 @@
                     <form method="POST" action="{{ route('admin.user.insert') }}">
                         @csrf
                         @method('post')
-                        <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label @lang('platform.input-pull')">نام و نام
-                                خانوادگی</label>
+                        <div class="form-group">
+                            <label for="first_name">نام</label>
 
-                            <div class="col-md-7">
-                                <input id="name" type="text"
-                                       class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name"
-                                       value="{{ old('name') }}" required autofocus>
-
-                                @if ($errors->has('name'))
+                                <input id="first_name" type="text"
+                                       class="form-control{{ $errors->has('first_name') ? ' is-invalid' : '' }}" name="first_name"
+                                       value="{{ old('first_name') }}" required autofocus>
+                                @if ($errors->has('first_name'))
                                     <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('name') }}</strong>
+                                        <strong>{{ $errors->first('first_name') }}</strong>
                                     </span>
                                 @endif
-                            </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="title" class="col-md-4 col-form-label @lang('platform.input-pull')">عنوان
-                                کاربری</label>
+                        <div class="form-group">
+                            <label for="last_name">نام خانوادگی</label>
 
-                            <div class="col-md-7">
-                                <input id="title" type="text"
-                                       class="form-control{{ $errors->has('title') ? ' is-invalid' : '' }}" name="title"
-                                       value="{{ old('title') }}">
+                            <input id="last_name" type="text"
+                                   class="form-control{{ $errors->has('last_name') ? ' is-invalid' : '' }}" name="last_name"
+                                   value="{{ old('last_name') }}" required>
+                            @if ($errors->has('last_name'))
+                                <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('last_name') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
 
-                                @if ($errors->has('title'))
-                                    <span class="invalid-feedback">
+
+                        <div class="form-group">
+                            <label for="title">عنوان حقوقی</label>
+
+                            <input id="title" type="text"
+                                   class="form-control{{ $errors->has('title') ? ' is-invalid' : '' }}" name="title"
+                                   value="{{ old('title') }}">
+                            @if ($errors->has('title'))
+                                <span class="invalid-feedback">
                                         <strong>{{ $errors->first('title') }}</strong>
                                     </span>
-                                @endif
-                            </div>
+                            @endif
                         </div>
 
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label @lang('platform.input-pull')">آدرس
-                                ایمیل</label>
+                        <div class="form-group">
+                            <label for="email">پست الکترونیکی</label>
 
-                            <div class="col-md-7">
                                 <input id="email" type="email" dir="ltr"
                                        class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email"
                                        value="{{ old('email') }}" required>
@@ -71,14 +75,11 @@
                                         <strong>{{ $errors->first('email') }}</strong>
                                     </span>
                                 @endif
-                            </div>
+
                         </div>
 
-                        <div class="form-group row">
-                            <label for="mobile" class="col-md-4 col-form-label @lang('platform.input-pull')">شماره
-                                همراه</label>
-
-                            <div class="col-md-7">
+                        <div class="form-group">
+                            <label for="mobile">شماره همراه</label>
                                 <input id="mobile" type="text" dir="ltr"
                                        class="form-control{{ $errors->has('mobile') ? ' is-invalid' : '' }}"
                                        name="mobile" value="{{ old('mobile') }}" required>
@@ -88,14 +89,11 @@
                                         <strong>{{ $errors->first('mobile') }}</strong>
                                     </span>
                                 @endif
-                            </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label @lang('platform.input-pull')">کلمه
-                                عبور</label>
+                        <div class="form-group">
+                            <label for="password">کلمه عبور</label>
 
-                            <div class="col-md-7">
                                 <input id="password" type="password" dir="ltr"
                                        class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
                                        name="password" required>
@@ -105,50 +103,29 @@
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>
                                 @endif
-                            </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label @lang('platform.input-pull')">تکرار
+                        <div class="form-group">
+                            <label for="password-confirm">تکرار
                                 کلمه عبور</label>
 
-                            <div class="col-md-7">
                                 <input id="password-confirm" dir="ltr" type="password" class="form-control"
                                        name="password_confirmation" required>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="level" class="col-md-4 col-form-label @lang('platform.input-pull')">سطح
-                                کاربری</label>
-
-                            <div class="col-md-7">
-                                <select name="level" id="level"
-                                        class="form-control{{ $errors->has('level') ? ' is-invalid' : '' }}">
-                                    <option value="user"{{old('level') == 'user' ? ' selected' : ''}}>کاربر</option>
-                                    <option value="staff"{{old('level') == 'staff' ? ' selected' : ''}}>کارمند</option>
-                                    <option value="admin"{{old('level') == 'marketer' ? ' selected' : ''}}>بازاریاب
-                                    </option>
-                                    <option value="admin"{{old('level') == 'admin' ? ' selected' : ''}}>مدیر</option>
-                                </select>
-                            </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="note"
-                                   class="col-md-4 col-form-label @lang('platform.input-pull')">توضیحات</label>
 
-                            <div class="col-md-7">
+                        <div class="form-group">
+                            <label for="note">توضیحات</label>
+
+
                                 <textarea name="note" id="note"
                                           class="form-control{{ $errors->has('note') ? ' is-invalid' : '' }}">{{old('note')}}</textarea>
-                            </div>
                         </div>
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
+                        <div class="form-group">
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fa fa-user-plus"></i>
                                     ایجاد کاربر
                                 </button>
-                            </div>
                         </div>
                     </form>
                 </div>

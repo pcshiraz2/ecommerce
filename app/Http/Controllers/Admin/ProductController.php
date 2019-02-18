@@ -98,6 +98,7 @@ class ProductController extends Controller
         $product->order = $request->order;
         $product->tax_id = $request->tax_id;
         $product->discount = $request->discount;
+        $product->call_price = $request->call_price;
         $product->save();
 
         if ($request->tags) {
@@ -156,6 +157,7 @@ class ProductController extends Controller
         $product->order = $request->order;
         $product->tax_id = $request->tax_id;
         $product->discount = $request->discount;
+        $product->call_price = $request->call_price;
 
 
         if ($request->tags) {
