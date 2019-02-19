@@ -43,7 +43,7 @@
             <div class="row">
                 <div class="col-md-{{ config('platform.sidebar-size') }}">
                     @if($product->image)
-                        <img class="card-img-top mb-2" src="{{ Storage::url($product->image) }}" alt="image"
+                        <img class="card-img-top mb-2" src="{{ Storage::url($product->image) }}" title="{{$product->title}}"  alt="{{$product->title}}"
                              style="width:100%">
                     @endif
                         @if($product->sale_price != 0)

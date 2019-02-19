@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title', ' - ' . config('platform.home-page-title'))
+@section('description', ' - ' . config('platform.home-page-description'))
+@section('keywords', ' - ' . config('platform.home-page-keywords'))
+
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-12 mb-2">
@@ -34,11 +38,11 @@
                     @foreach($slides as $slide)
                         @if ($loop->first)
                             <a href="{{$slide->link}}" class="carousel-item active">
-                                <img src="{{ Storage::url($slide->image) }}" alt="{{$slide->title}}" class="rounded">
+                                <img src="{{ Storage::url($slide->image) }}" alt="{{$slide->title}}" title="{{$slide->title}}" class="rounded">
                             </a>
                         @else
                             <a href="{{$slide->link}}" class="carousel-item">
-                                <img src="{{ Storage::url($slide->image) }}" alt="{{$slide->title}}" class="rounded">
+                                <img src="{{ Storage::url($slide->image) }}" alt="{{$slide->title}}" title="{{$slide->title}}" class="rounded">
                             </a>
                         @endif
                     @endforeach

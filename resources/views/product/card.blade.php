@@ -7,7 +7,7 @@
             <span class="h6 w-70 mx-auto px-2 py-1 rounded-bottom bg-primary text-white shadow text-center"
                   style="position: absolute;right: 35%;"><i class="fa fa-star"></i> فروش ویژه</span>
         @endif
-        <img class="card-img-top" src="{{ Storage::url($product->image) }}" alt="image"
+        <img class="card-img-top" title="{{$product->title}}" src="{{ Storage::url($product->image) }}" alt="image"
              style="width:100%">
         <div class="card-body">
 

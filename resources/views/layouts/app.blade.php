@@ -13,7 +13,11 @@
     <meta name="author" content="@yield('author')">
 
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
-    <title>@yield('title'){{ config('platform.name', 'ShirazPlatform') }}</title>
+    @if (Route::getCurrentRoute()->uri() == '/')
+        <title>{{ config('platform.name', 'ShirazPlatform') }}@yield('title')</title>
+    @else
+        <title>@yield('title'){{ config('platform.name', 'ShirazPlatform') }}</title>
+    @endif
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @yield('css')
