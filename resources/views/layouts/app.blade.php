@@ -53,7 +53,7 @@
                             <input type="text" autocomplete="off" id="search" name="search" class="form-control"
                                    placeholder="جستجو..." aria-label="جستجوی ..." aria-describedby="navbar-search" value="{{ request('search') }}">
                             <div class="input-group-append">
-                                <button id="search-btn" class="btn btn-warning" type="button" id="navbar-search"><i
+                                <button id="search-btn" class="btn btn-warning" type="submit" id="navbar-search"><i
                                             class="fa fa-search" id="search-icon"></i></button>
                             </div>
                         </div>

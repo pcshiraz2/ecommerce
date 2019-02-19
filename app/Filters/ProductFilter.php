@@ -13,8 +13,8 @@ class ProductFilter extends ModelFilter
     public $relations = [];
     public function search($query)
     {
-        return $this->orWhere('title', 'LIKE', '%' . $query . '%')
-            ->orWhere('text', 'LIKE', '%' . $query . '%')
-            ->orWhere('description', 'LIKE', '%' . $query . '%');
+        return $this->whereLike('title', $query)
+            ->whereLike('text', $query, 'or')
+            ->whereLike('description', $query, 'or');
     }
 }

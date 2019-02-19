@@ -31,7 +31,7 @@ class Model extends Eloquent
             $limit = $request->get('limit', config('platform.per-page'));
         }
 
-        return $query->filter($input)->sortable($sort)->paginate($limit);
+        return $this->scopeFilter($query, $input)->sortable($sort)->paginate($limit);
     }
 
     public function scopeEnabled($query)
