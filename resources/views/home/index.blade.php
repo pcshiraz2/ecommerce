@@ -99,7 +99,7 @@
         <div class="col-md-6 mb-2">
             <div class="card card-default">
                 <div class="card-header">
-                    آخرین اخبار
+                    <a href="{{ route('article') }}">آخرین اخبار</a>
                 </div>
                 <ul class="list-group list-group-flush">
                     @foreach($articles as $article)
@@ -117,7 +117,7 @@
         <div class="col-md-6 mb-2">
             <div class="card card-default">
                 <div class="card-header">
-                    مباحث انجمن
+                    <a href="{{ route('discussion') }}">مباحث انجمن</a>
                 </div>
                 <ul class="list-group list-group-flush">
                     @foreach($discussions as $discussion)

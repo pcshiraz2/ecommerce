@@ -161,10 +161,19 @@
                             شکایت</a></li>
                 </ul>
                 <div class="ml-auto">
-                    <a href="https://pcshiraz.ir" target="_blank">قدرت گرفته از پی سی شیراز</a>
+                    <div class="clearfix">
+                        <img src="https://trustseal.enamad.ir/logo.aspx?id=117474&amp;p=hc4M4EyOgZbGDfWO" alt="" onclick="window.open(&quot;https://trustseal.enamad.ir/Verify.aspx?id=117474&amp;p=hc4M4EyOgZbGDfWO&quot;, &quot;Popup&quot;,&quot;toolbar=no, location=no, statusbar=no, menubar=no, scrollbars=1, resizable=0, width=580, height=600, top=30&quot;)" style="cursor:pointer" id="hc4M4EyOgZbGDfWO">
+                    </div>
                 </div>
             </div>
         </nav>
+        <div class="{{ config('platform.main-container') }}">
+            <div class="row justify-content-center">
+                <div class="col-12 text-center my-2">
+                    <i class="fa fa-heart" style="color: mediumvioletred"></i> <a href="https://pcshiraz.ir" target="_blank">قدرت گرفته از پی سی شیراز</a>
+                </div>
+            </div>
+        </div>
     </footer>
 </div>
 

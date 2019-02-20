@@ -272,4 +272,7 @@ Route::prefix(Config('platform.admin-route'))->name('admin.')->group(function ()
     Route::post('/setting/insert', 'Admin\SettingController@insert')->name('setting.insert');
     Route::delete('/setting/delete/{id}', 'Admin\SettingController@delete')->name('setting.delete');
 
+
+    Route::get('/import/user', 'Admin\ImportController@user')->name('import.user');
+
 });
