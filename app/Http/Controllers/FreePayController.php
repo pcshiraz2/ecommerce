@@ -112,7 +112,7 @@ class FreePayController extends Controller
         }  catch (RetryException $e) {
             flash($e->getMessage())->error();
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             flash($e->getMessage())->error();
         }
         return redirect()->route('free-pay');
