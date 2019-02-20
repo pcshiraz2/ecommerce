@@ -70,7 +70,6 @@ class FreePayController extends Controller
 
             $settledTransaction = Gateway::settle(true);
 
-
             $trackingCode = $settledTransaction->getTrackingCode();
             $refId = $settledTransaction->getReferenceId();
             $cardNumber = $settledTransaction->getCardNumber();
@@ -82,12 +81,13 @@ class FreePayController extends Controller
             ];
 
             $transaction = new Transaction();
-            $transaction->account_id = config('gateways.' . session('gateway') . '.account_id');
+            $transaction->account_id = config('gateways.' . session('gateway') . '.account-id');
             $transaction->first_name = session('first_name');
             $transaction->last_name = session('last_name');
             $transaction->email = session('email');
             $transaction->mobile = session('mobile');
             $transaction->gateway = session('gateway');
+            $transaction->currency_code = config('platform.currency');
             $transaction->type = 'income';
             $transaction->gateway_transaction_id = $settledTransaction->getId();
             $transaction->user_id = session('user_id');

@@ -46,7 +46,8 @@ class CreateInvoicesTable extends Migration
 
 
             //Information
-            $table->string('name')->nullable();
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
             $table->string('zip_code')->nullable();
@@ -63,6 +64,7 @@ class CreateInvoicesTable extends Migration
 
             //Times
             $table->timestamp('invoice_at')->nullable();
+            $table->timestamp('paid_at')->nullable();
             $table->timestamp('due_at')->nullable();
             $table->timestamps();
             $table->softDeletes();

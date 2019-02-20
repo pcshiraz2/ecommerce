@@ -185,15 +185,14 @@ class CartController extends Controller
             }
             $invoice = new Invoice();
             $invoice->user_id = Auth::user()->id;
+            $invoice->first_name = Auth::user()->first_name;
+            $invoice->last_name = Auth::user()->last_name;
             $invoice->status = 'sent';
             $invoice->total = 0;
             $invoice->tax = 0;
             $invoice->type = 'sale';
             $invoice->password = uniqid();
             $invoice->invoice_at = date("Y-m-d H:i:s");
-            if (session('name') == Auth::user()->name) {
-                $invoice->name = session('name');
-            }
             $invoice->zip_code = Auth::user()->zip_code;
             $invoice->phone = Auth::user()->phone;
             $invoice->address = Auth::user()->address;

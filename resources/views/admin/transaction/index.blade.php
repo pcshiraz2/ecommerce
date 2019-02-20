@@ -52,6 +52,9 @@
                                         <i class="fa fa-exchange"></i>
                                     @elseif($transaction->type == 'income')
                                         <i class="fa fa-plus-circle"></i>
+                                    @elseif($transaction->type == 'invoice')
+                                        <i class="fa fa-calculator"></i>
+                                        فاکتور
                                     @endif
                                     {{ $transaction->category['title'] }}
                                 </td>

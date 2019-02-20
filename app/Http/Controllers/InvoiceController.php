@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Parsisolution\Gateway\Facades\Gateway;
 use Parsisolution\Gateway\Transactions\RequestTransaction;
 use Parsisolution\Gateway\Transactions\Amount;
+use Parsisolution\Gateway\Exceptions\RetryException;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\InvoiceCreated;
 use App\Models\Transaction;
@@ -35,7 +36,7 @@ class InvoiceController extends Controller
             try {
                 $gateway = Gateway::of($request->gateway);
                 $gateway->callbackUrl(url('invoice/callback', ['id' => $request->invoice_id]));
-                $transaction = new RequestTransaction(new Amount($invoice->total, 'IRR'));
+                $transaction = new RequestTransaction(new Amount($invoice->total, config('platform.currency')));
                 $authorizedTransaction = $gateway->authorize($transaction);
                 return $gateway->redirect($authorizedTransaction);
             } catch (Exception $e) {
@@ -66,18 +67,36 @@ class InvoiceController extends Controller
         } else {
             try {
                 $settledTransaction = Gateway::settle();
+
+
+                $transaction = new Transaction();
+                $transaction->invoice_id = $invoice->id;
+                $transaction->user_id = Auth::user()->id;
+                $transaction->currency_code = config('platform.currency');
+                $transaction->amount = -1 * MoneyUtil::database($invoice->total);
+                $transaction->type = 'invoice';
+                $transaction->description = "هزینه فاکتور شماره:" . $invoice->id;
+                $transaction->save();
+
+
                 $transaction = new Transaction();
                 $transaction->gateway_transaction_id = $settledTransaction->getId();
+                $transaction->gateway = session('gateway');
                 $transaction->invoice_id = $invoice->id;
                 $transaction->account_id = config('gateway.' . session('gateway') . '.account-id');
                 $transaction->user_id = Auth::user()->id;
+                $transaction->currency_code = config('platform.currency');
                 $transaction->category_id = config('platform.sale-category-id');
                 $transaction->amount = MoneyUtil::database($invoice->total);
-                $transaction->name = Auth::user()->name;
+                $transaction->first_name = Auth::user()->first_name;
+                $transaction->last_name = Auth::user()->last_name;
                 $transaction->email = Auth::user()->email;
                 $transaction->mobile = Auth::user()->mobile;
+                $transaction->type = 'income';
                 $transaction->description = "پرداخت فاکتور شماره:" . $invoice->id;
                 $transaction->save();
+
+
                 $invoice->paid_at = date("Y-m-d H:i:s");
                 $invoice->status = 'paid';
                 $invoice->save();
@@ -89,7 +108,7 @@ class InvoiceController extends Controller
                 }
 
                 flash('فاکتور با موفقیت پرداخت شد.')->success();
-            } catch (\Parsisolution\Gateway\Exceptions\RetryException $e) {
+            } catch (RetryException $e) {
                 flash($e->getMessage())->error();
             } catch (\Exception $e) {
                 flash($e->getMessage())->error();

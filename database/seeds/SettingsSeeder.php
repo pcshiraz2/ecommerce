@@ -203,7 +203,7 @@ class SettingsSeeder extends Seeder
         $setting->title = 'حساب متصل به درگاه به پرداخت';
         $setting->category_id = 19;
         $setting->description = '';
-        $setting->key = 'gateways.mellat.account_id';
+        $setting->key = 'gateways.mellat.account-id';
         $setting->type = 'select-table';
         $setting->options = ['table'=> 'accounts', 'attrib' => 'title'];
         $setting->save();
@@ -252,7 +252,7 @@ class SettingsSeeder extends Seeder
         $setting->title = 'حساب متصل به زرین پال';
         $setting->category_id = 19;
         $setting->description = '';
-        $setting->key = 'gateways.zarinpal.account_id';
+        $setting->key = 'gateways.zarinpal.account-id';
         $setting->type = 'select-table';
         $setting->options = ['table'=> 'accounts', 'attrib' => 'title'];
         $setting->save();
@@ -304,7 +304,7 @@ class SettingsSeeder extends Seeder
         $setting->title = 'حساب متصل به درگاه سامان کیش';
         $setting->category_id = 19;
         $setting->description = '';
-        $setting->key = 'gateways.saman.account_id';
+        $setting->key = 'gateways.saman.account-id';
         $setting->type = 'select-table';
         $setting->options = ['table'=> 'accounts', 'attrib' => 'title'];
         $setting->save();
@@ -345,7 +345,7 @@ class SettingsSeeder extends Seeder
         $setting->title = 'حساب متصل به مبنا کارت';
         $setting->category_id = 19;
         $setting->description = '';
-        $setting->key = 'gateways.saderat.account_id';
+        $setting->key = 'gateways.saderat.account-id';
         $setting->type = 'select-table';
         $setting->options = ['table'=> 'accounts', 'attrib' => 'title'];
         $setting->save();
@@ -410,7 +410,7 @@ class SettingsSeeder extends Seeder
         $setting->title = 'حساب متصل به ایران کیش';
         $setting->category_id = 19;
         $setting->description = '';
-        $setting->key = 'gateways.irankish.account_id';
+        $setting->key = 'gateways.irankish.account-id';
         $setting->type = 'select-table';
         $setting->options = ['table'=> 'accounts', 'attrib' => 'title'];
         $setting->save();
@@ -443,7 +443,7 @@ class SettingsSeeder extends Seeder
         $setting->title = 'حساب متصل به Payir';
         $setting->category_id = 19;
         $setting->description = '';
-        $setting->key = 'gateways.payir.account_id';
+        $setting->key = 'gateways.payir.account-id';
         $setting->type = 'select-table';
         $setting->options = ['table'=> 'accounts', 'attrib' => 'title'];
         $setting->save();
@@ -476,7 +476,7 @@ class SettingsSeeder extends Seeder
         $setting->title = 'حساب متصل به سداد ملی';
         $setting->category_id = 19;
         $setting->description = '';
-        $setting->key = 'gateways.sadad.account_id';
+        $setting->key = 'gateways.sadad.account-id';
         $setting->type = 'select-table';
         $setting->options = ['table'=> 'accounts', 'attrib' => 'title'];
         $setting->save();
@@ -525,7 +525,7 @@ class SettingsSeeder extends Seeder
         $setting->title = 'حساب متصل به آسان پرداخت';
         $setting->category_id = 19;
         $setting->description = '';
-        $setting->key = 'gateways.asanpardakht.account_id';
+        $setting->key = 'gateways.asanpardakht.account-id';
         $setting->type = 'select-table';
         $setting->options = ['table'=> 'accounts', 'attrib' => 'title'];
         $setting->save();
@@ -598,7 +598,7 @@ class SettingsSeeder extends Seeder
         $setting->title = 'حساب متصل به پارسیان';
         $setting->category_id = 19;
         $setting->description = '';
-        $setting->key = 'gateways.parsian.account_id';
+        $setting->key = 'gateways.parsian.account-id';
         $setting->type = 'select-table';
         $setting->options = ['table'=> 'accounts', 'attrib' => 'title'];
         $setting->save();
@@ -631,7 +631,7 @@ class SettingsSeeder extends Seeder
         $setting->title = 'حساب متصل به پاسارگاد';
         $setting->category_id = 19;
         $setting->description = '';
-        $setting->key = 'gateways.pasargad.account_id';
+        $setting->key = 'gateways.pasargad.account-id';
         $setting->type = 'select-table';
         $setting->options = ['table'=> 'accounts', 'attrib' => 'title'];
         $setting->save();
