@@ -56,8 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'noreplay@shirazsoft.com'),
-        'name' => env('MAIL_FROM_NAME', 'نرم افزار شیراز'),
+        'address' => env('MAIL_FROM_ADDRESS', 'noreplay@pcshiraz.ir'),
+        'name' => env('MAIL_FROM_NAME', 'پی سی شیراز'),
     ],
 
     /*

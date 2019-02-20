@@ -159,6 +159,8 @@
                             مقررات</a></li>
                     <li><a class="nav-link" href="{{ route('complaint') }}"><i class="fa fa-user-times"></i> ثبت
                             شکایت</a></li>
+                    <li><a class="nav-link" href="{{ route('free-pay') }}"><i class="fa fa-money"></i>
+                            پرداخت نقدی</a></li>
                 </ul>
                 <div class="ml-auto">
                     <div class="clearfix">

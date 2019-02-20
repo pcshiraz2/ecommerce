@@ -17,6 +17,7 @@ class CreateTransactionsTable extends Migration
             $table->increments('id');
             $table->integer('invoice_id')->nullable();
             $table->unsignedBigInteger('gateway_transaction_id')->nullable();
+            $table->unsignedBigInteger('gateway')->nullable();
             $table->integer('account_id');
             $table->integer('user_id')->nullable();
             $table->integer('category_id')->nullable();
@@ -25,7 +26,8 @@ class CreateTransactionsTable extends Migration
             $table->decimal('amount', 15, 4);
 
 
-            $table->string('name')->nullable();
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
             $table->string('email')->nullable();
             $table->string('mobile')->nullable();
             $table->string('password')->nullable();

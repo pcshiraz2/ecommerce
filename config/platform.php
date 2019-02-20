@@ -49,6 +49,8 @@ return [
     'income-sale-category-id' => '9',
     'expense-purchase-category-id' => '15',
 
+    'free-pay-category-id' => '10',
+
     'min-payment-price' => '1000',
     'per-page' => '25',
     'due-days' => '5',

@@ -27,7 +27,7 @@ class CreatePagesTable extends Migration
             $table->softDeletes();
         });
         DB::table('pages')->insert([
-            'title' => 'نرم افزار شیراز',
+            'title' => 'پی سی شیراز',
             'text' => 'Index',
             'access' => 'public',
             'enabled' => true
