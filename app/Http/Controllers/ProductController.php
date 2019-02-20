@@ -16,7 +16,7 @@ class ProductController extends Controller
     public function index()
     {
         $categories = Category::findType('Product');
-        $products = $products = Product::top()->orderBy('updated_at', 'desc')->paginate(config('platform.product-per-page'));
+        $products = $products = Product::enabled()->shop()->top()->orderBy('updated_at', 'desc')->paginate(config('platform.product-per-page'));
         return view('product.index', ['products' => $products, 'categories' => $categories]);
     }
 
@@ -36,7 +36,7 @@ class ProductController extends Controller
     {
         $category = Category::findWithCache($id);
         $categories = Category::findType('Product');
-        $products = $products = Product::where('category_id', $id)->orderBy('updated_at', 'desc')->paginate(config('platform.product-per-page'));
+        $products = $products = Product::enabled()->shop()->where('category_id', $id)->orderBy('updated_at', 'desc')->paginate(config('platform.product-per-page'));
         return view('product.category', ['products' => $products, 'categories' => $categories, 'category' => $category]);
     }
 
@@ -51,7 +51,7 @@ class ProductController extends Controller
 
     public function find()
     {
-        $products = Product::enabled()->collect();
+        $products = Product::enabled()->shop()->collect();
         return view('product.find', ['products' => $products]);
     }
 }

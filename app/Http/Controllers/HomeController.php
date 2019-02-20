@@ -24,9 +24,9 @@ class HomeController extends Controller
 
         $slides = Slide::enabled()->orderBy('order', 'asc')->get();
         $articles = Article::enabled()->limit(5)->orderBy('created_at', 'desc')->get();
-        $topProducts = Product::enabled()->top()->limit(4)->get();
-        $newProducts = Product::enabled()->new()->limit(4)->get();
-        $discountProducts = Product::enabled()->discount()->limit(4)->orderBy('updated_at', 'desc')->get();
+        $topProducts = Product::enabled()->shop()->top()->limit(4)->get();
+        $newProducts = Product::enabled()->shop()->new()->limit(4)->get();
+        $discountProducts = Product::enabled()->shop()->discount()->limit(4)->orderBy('updated_at', 'desc')->get();
         $discussions = Discussion::enabled()->limit(5)->orderBy('updated_at', 'desc')->get();
         $page = Page::findWithCache(config('platform.index-page-id'));
         return view('home.index', [
