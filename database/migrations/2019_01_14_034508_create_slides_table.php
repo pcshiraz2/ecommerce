@@ -19,6 +19,7 @@ class CreateSlidesTable extends Migration
             $table->string('link')->nullable();
             $table->string('image');
             $table->string('description')->nullable();
+            $table->integer('category_id')->nullable();
             $table->boolean('enabled');
             $table->integer('order')->nullable();
             $table->longText('options')->nullable();

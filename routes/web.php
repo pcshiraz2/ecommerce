@@ -55,7 +55,11 @@ Route::post('/free-pay/start', 'FreePayController@start')->name('free-pay.start'
 Route::any('/free-pay/callback', 'FreePayController@callback')->name('free-pay.callback');
 
 Route::get('transaction', 'TransactionController@index')->name('transaction');
+Route::get('transaction/export', 'TransactionController@export')->name('transaction.export');
 Route::get('transaction/view/{id}', 'TransactionController@view')->name('transaction.view');
+
+
+Route::get('service', 'ServiceController@index')->name('service');
 
 
 Route::get('/invoice', 'InvoiceController@index')->name('invoice')->middleware('auth');

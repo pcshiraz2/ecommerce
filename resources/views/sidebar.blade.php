@@ -7,6 +7,8 @@
        href="{{ route('invoice') }}"><i class="fa fa-bars"></i> فاکتورها</a>
     <a class="list-group-item list-group-item-action{{ Request::segment(1) == 'transaction' ? ' active' : '' }}"
        href="{{ route('transaction') }}"><i class="fa fa-money"></i> تراکنش ها</a>
+    <a class="list-group-item list-group-item-action{{ Request::segment(1) == 'service' ? ' active' : '' }}"
+       href="{{ route('service') }}"><i class="fa fa-server"></i> سرویس ها</a>
 </div>
 
 
@@ -25,6 +27,8 @@
                href="{{ route('invoice') }}"><i class="fa fa-bars"></i> فاکتورها</a>
             <a class="dropdown-item{{ Request::segment(1) == 'transaction' ? ' active' : '' }}"
                href="{{ route('transaction') }}"><i class="fa fa-money"></i> تراکنش ها</a>
+            <a class="dropdown-item{{ Request::segment(1) == 'service' ? ' active' : '' }}"
+               href="{{ route('service') }}"><i class="fa fa-server"></i> تراکنش ها</a>
         </div>
     </div>
 </div>

@@ -14,6 +14,24 @@
                             ها</a></li>
                 </ol>
             </nav>
+            <div id="accordion">
+                <div class="card card-info mb-2">
+                    <div data-toggle="collapse" href="#collapseOne" class="card-header collapsed" aria-expanded="false">
+                        <i class="fa fa-arrow-circle-left"></i> جستجو
+                    </div>
+                    <div id="collapseOne" data-parent="#accordion" class="card-body collapse" style="">
+                        <form method="GET" action="{{ route('admin.transaction') }}">
+                            <div class="form-group">
+                                <label for="search">عنوان</label>
+                                <input name="search" id="search" type="text" class="form-control" value="{{ request('search') }}">
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-mobile btn-sm"><i class="fa fa-search"></i>
+                                جستجو
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
             <div class="card card-default">
                 <div class="card-header">تراکنش ها
                     <div class="btn-group pull-left" role="group" aria-label="transaction type">
@@ -29,6 +47,7 @@
                 </div>
 
                 <div class="card-body">
+
                     @include('global.top-table-options',['route' => 'admin.page.export'])
                     @if($transactions->count())
                     <table class="table table-striped table-bordered table-hover">
@@ -81,10 +100,10 @@
                                 <td>
                                     @if($transaction->amount < 0)
                                         <a href="{{ route('admin.transaction.edit.expense', ['id' => $transaction->id]) }}"
-                                           class="btn btn-sm btn-dark"><i class="fa fa-edit"></i> ویرایش</a>
+                                           class="btn btn-sm btn-dark" data-toggle="tooltip" data-placement="top" title="ویرایش تراکنش"><i class="fa fa-edit"></i></a>
                                     @else
                                         <a href="{{ route('admin.transaction.edit.income', ['id' => $transaction->id]) }}"
-                                           class="btn btn-sm btn-dark"><i class="fa fa-edit"></i> ویرایش</a>
+                                           class="btn btn-sm btn-dark" data-toggle="tooltip" data-placement="top" title="ویرایش تراکنش"><i class="fa fa-edit"></i></a>
                                     @endif
 
                                     <form method="post"
@@ -93,7 +112,7 @@
                                         @csrf
                                         @method('delete')
                                         <button onclick="return confirm('آیا از عملیات حذف اطمینان دارید؟')"
-                                                class="btn btn-danger btn-sm btn-mobile"><i class="fa fa-trash"></i> حذف
+                                                class="btn btn-danger btn-sm btn-mobile" data-toggle="tooltip" data-placement="top" title="حذف تراکنش"><i class="fa fa-trash"></i>
                                         </button>
                                     </form>
                                 </td>

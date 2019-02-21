@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 
-https://pcshiraz.ir/sitemap.xml
+Sitemap: https://pcshiraz.ir/sitemap.xml

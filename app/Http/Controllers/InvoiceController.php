@@ -78,6 +78,15 @@ class InvoiceController extends Controller
                 $transaction->description = "هزینه فاکتور شماره:" . $invoice->id;
                 $transaction->save();
 
+                $trackingCode = $settledTransaction->getTrackingCode();
+                $refId = $settledTransaction->getReferenceId();
+                $cardNumber = $settledTransaction->getCardNumber();
+
+                $options = [
+                    'trackingCode' => $trackingCode,
+                    'refId' => $refId,
+                    'cardNumber' => $cardNumber,
+                ];
 
                 $transaction = new Transaction();
                 $transaction->gateway_transaction_id = $settledTransaction->getId();
@@ -94,6 +103,7 @@ class InvoiceController extends Controller
                 $transaction->mobile = Auth::user()->mobile;
                 $transaction->type = 'income';
                 $transaction->description = "پرداخت فاکتور شماره:" . $invoice->id;
+                $transaction->options = $options;
                 $transaction->save();
 
 
