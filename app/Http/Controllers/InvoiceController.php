@@ -27,6 +27,7 @@ class InvoiceController extends Controller
 
     public function pay(Request $request)
     {
+        //dd($request);
         $this->middleware(['auth']);
         session(['gateway' => $request->gateway]);
         $invoice = Invoice::findOrFail($request->invoice_id);
@@ -36,6 +37,7 @@ class InvoiceController extends Controller
             try {
                 $gateway = Gateway::of($request->gateway);
                 $gateway->callbackUrl(url('invoice/callback', ['id' => $request->invoice_id]));
+                $gateway->stateless();
                 $transaction = new RequestTransaction(new Amount($invoice->total, config('platform.currency')));
                 $authorizedTransaction = $gateway->authorize($transaction);
                 return $gateway->redirect($authorizedTransaction);
@@ -50,7 +52,7 @@ class InvoiceController extends Controller
     {
         $this->middleware(['auth']);
         $invoice = Invoice::with('records', 'user')->findOrFail($id);
-        if ($invoice->user_id != Auth::user()->id && Auth::user()->level != 'admin') {
+        if ($invoice->user_id != Auth::user()->id) {
             abort(404);
         } else {
             return view('invoice.view', ['invoice' => $invoice]);

@@ -3,9 +3,8 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Facades\DB;
 
-class CreateCategoriesTable extends Migration
+class CreateTasksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,20 +13,18 @@ class CreateCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('tasks', function (Blueprint $table) {
             $table->increments('id');
-
             $table->string('title');
-            $table->string('type');
-            $table->string('color')->nullable();
-            $table->string('image')->nullable();
-            $table->string('icon')->nullable();
-            $table->string('code')->nullable();
-            $table->string('slug')->nullable();
+            $table->text('description');
+            $table->string('priority')->default('normal');
+            $table->integer('user_id')->nullable();
+            $table->timestamp('start_at')->nullable();
+            $table->timestamp('finish_at')->nullable();
             $table->integer('order')->nullable();
-            $table->integer('category_id')->nullable();
+            $table->string('color')->nullable();
+            $table->string('status')->default('open');
             $table->boolean('enabled');
-            $table->boolean('visible')->nullable();
             $table->longText('options')->nullable();
             $table->timestamps();
             $table->softDeletes();
@@ -41,6 +38,6 @@ class CreateCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('tasks');
     }
 }

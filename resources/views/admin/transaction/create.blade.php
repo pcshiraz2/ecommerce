@@ -39,8 +39,7 @@
                 </div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('admin.transaction.insert') }}"
-                          onsubmit="$('.price').unmask();">
+                    <form method="POST" action="{{ route('admin.transaction.insert') }}" onsubmit="$('.price').unmask();">
                         @csrf
                         @method('post')
                         @if(Request::segment(4) == 'income')
@@ -48,23 +47,6 @@
                         @elseif(Request::segment(4) == 'expense')
                             <input type="hidden" name="type" value="expense"/>
                         @endif
-                        <div class="form-group">
-                            <label for="type">نوع هزینه</label>
-                            <div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
-                                <label class="btn btn-outline-primary active">
-                                    <input type="radio" name="status" id="paid" value="paid" autocomplete="off" checked>
-                                   عادی
-                                </label>
-                                <label class="btn btn-outline-primary">
-                                    <input type="radio" name="status" id="payment" value="payment" autocomplete="off">
-                                    آتی
-                                </label>
-                                <label class="btn btn-outline-primary">
-                                    <input type="radio" name="status" id="transfer" value="transfer" autocomplete="off">
-                                    انتقال
-                                </label>
-                            </div>
-                        </div>
                         <div class="form-group">
                             <label for="amount">مبلغ</label>
                             <div class="input-group mb-2 ml-sm-2">
@@ -95,9 +77,31 @@
                                         placeholder="____/__/__">
                                 </date-picker>
                             </div>
+                            <span class="form-text text-muted"></span>
                             @if ($errors->has('transaction_at'))
                                 <span class="invalid-feedback">
                                         <strong>{{ $errors->first('transaction_at') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
+                        <div class="form-group">
+                            <label for="paid_at">تاریخ پرداخت</label>
+                            <div dir="ltr">
+                                <date-picker
+                                        id="paid_at"
+                                        name="paid_at"
+                                        format="jYYYY/jMM/jDD"
+                                        display-format="jYYYY/jMM/jDD"
+                                        color="#6838b8"
+                                        type="date"
+                                        value="{{ old('paid_at') }}"
+                                        placeholder="____/__/__">
+                                </date-picker>
+                            </div>
+                            <span class="form-text text-muted">در صورتی که تراکنش پرداخت شده است تاریخ را بنویسید.</span>
+                            @if ($errors->has('paid_at'))
+                                <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('paid_at') }}</strong>
                                     </span>
                             @endif
                         </div>

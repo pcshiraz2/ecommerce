@@ -19,6 +19,7 @@ class CreateTransactionsTable extends Migration
             $table->unsignedBigInteger('gateway_transaction_id')->nullable();
             $table->unsignedBigInteger('gateway')->nullable();
             $table->integer('account_id')->nullable();
+            $table->integer('project_id')->nullable();
             $table->integer('user_id')->nullable();
             $table->integer('category_id')->nullable();
             $table->string('currency_code')->default(config('platform.currency'))->nullable();
