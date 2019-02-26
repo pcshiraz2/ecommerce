@@ -39,6 +39,14 @@ class TransactionController extends Controller
 
     }
 
+    public function createTransfer()
+    {
+        $accounts = Account::all();
+        $categories = Category::findType('Expense');
+        return view('admin.transaction.create', ['categories' => $categories, 'accounts' => $accounts]);
+
+    }
+
     public function editIncome($id)
     {
         $transaction = Transaction::with('user')->findOrFail($id);

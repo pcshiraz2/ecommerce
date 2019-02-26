@@ -25,6 +25,9 @@
                     @elseif(Request::segment(4) == 'expense')
                         <li class="breadcrumb-item active" aria-current="page"><a
                                     href="{{ route('admin.transaction.create.expense') }}"> ثبت هزینه</a></li>
+                    @elseif(Request::segment(4) == 'transfer')
+                        <li class="breadcrumb-item active" aria-current="page"><a
+                                    href="{{ route('admin.transaction.create.transfer') }}"> انتقال وجه</a></li>
                     @endif
 
                 </ol>
@@ -35,6 +38,8 @@
                         ثبت درآمد
                     @elseif(Request::segment(4) == 'expense')
                         ثبت هزینه
+                    @elseif(Request::segment(4) == 'transfer')
+                        انتقال وجه
                     @endif
                 </div>
 
@@ -46,6 +51,8 @@
                             <input type="hidden" name="type" value="income"/>
                         @elseif(Request::segment(4) == 'expense')
                             <input type="hidden" name="type" value="expense"/>
+                        @elseif(Request::segment(4) == 'transfer')
+                            <input type="hidden" name="type" value="transfer"/>
                         @endif
                         <div class="form-group">
                             <label for="amount">مبلغ</label>
@@ -84,8 +91,16 @@
                                     </span>
                             @endif
                         </div>
+                        @if(Request::segment(4) == 'income' || Request::segment(4) == 'expense')
                         <div class="form-group">
-                            <label for="paid_at">تاریخ پرداخت</label>
+                            <label for="paid_at">تاریخ
+                                @if(Request::segment(4) == 'income')
+                                    دریافت
+                                @elseif(Request::segment(4) == 'expense')
+                                    پرداخت
+                                @endif
+                                <span class="font-weight-light font-italic"> - اختیاری</span>
+                            </label>
                             <div dir="ltr">
                                 <date-picker
                                         id="paid_at"
@@ -105,6 +120,77 @@
                                     </span>
                             @endif
                         </div>
+                            <div class="form-group">
+                                <label for="category_id">دسته</label>
+
+                                <select name="category_id" id="category_id" class="form-control">
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->id }}"{{ old('category_id') == $category->id  ? ' selected' : '' }}>{{$category->title}}</option>
+                                    @endforeach
+                                </select>
+                                @if ($errors->has('category_id'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('category_id') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="form-group">
+                                <label for="account_id">حساب</label>
+
+                                <select name="account_id" id="account_id" class="form-control">
+                                    @foreach($accounts as $account)
+                                        <option value="{{ $account->id }}"{{ old('account_id') == $account->id  ? ' selected' : '' }}>{{$account->title}}</option>
+                                    @endforeach
+                                </select>
+                                @if ($errors->has('account_id'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('account_id') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="form-group">
+                                <label for="user_id">شخص</label>
+
+                                <select name="user_id" id="user_id" class="form-control"></select>
+                                @if ($errors->has('user_id'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('user_id') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        @else
+                            <div class="form-group">
+                                <label for="account_id">مبدا</label>
+
+                                <select name="account_id" id="account_id" class="form-control">
+                                    @foreach($accounts as $account)
+                                        <option value="{{ $account->id }}"{{ old('account_id') == $account->id  ? ' selected' : '' }}>{{$account->title}}</option>
+                                    @endforeach
+                                </select>
+                                @if ($errors->has('account_id'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('account_id') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
+                            <div class="form-group">
+                                <label for="account_id">مقصد</label>
+
+                                <select name="account_id" id="account_id" class="form-control">
+                                    @foreach($accounts as $account)
+                                        <option value="{{ $account->id }}"{{ old('account_id') == $account->id  ? ' selected' : '' }}>{{$account->title}}</option>
+                                    @endforeach
+                                </select>
+                                @if ($errors->has('account_id'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('account_id') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
+
+                            @endif
                         <div class="form-group">
                             <label for="description">توضیحات</label>
 
@@ -118,44 +204,7 @@
                             @endif
                         </div>
 
-                        <div class="form-group">
-                            <label for="category_id">دسته</label>
 
-                            <select name="category_id" id="category_id" class="form-control">
-                                @foreach($categories as $category)
-                                    <option value="{{ $category->id }}"{{ old('category_id') == $category->id  ? ' selected' : '' }}>{{$category->title}}</option>
-                                @endforeach
-                            </select>
-                            @if ($errors->has('category_id'))
-                                <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('category_id') }}</strong>
-                                    </span>
-                            @endif
-                        </div>
-                        <div class="form-group">
-                            <label for="account_id">حساب</label>
-
-                            <select name="account_id" id="account_id" class="form-control">
-                                @foreach($accounts as $account)
-                                    <option value="{{ $account->id }}"{{ old('account_id') == $account->id  ? ' selected' : '' }}>{{$account->title}}</option>
-                                @endforeach
-                            </select>
-                            @if ($errors->has('account_id'))
-                                <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('account_id') }}</strong>
-                                    </span>
-                            @endif
-                        </div>
-                        <div class="form-group">
-                            <label for="user_id">شخص</label>
-
-                            <select name="user_id" id="user_id" class="form-control"></select>
-                            @if ($errors->has('user_id'))
-                                <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('user_id') }}</strong>
-                                    </span>
-                            @endif
-                        </div>
                         <button type="submit" class="btn btn-primary">
                             <i class="fa fa-plus"></i>
                             ثبت تراکنش
