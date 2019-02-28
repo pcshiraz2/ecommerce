@@ -29,17 +29,15 @@ class ProductController extends Controller
 
     public function create()
     {
-        $taxes = Tax::enabled()->get();
         $categories = Category::findType('Product');
-        return view('admin.product.create', ['categories' => $categories, 'taxes' => $taxes]);
+        return view('admin.product.create', ['categories' => $categories]);
     }
 
     public function edit($id)
     {
-        $taxes = Tax::enabled()->get();
         $product = Product::findOrFail($id);
         $categories = Category::findType('Product');
-        return view('admin.product.edit', ['categories' => $categories, 'product' => $product, 'taxes' => $taxes]);
+        return view('admin.product.edit', ['categories' => $categories, 'product' => $product]);
     }
 
     public function inventory($id)
@@ -96,7 +94,7 @@ class ProductController extends Controller
         $product->period = $request->period;
         $product->top = $request->top;
         $product->order = $request->order;
-        $product->tax_id = $request->tax_id;
+        $product->tax = MoneyUtil::database($request->tax);
         $product->discount = $request->discount;
         $product->call_price = $request->call_price;
         $product->save();
@@ -155,7 +153,7 @@ class ProductController extends Controller
         $product->period = $request->period;
         $product->top = $request->top;
         $product->order = $request->order;
-        $product->tax_id = $request->tax_id;
+        $product->tax = MoneyUtil::database($request->tax);
         $product->discount = $request->discount;
         $product->call_price = $request->call_price;
 

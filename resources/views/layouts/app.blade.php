@@ -162,8 +162,9 @@
                     <li><a class="nav-link" href="{{ route('free-pay') }}"><i class="fa fa-money"></i>
                             پرداخت نقدی</a></li>
                 </ul>
+
                 <div class="ml-auto">
-                    <div class="clearfix">
+                    <div class="clearfix namads">
                         <img src="https://trustseal.enamad.ir/logo.aspx?id=117474&amp;p=hc4M4EyOgZbGDfWO" alt="" onclick="window.open(&quot;https://trustseal.enamad.ir/Verify.aspx?id=117474&amp;p=hc4M4EyOgZbGDfWO&quot;, &quot;Popup&quot;,&quot;toolbar=no, location=no, statusbar=no, menubar=no, scrollbars=1, resizable=0, width=580, height=600, top=30&quot;)" style="cursor:pointer" id="hc4M4EyOgZbGDfWO">
                         <img id = 'jxlzwlaorgvjapfurgvjjxlz' style = 'cursor:pointer' onclick = 'window.open("https://logo.samandehi.ir/Verify.aspx?id=143531&p=rfthaodsxlaodshwxlaorfth", "Popup","toolbar=no, scrollbars=no, location=no, statusbar=no, menubar=no, resizable=0, width=450, height=630, top=30")' alt = 'logo-samandehi' src = 'https://logo.samandehi.ir/logo.aspx?id=143531&p=nbpdshwlqftiujynqftinbpd' />
                     </div>

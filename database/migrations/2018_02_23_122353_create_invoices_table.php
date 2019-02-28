@@ -77,7 +77,6 @@ class CreateInvoicesTable extends Migration
             $table->string('description')->nullable();
             $table->decimal('price', 15, 4);
             $table->decimal('tax', 15, 4)->nullable()->default(0);
-            $table->integer('tax_id')->nullable();
             $table->decimal('shipping', 15, 4)->nullable()->default(0);
             $table->decimal('discount', 15, 4)->nullable()->default(0);
             $table->decimal('quantity', 15, 4)->default(1);

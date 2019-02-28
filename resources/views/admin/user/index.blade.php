@@ -57,10 +57,10 @@
                                 <td scope="row" class="align-middle">
                                     {{$user->name}}
                                 </td>
-                                <td scope="row" class="align-middle">
+                                <td scope="row" class="align-middle text-center">
                                     {{ $user->mobile }}
                                 </td>
-                                <td scope="row" class="align-middle">
+                                <td scope="row" class="align-middle text-center">
                                     {{ \App\Utils\MoneyUtil::format($user->credit) }}
                                 </td>
 

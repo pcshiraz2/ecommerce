@@ -460,20 +460,20 @@
                             @endif
                         </div>
                         <div class="form-group">
-                            <label for="tax_id">مالیات
+                            <label for="tax">مالیات
                                 <span class="font-weight-light font-italic"> - اختیاری</span>
                             </label>
-
-                            <select name="tax_id" id="tax_id" class="form-control selector">
-                                <option value="0"{{ old('tax_id', $product->tax_id) == 0 ? ' selected' : '' }}>-- مالیات --</option>
-                                @foreach($taxes as $tax)
-                                    <option value="{{ $tax->id }}"{{ old('tax_id', $product->tax_id) == $tax->id  ? ' selected' : '' }}>{{$tax->name}}</option>
-                                @endforeach
-
-                            </select>
-                            @if ($errors->has('tax_id'))
+                            <div class="input-group mb-2 ml-sm-2">
+                                <input id="tax" type="tel" dir="ltr"
+                                       class="price form-control{{ $errors->has('tax') ? ' is-invalid' : '' }}"
+                                       name="tax" value="{{ old('tax', \App\Utils\MoneyUtil::display($product->tax)) }}">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">{{ trans('currency.'.config('platform.currency')) }}</div>
+                                </div>
+                            </div>
+                            @if ($errors->has('tax'))
                                 <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('tax_id') }}</strong>
+                                        <strong>{{ $errors->first('tax') }}</strong>
                                     </span>
                             @endif
                         </div>

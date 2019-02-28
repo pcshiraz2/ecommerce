@@ -42,7 +42,7 @@ class CreateProductsTable extends Migration
             $table->boolean('discount');
             $table->boolean('call_price');
 
-            $table->integer('tax_id')->nullable();
+            $table->decimal('tax', 15, 4)->nullable();
             $table->integer('order')->nullable();
             $table->longText('options')->nullable();
             $table->boolean('enabled');

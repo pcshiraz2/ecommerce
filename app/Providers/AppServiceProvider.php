@@ -20,6 +20,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
         \URL::forceRootUrl(\Config::get('app.url'));
+        \App\Models\Transaction::observe(\App\Observers\TransactionObserver::class);
     }
 
     /**

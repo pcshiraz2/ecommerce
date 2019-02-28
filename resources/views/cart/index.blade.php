@@ -55,15 +55,15 @@
                                 تخفیف:{{number_format($product->options->discount)}} {{ trans('currency.'.config('platform.currency')) }}
                                 <br/>
                             @endif
-                            @if($product->options->tax_rate)
-                                مالیات و عوارض:{{number_format($product->options->price * $product->options->tax_rate)}} {{ trans('currency.'.config('platform.currency')) }}
+                            @if($product->options->tax)
+                                مالیات و عوارض:{{ \App\Utils\MoneyUtil::format($product->options->tax)}} {{ trans('currency.'.config('platform.currency')) }}
                                 <br/>
                             @endif
 
-                            تعداد:{{number_format($product->qty)}}
+                            تعداد:{{\App\Utils\MoneyUtil::format($product->qty)}}
                             <br/>
 
-                            جمع:{{number_format($product->price * $product->qty)}}{{ trans('currency.'.config('platform.currency')) }}
+                            جمع:{{\App\Utils\MoneyUtil::format($product->price * $product->qty)}}{{ trans('currency.'.config('platform.currency')) }}
                         </p>
                         <small>{{$product->options->description}}</small>
                     </div>

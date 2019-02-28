@@ -9,11 +9,6 @@ class Product extends Model
         return $this->belongsTo('App\Models\Category');
     }
 
-    public function tax()
-    {
-        return $this->belongsTo('App\Models\Tax');
-    }
-
     public function images()
     {
         return $this->hasMany('App\Models\ProductImage');
@@ -64,5 +59,19 @@ class Product extends Model
     public function scopePost($query)
     {
         return $query->where('post', true);
+    }
+
+    public function getFinalPriceAttribute()
+    {
+        return $this->sale_price + $this->tax;
+    }
+
+    public function getFinalDiscountAttribute()
+    {
+        if($this->discount) {
+            return $this->discount_price + $this->tax;
+        } else {
+            return $this->sale_price + $this->tax;
+        }
     }
 }

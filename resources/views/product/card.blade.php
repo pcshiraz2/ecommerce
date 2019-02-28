@@ -7,7 +7,7 @@
             <span class="h6 w-70 mx-auto px-2 py-1 rounded-bottom bg-primary text-white shadow text-center"
                   style="position: absolute;right: 35%;"><i class="fa fa-star"></i> فروش ویژه</span>
         @endif
-        <img class="card-img-top" title="{{$product->title}}" src="{{ Storage::url($product->image) }}" alt="image"
+        <img class="card-img-top" title="{{$product->title}}" src="{{ Storage::url($product->image) }}" alt="{{$product->title}}"
              style="width:100%">
         <div class="card-body">
 
@@ -24,10 +24,10 @@
                                 <div class="card-price-free"><strong>رایگان</strong></div>
                             @else
                                 @if($product->discount)
-                                    <del class="clearfix card-price-del">{{ \App\Utils\MoneyUtil::format($product->sale_price) }}</del>
-                                    <strong class="clearfix card-price-discount">{{ \App\Utils\MoneyUtil::format($product->discount_price) }}  {{ trans('currency.'.config('platform.currency')) }}</strong>
+                                    <del class="clearfix card-price-del">{{ \App\Utils\MoneyUtil::format($product->final_price) }}</del>
+                                    <strong class="clearfix card-price-discount">{{ \App\Utils\MoneyUtil::format($product->final_discount) }}  {{ trans('currency.'.config('platform.currency')) }}</strong>
                                 @else
-                                    <strong class="clearfix card-price">{{ \App\Utils\MoneyUtil::format($product->sale_price) }}  {{ trans('currency.'.config('platform.currency')) }}</strong>
+                                    <strong class="clearfix card-price">{{ \App\Utils\MoneyUtil::format($product->final_price) }}  {{ trans('currency.'.config('platform.currency')) }}</strong>
                                     @endif
 
                             @endif

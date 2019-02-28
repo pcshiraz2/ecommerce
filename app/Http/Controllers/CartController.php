@@ -25,7 +25,7 @@ class CartController extends Controller
 
     public function add($id)
     {
-        $product = Product::with(['tax'])->findOrFail($id);
+        $product = Product::findOrFail($id);
         if(!$product->shop) {
             flash($product->title . "در حال حاضر این کالا موجود نمی باشد.")->danger();
             return redirect()->route('product.view',[$product->id]);
@@ -34,47 +34,51 @@ class CartController extends Controller
             flash("برای استعلام قیمت " . $product->title .  " از طریق تماس تلفنی اقدام نمایید.")->info();
             return redirect()->route('product.view',[$product->id]);
         }
-        if($product->tax_id) {
-            $tax_rate = ($product->tax->rate);
-            $tax_name = ($product->tax->name);
+        if($product->tax > 0) {
+            $tax = $product->tax;
         } else {
-            $tax_rate = 0;
-            $tax_name = "";
+            $tax = 0;
         }
         if($product->discount) {
             $price = $product->discount_price;
             $discount = $product->sale_price - $product->discount_price;
-            $tax = $price * $tax_rate;
+            $price_tax = $price + $tax;
         } else {
             $price = $product->sale_price;
             $discount = 0;
-            $tax = $price * $tax_rate;
+            $price_tax = $price + $tax;
         }
-        Cart::add($product->id, $product->title, 1, $price + $tax, ['description' => $product->description, 'factory' => $product->factory, 'tax_rate' => $tax_rate , 'price' => $price,'discount_price' => $product->discount_price, 'sale_price' => $product->sale_price, 'discount' => $discount, 'tax_name' => $tax_name, 'tax' => $tax]);
+        Cart::add($product->id, $product->title, 1, $price_tax, ['description' => $product->description, 'factory' => $product->factory , 'price' => $price,'discount_price' => $product->discount_price, 'sale_price' => $product->sale_price, 'discount' => $discount, 'tax' => $tax]);
         flash($product->title . " به سبد خرید اضافه شد.")->success();
         return redirect()->route('cart');
     }
 
     public function remove($id)
     {
-        $product = Product::with(['tax'])->findOrFail($id);
-        if($product->tax_id) {
-            $tax_rate = ($product->tax->rate);
-            $tax_name = ($product->tax->name);
+        $product = Product::findOrFail($id);
+        if(!$product->shop) {
+            flash($product->title . "در حال حاضر این کالا موجود نمی باشد.")->danger();
+            return redirect()->route('product.view',[$product->id]);
+        }
+        if($product->call_price) {
+            flash("برای استعلام قیمت " . $product->title .  " از طریق تماس تلفنی اقدام نمایید.")->info();
+            return redirect()->route('product.view',[$product->id]);
+        }
+        if($product->tax > 0) {
+            $tax = $product->tax;
         } else {
-            $tax_rate = 0;
-            $tax_name = "";
+            $tax = 0;
         }
         if($product->discount) {
             $price = $product->discount_price;
             $discount = $product->sale_price - $product->discount_price;
-            $tax = $price * $tax_rate;
+            $price_tax = $price + $tax;
         } else {
             $price = $product->sale_price;
             $discount = 0;
-            $tax = $price * $tax_rate;
+            $price_tax = $price + $tax;
         }
-        Cart::add($product->id, $product->title, -1, $price + $tax, ['description' => $product->description, 'factory' => $product->factory, 'tax_rate' => $tax_rate , 'price' => $price,'discount_price' => $product->discount_price, 'sale_price' => $product->sale_price, 'discount' => $discount, 'tax_name' => $tax_name, 'tax' => $tax]);
+        Cart::add($product->id, $product->title, -1, $price_tax, ['description' => $product->description, 'factory' => $product->factory , 'price' => $price,'discount_price' => $product->discount_price, 'sale_price' => $product->sale_price, 'discount' => $discount, 'tax' => $tax]);
 
         foreach (Cart::content() as $productItem) {
             if ($productItem->qty == 0) {

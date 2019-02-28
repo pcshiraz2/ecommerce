@@ -70,10 +70,10 @@
                                         @if($product->sale_price != 0)
                                             قیمت:
                                             @if($product->discount)
-                                                <del class="clearfix card-price-del">{{ \App\Utils\MoneyUtil::format($product->sale_price) }}</del>
-                                                <strong class="clearfix card-price-discount">{{ \App\Utils\MoneyUtil::format($product->discount_price) }}  {{ trans('currency.'.config('platform.currency')) }}</strong>
+                                                <del class="clearfix card-price-del">{{ \App\Utils\MoneyUtil::format($product->final_price) }}</del>
+                                                <strong class="clearfix card-price-discount">{{ \App\Utils\MoneyUtil::format($product->final_discount) }}  {{ trans('currency.'.config('platform.currency')) }}</strong>
                                             @else
-                                                <strong class="clearfix card-price">{{ \App\Utils\MoneyUtil::format($product->sale_price) }}  {{ trans('currency.'.config('platform.currency')) }}</strong>
+                                                <strong class="clearfix card-price">{{ \App\Utils\MoneyUtil::format($product->final_price) }}  {{ trans('currency.'.config('platform.currency')) }}</strong>
                                             @endif
                                         @else
                                             <strong>رایگان</strong>
