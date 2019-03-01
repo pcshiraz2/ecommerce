@@ -45,15 +45,15 @@
                         <thead class="thead-dark">
                             <tr>
                                 <th scope="col">@sortablelink('title', 'عنوان')</th>
-                                <th scope="col">موجودی</th>
+                                <th scope="col">@sortablelink('balance', 'موجودی')</th>
                                 <th scope="col">اقدام ها</th>
                             </tr>
                         </thead>
                         @foreach($accounts as $account)
                             <tr>
                                 <td>{{ $account->title }}</td>
-                                <td>{{ \App\Utils\MoneyUtil::format($account->balance) }}</td>
-                                <td>
+                                <td class="text-center">{{ \App\Utils\MoneyUtil::format($account->balance) }}</td>
+                                <td class="text-center">
                                     <a href="{{ route('admin.account.edit', ['id' => $account->id]) }}"
                                        class="btn btn-sm btn-dark"
                                        data-toggle="tooltip" data-placement="top" title="ویرایش حساب"><i

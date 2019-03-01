@@ -7,7 +7,6 @@ use App\Models\Product;
 use App\Models\User;
 use App\Notifications\InvoiceCreated;
 use App\Models\Record;
-use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
@@ -48,7 +47,7 @@ class CartController extends Controller
             $discount = 0;
             $price_tax = $price + $tax;
         }
-        Cart::add($product->id, $product->title, 1, $price_tax, ['description' => $product->description, 'factory' => $product->factory , 'price' => $price,'discount_price' => $product->discount_price, 'sale_price' => $product->sale_price, 'discount' => $discount, 'tax' => $tax]);
+        \Cart::add($product->id, $product->title, $price_tax, 1, ['description' => $product->description, 'factory' => $product->factory , 'price' => $price,'discount_price' => $product->discount_price, 'sale_price' => $product->sale_price, 'discount' => $discount, 'tax' => $tax]);
         flash($product->title . " به سبد خرید اضافه شد.")->success();
         return redirect()->route('cart');
     }
@@ -56,42 +55,14 @@ class CartController extends Controller
     public function remove($id)
     {
         $product = Product::findOrFail($id);
-        if(!$product->shop) {
-            flash($product->title . "در حال حاضر این کالا موجود نمی باشد.")->danger();
-            return redirect()->route('product.view',[$product->id]);
-        }
-        if($product->call_price) {
-            flash("برای استعلام قیمت " . $product->title .  " از طریق تماس تلفنی اقدام نمایید.")->info();
-            return redirect()->route('product.view',[$product->id]);
-        }
-        if($product->tax > 0) {
-            $tax = $product->tax;
-        } else {
-            $tax = 0;
-        }
-        if($product->discount) {
-            $price = $product->discount_price;
-            $discount = $product->sale_price - $product->discount_price;
-            $price_tax = $price + $tax;
-        } else {
-            $price = $product->sale_price;
-            $discount = 0;
-            $price_tax = $price + $tax;
-        }
-        Cart::add($product->id, $product->title, -1, $price_tax, ['description' => $product->description, 'factory' => $product->factory , 'price' => $price,'discount_price' => $product->discount_price, 'sale_price' => $product->sale_price, 'discount' => $discount, 'tax' => $tax]);
-
-        foreach (Cart::content() as $productItem) {
-            if ($productItem->qty == 0) {
-                Cart::remove($productItem->rowId);
-            }
-        }
+        \Cart::update($product->id, ['quantity' => -1]);
         flash("سبد کالا شما بروز رسانی شد.")->success();
         return redirect()->back();
     }
 
     public function empty()
     {
-        Cart::destroy();
+        \Cart::clear();
         flash("سبد کالا شما بروز رسانی شد.")->success();
         return redirect()->back();
     }
@@ -142,9 +113,9 @@ class CartController extends Controller
             flash("برای تکمیل سفارش نیاز است شما در سایت ثبت نام کنید لذا ابتدا فرم زیر را تکمیل کنید، در صورتی که پیش تر در سایت ثبت نام کردید از گزینه ورود استفاده نمایید.")->warning();
             return redirect()->route('register');
         }
-        if(Cart::count()) {
+        if(\Cart::getContent()->count()) {
             $redirectFlag = false;
-            $items = Cart::content();
+            $items = Cart::getContent();
             foreach ($items as $item) {
                 if($item->options->factory) {
                     $className = '\App\Factory\\'.$item->options->factory;

@@ -42,9 +42,7 @@ class TransactionController extends Controller
     public function createTransfer()
     {
         $accounts = Account::all();
-        $categories = Category::findType('Expense');
-        return view('admin.transaction.create', ['categories' => $categories, 'accounts' => $accounts]);
-
+        return view('admin.transaction.create', ['accounts' => $accounts]);
     }
 
     public function editIncome($id)
@@ -117,6 +115,11 @@ class TransactionController extends Controller
         $transaction->save();
         flash('تراکنش با موفقیت اضافه شد.')->success();
         return redirect()->route('admin.transaction');
+    }
+
+    public function insertTransfer(Request $request)
+    {
+
     }
 
     public function delete($id, Request $request)

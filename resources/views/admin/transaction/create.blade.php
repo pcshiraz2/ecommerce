@@ -139,7 +139,7 @@
 
                                 <select name="account_id" id="account_id" class="form-control">
                                     @foreach($accounts as $account)
-                                        <option value="{{ $account->id }}"{{ old('account_id') == $account->id  ? ' selected' : '' }}>{{$account->title}}</option>
+                                        <option value="{{ $account->id }}"{{ old('account_id') == $account->id  ? ' selected' : '' }}>{{$account->name}}</option>
                                     @endforeach
                                 </select>
                                 @if ($errors->has('account_id'))
@@ -164,7 +164,7 @@
 
                                 <select name="account_id" id="account_id" class="form-control">
                                     @foreach($accounts as $account)
-                                        <option value="{{ $account->id }}"{{ old('account_id') == $account->id  ? ' selected' : '' }}>{{$account->title}}</option>
+                                        <option value="{{ $account->id }}"{{ old('account_id') == $account->id  ? ' selected' : '' }}>{{$account->name}}</option>
                                     @endforeach
                                 </select>
                                 @if ($errors->has('account_id'))
@@ -179,7 +179,7 @@
 
                                 <select name="account_id" id="account_id" class="form-control">
                                     @foreach($accounts as $account)
-                                        <option value="{{ $account->id }}"{{ old('account_id') == $account->id  ? ' selected' : '' }}>{{$account->title}}</option>
+                                        <option value="{{ $account->id }}"{{ old('account_id') == $account->id  ? ' selected' : '' }}>{{$account->name}}</option>
                                     @endforeach
                                 </select>
                                 @if ($errors->has('account_id'))
