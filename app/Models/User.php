@@ -34,6 +34,10 @@ class User extends Authenticatable
 
     protected $dates = ['deleted_at'];
 
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+
     public $sortable = ['last_name','mobile', 'credit', 'email', 'enabled'];
 
     public function products()

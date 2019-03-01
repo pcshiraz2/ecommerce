@@ -14,11 +14,11 @@ class CreateInvoicesTable extends Migration
     public function up()
     {
         Schema::create('invoices', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('password')->nullable();
             $table->string('subject')->nullable();
             $table->string('number')->nullable();
-            $table->integer('user_id')->nullable();
+            $table->bigInteger('user_id')->nullable();
 
             //type: ['sale', 'purchase']
             $table->string('type');
@@ -54,8 +54,8 @@ class CreateInvoicesTable extends Migration
             $table->string('zip_code')->nullable();
             $table->text('address')->nullable();
             $table->text('location')->nullable();
-            $table->integer('province_id')->nullable();
-            $table->integer('city_id')->nullable();
+            $table->bigInteger('province_id')->nullable();
+            $table->bigInteger('city_id')->nullable();
             $table->string('economical_number')->nullable();
 
             //Options
@@ -72,7 +72,7 @@ class CreateInvoicesTable extends Migration
         });
 
         Schema::create('records', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('title');
             $table->string('description')->nullable();
             $table->decimal('price', 15, 4);
@@ -81,8 +81,8 @@ class CreateInvoicesTable extends Migration
             $table->decimal('discount', 15, 4)->nullable()->default(0);
             $table->decimal('quantity', 15, 4)->default(1);
             $table->decimal('total', 15, 4)->nullable()->default(0);
-            $table->integer('invoice_id');
-            $table->integer('product_id')->nullable();
+            $table->bigInteger('invoice_id');
+            $table->bigInteger('product_id')->nullable();
             $table->longText('options')->nullable();
             $table->timestamps();
             $table->softDeletes();

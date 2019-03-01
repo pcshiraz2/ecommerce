@@ -14,7 +14,7 @@ class CreateMenusTable extends Migration
     public function up()
     {
         Schema::create('menus', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('title');
             $table->string('type');
             $table->string('position'); //adminsidebar,usersidebar,footer,header,userdrop,
@@ -23,8 +23,8 @@ class CreateMenusTable extends Migration
             $table->string('icon')->nullable();
             $table->string('route')->nullable();
             $table->string('link')->nullable();
-            $table->integer('order')->nullable();
-            $table->integer('menu_id')->nullable();
+            $table->bigInteger('order')->nullable();
+            $table->bigInteger('menu_id')->nullable();
             $table->boolean('enabled');
             $table->longText('options')->nullable();
             $table->timestamps();

@@ -17,4 +17,9 @@ class ProductFilter extends ModelFilter
             ->whereLike('text', $query, 'or')
             ->whereLike('description', $query, 'or');
     }
+
+    public function brands($types)
+    {
+        return $this->whereIn('brand_id', (array) $types);
+    }
 }

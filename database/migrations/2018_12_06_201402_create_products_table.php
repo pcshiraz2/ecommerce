@@ -19,12 +19,14 @@ class CreateProductsTable extends Migration
             $table->string('image');
             $table->string('slug')->nullable();
             $table->string('code')->nullable();
-            $table->integer('category_id');
+            $table->bigInteger('category_id');
+            $table->bigInteger('brand_id')->nullable();
+            $table->string('model')->nullable();
             $table->decimal('sale_price', 15, 4);
             $table->decimal('purchase_price', 15, 4)->nullable();
             $table->decimal('period_price', 15, 4)->nullable();
             $table->decimal('discount_price', 15, 4)->nullable();
-            $table->integer('user_id')->nullable();
+            $table->bigInteger('user_id')->nullable();
             $table->double('initial_balance')->default(0)->nullable();
             $table->double('asset_balance')->default(0)->nullable();
             $table->double('period')->default(0)->nullable();
@@ -43,7 +45,7 @@ class CreateProductsTable extends Migration
             $table->boolean('call_price');
 
             $table->decimal('tax', 15, 4)->nullable();
-            $table->integer('order')->nullable();
+            $table->bigInteger('order')->nullable();
             $table->longText('options')->nullable();
             $table->boolean('enabled');
 
@@ -54,14 +56,14 @@ class CreateProductsTable extends Migration
 
         Schema::create('product_files', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('product_id');
+            $table->bigInteger('product_id');
             $table->string('title');
             $table->string('name');
             $table->string('source');
             $table->text('description')->nullable();
             $table->boolean('free');
             $table->boolean('public');
-            $table->integer('order')->nullable();
+            $table->bigInteger('order')->nullable();
             $table->boolean('enabled');
             $table->timestamps();
             $table->softDeletes();
@@ -69,20 +71,20 @@ class CreateProductsTable extends Migration
 
         Schema::create('product_images', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('product_id');
+            $table->bigInteger('product_id');
             $table->string('title');
             $table->string('source');
             $table->text('description')->nullable();
             $table->boolean('enabled');
-            $table->integer('order')->nullable();
+            $table->bigInteger('order')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
 
         Schema::create('product_comments', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('product_id');
-            $table->integer('user_id');
+            $table->bigInteger('product_id');
+            $table->bigInteger('user_id');
             $table->text('question')->nullable();
             $table->text('answer')->nullable();
             $table->boolean('enabled');
@@ -92,7 +94,7 @@ class CreateProductsTable extends Migration
 
         Schema::create('product_attributes', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('product_id');
+            $table->bigInteger('product_id');
             $table->string('code');
             $table->text('value')->nullable();
             $table->longText('options')->nullable();

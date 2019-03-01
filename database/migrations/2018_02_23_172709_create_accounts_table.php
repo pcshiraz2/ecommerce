@@ -14,9 +14,9 @@ class CreateAccountsTable extends Migration
     public function up()
     {
         Schema::create('accounts', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('title');
-            $table->integer('order')->nullable();
+            $table->bigInteger('order')->nullable();
             $table->string('currency_code')->default(config('platform.currency'))->nullable();
             $table->decimal('initial_balance', 15, 4)->nullable();
             $table->decimal('balance', 15, 4)->nullable();

@@ -15,8 +15,8 @@ class CreateDiscussionsTable extends Migration
     {
         Schema::create('discussions', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
-            $table->integer('category_id');
+            $table->bigInteger('user_id');
+            $table->bigInteger('category_id');
             $table->string('title');
             $table->longText('text');
             $table->string('slug')->nullable();
@@ -24,7 +24,7 @@ class CreateDiscussionsTable extends Migration
             //Type:['normal', 'done', 'close']
             $table->string('type')->default('normal');
             $table->string('color')->nullable();
-            $table->integer('posts')->default(0);
+            $table->bigInteger('posts')->default(0);
             $table->longText('options')->nullable();
             $table->boolean('enabled')->default(true);
             $table->softDeletes();
@@ -33,8 +33,8 @@ class CreateDiscussionsTable extends Migration
 
         Schema::create('discussion_posts', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
-            $table->integer('discussion_id');
+            $table->bigInteger('user_id');
+            $table->bigInteger('discussion_id');
             $table->longText('text');
             $table->longText('options')->nullable();
             $table->boolean('enabled')->default(true);

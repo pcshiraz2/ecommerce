@@ -11,4 +11,5 @@ return [
     'Forum' => 'انجمن',
     'Setting' => 'تنظیمات',
     'Attribute' => 'ویژگی',
+    'Brand' => 'برند'
 ];

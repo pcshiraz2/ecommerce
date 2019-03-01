@@ -18,10 +18,10 @@
     "lodash": "^4.17.11",
     "popper.js": "^1.14.7",
     "resolve-url-loader": "^2.3.2",
-    "sass": "^1.17.0",
+    "sass": "^1.17.2",
     "sass-loader": "^7.1.0",
-    "vue": "^2.6.6",
-    "vue-template-compiler": "^2.6.6"
+    "vue": "^2.6.7",
+    "vue-template-compiler": "^2.6.7"
   },
   "dependencies": {
     "basictable": "^1.0.8",
@@ -34,7 +34,7 @@
     "select2": "^4.0.6-rc.1",
     "tinycolorpicker": "^0.9.5",
     "trumbowyg": "^2.14.0",
-    "vazir-font": "^19.1.0",
+    "vazir-font": "^19.2.0",
     "vue-persian-datetime-picker": "^1.1.7"
   }
 }

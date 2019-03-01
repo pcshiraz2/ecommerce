@@ -14,16 +14,16 @@ class CreateAttributesTable extends Migration
     public function up()
     {
         Schema::create('attributes', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('title');
-            $table->integer('category_id');
+            $table->bigInteger('category_id');
             $table->string('color')->nullable();
             $table->string('image')->nullable();
             $table->string('icon')->nullable();
             $table->string('code')->unique()->nullable();
             $table->longText('description')->nullable();
             $table->longText('options')->nullable();
-            $table->integer('order')->nullable();
+            $table->bigInteger('order')->nullable();
             $table->boolean('enabled');
             $table->timestamps();
             $table->softDeletes();

@@ -16,7 +16,7 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('first_name')->nullable();
             $table->string('last_name');
             $table->string('title')->nullable();
@@ -40,8 +40,8 @@ class CreateUsersTable extends Migration
             $table->text('location')->nullable();
             $table->timestamp('birth_at')->nullable();
 
-            $table->integer('province_id')->nullable();
-            $table->integer('city_id')->nullable();
+            $table->bigInteger('province_id')->nullable();
+            $table->bigInteger('city_id')->nullable();
 
             //For Log who register and who login
             $table->ipAddress('register_ip')->nullable();
@@ -63,13 +63,13 @@ class CreateUsersTable extends Migration
 
         Schema::create('user_addresses', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
+            $table->bigInteger('user_id');
             $table->string('phone')->nullable();
             $table->string('zip_code')->nullable();
             $table->text('address')->nullable();
             $table->text('location')->nullable();
-            $table->integer('province_id')->nullable();
-            $table->integer('city_id')->nullable();
+            $table->bigInteger('province_id')->nullable();
+            $table->bigInteger('city_id')->nullable();
             $table->text('note')->nullable();
             $table->boolean('enabled');
             $table->longText('options')->nullable();
@@ -79,7 +79,7 @@ class CreateUsersTable extends Migration
 
         Schema::create('user_attributes', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
+            $table->bigInteger('user_id');
             $table->string('code');
             $table->text('value')->nullable();
             $table->longText('options')->nullable();

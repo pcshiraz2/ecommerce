@@ -30,14 +30,16 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::findType('Product');
-        return view('admin.product.create', ['categories' => $categories]);
+        $brands = Category::findType('Brand');
+        return view('admin.product.create', ['categories' => $categories, 'brands' => $brands]);
     }
 
     public function edit($id)
     {
         $product = Product::findOrFail($id);
         $categories = Category::findType('Product');
-        return view('admin.product.edit', ['categories' => $categories, 'product' => $product]);
+        $brands = Category::findType('Brand');
+        return view('admin.product.edit', ['categories' => $categories, 'brands' => $brands, 'product' => $product]);
     }
 
     public function inventory($id)
@@ -80,6 +82,8 @@ class ProductController extends Controller
             $product->discount_expire_at = \Morilog\Jalali\CalendarUtils::createDatetimeFromFormat('Y/m/d H:i', \App\Utils\TextUtil::convertToEnglish($request->discount_expire_at));
         }
         $product->category_id = $request->category_id;
+        $product->brand_id = $request->brand_id;
+        $product->model = $request->model;
         $product->user_id = Auth::user()->id;
         $product->initial_balance = $request->initial_balance;
         $product->factory = $request->factory;
@@ -139,6 +143,8 @@ class ProductController extends Controller
             $product->discount_expire_at = \Morilog\Jalali\CalendarUtils::createDatetimeFromFormat('Y/m/d H:i', \App\Utils\TextUtil::convertToEnglish($request->discount_expire_at));
         }
         $product->category_id = $request->category_id;
+        $product->brand_id = $request->brand_id;
+        $product->model = $request->model;
         $product->user_id = Auth::user()->id;
         $product->initial_balance = $request->initial_balance;
         $product->factory = $request->factory;

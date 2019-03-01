@@ -16,7 +16,7 @@ class ProductController extends Controller
     public function index()
     {
         $categories = Category::findType('Product');
-        $products = $products = Product::enabled()->shop()->top()->orderBy('updated_at', 'desc')->paginate(config('platform.product-per-page'));
+        $products = Product::enabled()->shop()->top()->collect();
         return view('product.index', ['products' => $products, 'categories' => $categories]);
     }
 
@@ -36,8 +36,11 @@ class ProductController extends Controller
     {
         $category = Category::findWithCache($id);
         $categories = Category::findType('Product');
-        $products = $products = Product::enabled()->shop()->where('category_id', $id)->orderBy('updated_at', 'desc')->paginate(config('platform.product-per-page'));
-        return view('product.category', ['products' => $products, 'categories' => $categories, 'category' => $category]);
+        $brands = Category::findType('Brand');
+        $products = Product::enabled()->shop()->ofCategory($id)->collect();
+
+
+        return view('product.category', ['products' => $products, 'categories' => $categories, 'brands' => $brands, 'category' => $category]);
     }
 
 
@@ -45,8 +48,9 @@ class ProductController extends Controller
     {
         $category = Category::findWithCache($id);
         $categories = Category::findType('Product');
-        $products = $products = Product::where('category_id', $id)->orderBy('updated_at', 'desc')->paginate(config('platform.product-per-page'));
-        return view('product.category', ['products' => $products, 'categories' => $categories, 'category' => $category]);
+        $brands = Category::findType('Brand');
+        $products = Product::enabled()->shop()->ofCategory($id)->collect();
+        return view('product.category', ['products' => $products, 'categories' => $categories, 'brands' => $brands, 'category' => $category]);
     }
 
     public function find()

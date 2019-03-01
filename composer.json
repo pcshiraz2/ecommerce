@@ -21,7 +21,7 @@
     "intervention/image": "^2.4",
     "kyslik/column-sortable": "^5.7",
     "laracasts/flash": "^3.0",
-    "laravel/framework": "5.7.*",
+    "laravel/framework": "5.8.*",
     "maatwebsite/excel": "^3.1",
     "mews/captcha": "^2.2",
     "morilog/jalali": "^3.0",
@@ -40,22 +40,12 @@
     "fzaninotto/faker": "^1.4",
     "mockery/mockery": "^1.0",
     "nunomaduro/collision": "^2.0",
-    "phpunit/phpunit": "^7.0"
+    "phpunit/phpunit": "^7.5"
   },
-  "autoload": {
-    "classmap": [
-      "database/seeds",
-      "database/factories"
-    ],
-    "psr-4": {
-      "App\\": "app/",
-      "Modules\\": "modules/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Tests\\": "tests/"
-    }
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": "dist",
+    "sort-packages": true
   },
   "extra": {
     "laravel": {
@@ -63,23 +53,33 @@
       ]
     }
   },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/",
+      "Modules\\": "modules/"
+    },
+    "classmap": [
+      "database/seeds",
+      "database/factories"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
   "scripts": {
+    "post-autoload-dump": [
+      "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+      "@php artisan package:discover --ansi"
+    ],
     "post-root-package-install": [
       "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
     ],
     "post-create-project-cmd": [
-      "@php artisan key:generate"
-    ],
-    "post-autoload-dump": [
-      "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-      "@php artisan package:discover"
+      "@php artisan key:generate --ansi"
     ]
-  },
-  "config": {
-    "preferred-install": "dist",
-    "sort-packages": true,
-    "optimize-autoloader": true
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true
+  }
 }

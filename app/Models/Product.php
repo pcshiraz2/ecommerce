@@ -9,6 +9,11 @@ class Product extends Model
         return $this->belongsTo('App\Models\Category');
     }
 
+    public function brand()
+    {
+        return $this->belongsTo('App\Models\Category');
+    }
+
     public function images()
     {
         return $this->hasMany('App\Models\ProductImage');
@@ -56,6 +61,11 @@ class Product extends Model
         return $query->where('shop', true);
     }
 
+    public function scopeOfCategory($query, $category_id)
+    {
+        return $query->where('category_id', $category_id);
+    }
+
     public function scopePost($query)
     {
         return $query->where('post', true);
@@ -74,4 +84,5 @@ class Product extends Model
             return $this->sale_price + $this->tax;
         }
     }
+
 }

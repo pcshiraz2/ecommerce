@@ -13,7 +13,7 @@ class CreateTagsTable extends Migration
             $table->string('slug', 125)->index();
             $table->string('name', 125);
             $table->boolean('suggest')->default(false);
-            $table->integer('count')->unsigned()->default(0); // count of how many times this tag was used
+            $table->bigInteger('count')->unsigned()->default(0); // count of how many times this tag was used
         });
     }
 

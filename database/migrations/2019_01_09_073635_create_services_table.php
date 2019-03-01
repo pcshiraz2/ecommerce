@@ -14,12 +14,12 @@ class CreateServicesTable extends Migration
     public function up()
     {
         Schema::create('services', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('domain')->nullable();
             $table->string('ip', 20)->nullable();
             $table->string('serial_number')->nullable();
-            $table->integer('product_id')->nullable();
-            $table->integer('user_id')->nullable();
+            $table->bigInteger('product_id')->nullable();
+            $table->bigInteger('user_id')->nullable();
             //status:paid,suspned,terminate,active,pendding
             $table->string('status');
             $table->longText('options')->nullable();

@@ -14,14 +14,14 @@ class CreateSlidesTable extends Migration
     public function up()
     {
         Schema::create('slides', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('title');
             $table->string('link')->nullable();
             $table->string('image');
             $table->string('description')->nullable();
-            $table->integer('category_id')->nullable();
+            $table->bigInteger('category_id')->nullable();
             $table->boolean('enabled');
-            $table->integer('order')->nullable();
+            $table->bigInteger('order')->nullable();
             $table->longText('options')->nullable();
             $table->softDeletes();
             $table->timestamps();

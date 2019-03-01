@@ -14,15 +14,15 @@ class CreateTicketsTable extends Migration
     public function up()
     {
         Schema::create('tickets', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('password')->nullable();
             $table->string('title');
             $table->text('text');
-            $table->integer('user_id')->nullable();
+            $table->bigInteger('user_id')->nullable();
             $table->string('name')->nullable();
             $table->string('email')->nullable();
             $table->string('mobile')->nullable();
-            $table->integer('category_id');
+            $table->bigInteger('category_id');
             //Status: ['close', 'open', 'staff', 'user', 'waiting', 'lock', 'done']
             $table->string('status')->default('open');
             //Priority: ['normal', 'urgent', 'important']
@@ -35,9 +35,9 @@ class CreateTicketsTable extends Migration
         });
 
         Schema::create('ticket_replays', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('user_id');
-            $table->integer('ticket_id');
+            $table->bigIncrements('id');
+            $table->bigInteger('user_id');
+            $table->bigInteger('ticket_id');
             $table->text('text');
             //Type: ['normal', 'system', 'forward']
             $table->string('type')->default('normal');
@@ -49,9 +49,9 @@ class CreateTicketsTable extends Migration
         });
 
         Schema::create('ticket_attachments', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('ticket_id');
-            $table->integer('replay_id')->nullable();
+            $table->bigIncrements('id');
+            $table->bigInteger('ticket_id');
+            $table->bigInteger('replay_id')->nullable();
             $table->string('title')->nullable();
             $table->string('attachment');
             $table->boolean('enabled')->default(true);

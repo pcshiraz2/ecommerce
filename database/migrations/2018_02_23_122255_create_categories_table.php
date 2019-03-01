@@ -15,7 +15,7 @@ class CreateCategoriesTable extends Migration
     public function up()
     {
         Schema::create('categories', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
 
             $table->string('title');
             $table->string('type');
@@ -24,8 +24,8 @@ class CreateCategoriesTable extends Migration
             $table->string('icon')->nullable();
             $table->string('code')->nullable();
             $table->string('slug')->nullable();
-            $table->integer('order')->nullable();
-            $table->integer('category_id')->nullable();
+            $table->bigInteger('order')->nullable();
+            $table->bigInteger('category_id')->nullable();
             $table->boolean('enabled');
             $table->boolean('visible')->nullable();
             $table->longText('options')->nullable();

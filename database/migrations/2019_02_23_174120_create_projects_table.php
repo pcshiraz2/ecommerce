@@ -14,11 +14,11 @@ class CreateProjectsTable extends Migration
     public function up()
     {
         Schema::create('projects', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('title');
             $table->timestamp('start_at')->nullable();
             $table->timestamp('finish_at')->nullable();
-            $table->integer('order')->nullable();
+            $table->bigInteger('order')->nullable();
             $table->string('color')->nullable();
             $table->boolean('enabled');
             $table->longText('options')->nullable();

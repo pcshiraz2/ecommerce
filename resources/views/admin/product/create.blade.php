@@ -114,6 +114,40 @@
 
                         </div>
 
+
+
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="brand_id">برند</label>
+
+                                <select name="brand_id" id="brand_id" class="form-control selector">
+                                    @foreach($brands as $brand)
+                                        <option value="{{ $brand->id }}"{{ old('brand_id') == $brand->id  ? ' selected' : '' }}>{{$brand->title}}</option>
+                                    @endforeach
+
+                                </select>
+                                @if ($errors->has('brand_id'))
+                                    <span class="invalid-feedback">
+                                            <strong>{{ $errors->first('brand_id') }}</strong>
+                                        </span>
+                                @endif
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="model">
+                                    مدل
+                                </label>
+                                <input id="model" type="text" dir="ltr"
+                                       class="form-control{{ $errors->has('model') ? ' is-invalid' : '' }}"
+                                       name="model" value="{{ old('model') }}">
+                                @if ($errors->has('model'))
+                                    <span class="invalid-feedback">
+                                                                <strong>{{ $errors->first('model') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                    </div>
+
                         <div class="form-group">
                             <label for="code">
                                 کد یکتا محصول
