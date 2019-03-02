@@ -78,6 +78,8 @@ class InvoiceController extends Controller
                 $transaction->amount = -1 * MoneyUtil::database($invoice->total);
                 $transaction->type = 'invoice';
                 $transaction->description = "هزینه فاکتور شماره:" . $invoice->id;
+                $transaction->transaction_at = date("Y-m-d H:i:s");
+                $transaction->paid_at = date("Y-m-d H:i:s");
                 $transaction->save();
 
                 $trackingCode = $settledTransaction->getTrackingCode();
@@ -106,6 +108,8 @@ class InvoiceController extends Controller
                 $transaction->type = 'income';
                 $transaction->description = "پرداخت فاکتور شماره:" . $invoice->id;
                 $transaction->options = $options;
+                $transaction->transaction_at = date("Y-m-d H:i:s");
+                $transaction->paid_at = date("Y-m-d H:i:s");
                 $transaction->save();
 
 

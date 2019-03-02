@@ -37,8 +37,8 @@ return [
 
     'main-admin-user-id' => '1',
 
-    'income-transfer-category-id' => '12',
-    'expense-transfer-category-id' => '16',
+    'income-transfer-category-id' => '13',
+    'expense-transfer-category-id' => '17',
 
     'income-check-category-id' => '10',
     'expense-check-category-id' => '13',

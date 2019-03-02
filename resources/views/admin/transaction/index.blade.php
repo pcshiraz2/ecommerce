@@ -98,13 +98,9 @@
                                     @endif
                                 </td>
                                 <td>
-                                    @if($transaction->amount < 0)
-                                        <a href="{{ route('admin.transaction.edit.expense', ['id' => $transaction->id]) }}"
+
+                                    <a href="{{ route('admin.transaction.edit', ['id' => $transaction->id]) }}"
                                            class="btn btn-sm btn-dark" data-toggle="tooltip" data-placement="top" title="ویرایش تراکنش"><i class="fa fa-edit"></i></a>
-                                    @else
-                                        <a href="{{ route('admin.transaction.edit.income', ['id' => $transaction->id]) }}"
-                                           class="btn btn-sm btn-dark" data-toggle="tooltip" data-placement="top" title="ویرایش تراکنش"><i class="fa fa-edit"></i></a>
-                                    @endif
 
                                     <form method="post"
                                           action="{{ route('admin.transaction.delete',['id' => $transaction->id]) }}"

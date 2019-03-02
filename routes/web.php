@@ -191,9 +191,9 @@ Route::prefix(Config('platform.admin-route'))->name('admin.')->group(function ()
     Route::get('/transaction/create/transfer', 'Admin\TransactionController@createTransfer')->name('transaction.create.transfer');
     Route::get('/transaction/create/expense', 'Admin\TransactionController@createExpense')->name('transaction.create.expense');
     Route::post('/transaction/insert', 'Admin\TransactionController@insert')->name('transaction.insert');
+    Route::post('/transaction/insert/transfer', 'Admin\TransactionController@insertTransfer')->name('transaction.insert.transfer');
     Route::post('/transaction/update/{id}', 'Admin\TransactionController@update')->name('transaction.update');
-    Route::get('/transaction/edit/income/{id}', 'Admin\TransactionController@editIncome')->name('transaction.edit.income');
-    Route::get('/transaction/edit/expense/{id}', 'Admin\TransactionController@editExpense')->name('transaction.edit.expense');
+    Route::get('/transaction/edit/{id}', 'Admin\TransactionController@edit')->name('transaction.edit');
     Route::delete('/transaction/delete/{id}', 'Admin\TransactionController@delete')->name('transaction.delete');
     Route::get('/transaction/export', 'Admin\TransactionController@export')->name('transaction.export');
 

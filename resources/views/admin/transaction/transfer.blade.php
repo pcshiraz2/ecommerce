@@ -21,7 +21,6 @@
             </nav>
             <div class="card card-default">
                 <div class="card-header">انتقال وجه</div>
-
                 <div class="card-body">
                     <form method="POST" action="{{ route('admin.transaction.insert.transfer') }}" onsubmit="$('.price').unmask();">
                         @csrf
