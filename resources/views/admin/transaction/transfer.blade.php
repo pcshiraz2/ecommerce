@@ -45,7 +45,7 @@
                         </div>
                         <div class="form-group">
                             <label for="transaction_at">تاریخ</label>
-                            <div dir="ltr">
+                            <div dir="rtl">
                                 <date-picker
                                         id="transaction_at"
                                         name="transaction_at"

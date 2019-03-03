@@ -98,6 +98,8 @@
                                     @endif
                                 </td>
                                 <td>
+                                    <a href="{{ route('admin.transaction.pay', ['id' => $transaction->id]) }}"
+                                       class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="پرداخت تراکنش"><i class="fa fa-money"></i></a>
 
                                     <a href="{{ route('admin.transaction.edit', ['id' => $transaction->id]) }}"
                                            class="btn btn-sm btn-dark" data-toggle="tooltip" data-placement="top" title="ویرایش تراکنش"><i class="fa fa-edit"></i></a>

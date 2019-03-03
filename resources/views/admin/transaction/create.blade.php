@@ -54,6 +54,7 @@
                         @elseif(Request::segment(4) == 'transfer')
                             <input type="hidden" name="type" value="transfer"/>
                         @endif
+
                         <div class="form-group">
                             <label for="amount">مبلغ</label>
                             <div class="input-group mb-2 ml-sm-2">
@@ -70,9 +71,25 @@
                                     </span>
                             @endif
                         </div>
+
+                        <div class="form-group">
+                            <label for="category_id">دسته</label>
+
+                            <select name="category_id" id="category_id" class="form-control">
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}"{{ old('category_id') == $category->id  ? ' selected' : '' }}>{{$category->title}}</option>
+                                @endforeach
+                            </select>
+                            @if ($errors->has('category_id'))
+                                <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('category_id') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
+
                         <div class="form-group">
                             <label for="transaction_at">تاریخ</label>
-                            <div dir="ltr">
+                            <div dir="rtl">
                                 <date-picker
                                         id="transaction_at"
                                         name="transaction_at"
@@ -80,8 +97,7 @@
                                         display-format="jYYYY/jMM/jDD"
                                         color="#6838b8"
                                         type="date"
-                                        value="{{ old('transaction_at') }}"
-                                        placeholder="____/__/__">
+                                        value="{{ old('transaction_at') }}">
                                 </date-picker>
                             </div>
                             <span class="form-text text-muted"></span>
@@ -91,49 +107,9 @@
                                     </span>
                             @endif
                         </div>
-                        @if(Request::segment(4) == 'income' || Request::segment(4) == 'expense')
-                        <div class="form-group">
-                            <label for="paid_at">تاریخ
-                                @if(Request::segment(4) == 'income')
-                                    دریافت
-                                @elseif(Request::segment(4) == 'expense')
-                                    پرداخت
-                                @endif
-                                <span class="font-weight-light font-italic"> - اختیاری</span>
-                            </label>
-                            <div dir="ltr">
-                                <date-picker
-                                        id="paid_at"
-                                        name="paid_at"
-                                        format="jYYYY/jMM/jDD"
-                                        display-format="jYYYY/jMM/jDD"
-                                        color="#6838b8"
-                                        type="date"
-                                        value="{{ old('paid_at') }}"
-                                        placeholder="____/__/__">
-                                </date-picker>
-                            </div>
-                            <span class="form-text text-muted">در صورتی که تراکنش پرداخت شده است تاریخ را بنویسید.</span>
-                            @if ($errors->has('paid_at'))
-                                <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('paid_at') }}</strong>
-                                    </span>
-                            @endif
-                        </div>
-                            <div class="form-group">
-                                <label for="category_id">دسته</label>
 
-                                <select name="category_id" id="category_id" class="form-control">
-                                    @foreach($categories as $category)
-                                        <option value="{{ $category->id }}"{{ old('category_id') == $category->id  ? ' selected' : '' }}>{{$category->title}}</option>
-                                    @endforeach
-                                </select>
-                                @if ($errors->has('category_id'))
-                                    <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('category_id') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
+
+
                             <div class="form-group">
                                 <label for="account_id">حساب</label>
 
@@ -148,6 +124,7 @@
                                     </span>
                                 @endif
                             </div>
+
                             <div class="form-group">
                                 <label for="user_id">شخص</label>
 
@@ -158,39 +135,7 @@
                                     </span>
                                 @endif
                             </div>
-                        @else
-                            <div class="form-group">
-                                <label for="account_id">مبدا</label>
 
-                                <select name="account_id" id="account_id" class="form-control">
-                                    @foreach($accounts as $account)
-                                        <option value="{{ $account->id }}"{{ old('account_id') == $account->id  ? ' selected' : '' }}>{{$account->name}}</option>
-                                    @endforeach
-                                </select>
-                                @if ($errors->has('account_id'))
-                                    <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('account_id') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-
-                            <div class="form-group">
-                                <label for="account_id">مقصد</label>
-
-                                <select name="account_id" id="account_id" class="form-control">
-                                    @foreach($accounts as $account)
-                                        <option value="{{ $account->id }}"{{ old('account_id') == $account->id  ? ' selected' : '' }}>{{$account->name}}</option>
-                                    @endforeach
-                                </select>
-                                @if ($errors->has('account_id'))
-                                    <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('account_id') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-
-
-                            @endif
                         <div class="form-group">
                             <label for="description">توضیحات</label>
 
@@ -204,6 +149,33 @@
                             @endif
                         </div>
 
+                        <div class="form-group">
+                            <label for="paid_at">تاریخ
+                                @if(Request::segment(4) == 'income')
+                                    دریافت
+                                @elseif(Request::segment(4) == 'expense')
+                                    پرداخت
+                                @endif
+                                <span class="font-weight-light font-italic"> - اختیاری</span>
+                            </label>
+                            <div dir="rtl">
+                                <date-picker
+                                        id="paid_at"
+                                        name="paid_at"
+                                        format="jYYYY/jMM/jDD"
+                                        display-format="jYYYY/jMM/jDD"
+                                        color="#6838b8"
+                                        type="date"
+                                        value="{{ old('paid_at') }}">
+                                </date-picker>
+                            </div>
+                            <span class="form-text text-muted">در صورتی که تراکنش پرداخت شده است تاریخ را بنویسید.</span>
+                            @if ($errors->has('paid_at'))
+                                <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('paid_at') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
 
                         <button type="submit" class="btn btn-primary">
                             <i class="fa fa-plus"></i>
