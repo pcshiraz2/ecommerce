@@ -22,15 +22,15 @@
                                class="btn btn-danger btn-sm pull-left"><i class="fa fa-trash-o"></i></a>
                         @endcan
                     @endif
-                    @if(Cart::total() != 0)
+                    @if(Cart::getTotal() != 0)
                         <a href="{{ route('cart.information')  }}" class="btn btn-warning btn-sm pull-left"><i
                                     class="fa fa-user-circle-o"></i>تکمیل اطلاعات</a>
                     @endif
                 </div>
             </div>
-            @if(Cart::count())
+            @if(Cart::getContent()->count())
             <div class="list-group mb-2">
-                @foreach(Cart::content() as $product)
+                @foreach(Cart::getContent() as $product)
                     <div class="list-group-item list-group-item-action flex-column align-items-start">
                         <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1"><a href="{{ route('product.view',['id'=>$product->id]) }}">{{$product->name}}</a></h5>
@@ -44,28 +44,28 @@
                             </small>
                         </div>
                         <p class="mb-1">
-                            قیمت واحد:{{number_format($product->options->sale_price)}}{{ trans('currency.'.config('platform.currency')) }}
+                            قیمت واحد:{{number_format($product->attributes->sale_price)}}{{ trans('currency.'.config('platform.currency')) }}
                             <br/>
 
-                            @if($product->options->discount)
+                            @if($product->attributes->discount)
                                 <strong>
-                            قیمت با تخفیف:{{number_format($product->options->discount_price)}}{{ trans('currency.'.config('platform.currency')) }}
+                            قیمت با تخفیف:{{number_format($product->attributes->discount_price)}}{{ trans('currency.'.config('platform.currency')) }}
                                 </strong>
                                 <br/>
-                                تخفیف:{{number_format($product->options->discount)}} {{ trans('currency.'.config('platform.currency')) }}
+                                تخفیف:{{number_format($product->attributes->discount)}} {{ trans('currency.'.config('platform.currency')) }}
                                 <br/>
                             @endif
-                            @if($product->options->tax)
-                                مالیات و عوارض:{{ \App\Utils\MoneyUtil::format($product->options->tax)}} {{ trans('currency.'.config('platform.currency')) }}
+                            @if($product->attributes->tax)
+                                مالیات و عوارض:{{ \App\Utils\MoneyUtil::format($product->attributes->tax)}} {{ trans('currency.'.config('platform.currency')) }}
                                 <br/>
                             @endif
 
-                            تعداد:{{\App\Utils\MoneyUtil::format($product->qty)}}
+                            تعداد:{{\App\Utils\MoneyUtil::format($product->quantity)}}
                             <br/>
 
-                            جمع:{{\App\Utils\MoneyUtil::format($product->price * $product->qty)}}{{ trans('currency.'.config('platform.currency')) }}
+                            جمع:{{\App\Utils\MoneyUtil::format($product->price * $product->quantity)}}{{ trans('currency.'.config('platform.currency')) }}
                         </p>
-                        <small>{{$product->options->description}}</small>
+                        <small>{{$product->attributes->description}}</small>
                     </div>
                 @endforeach
             </div>
@@ -78,12 +78,12 @@
             @endif
             <div class="row mt-2">
                 <div class="col-md-8">
-                    <div class="alert alert-dark"><strong>جمع کل حروف:</strong>{{ \App\Utils\MoneyUtil::letters(Cart::total()) }} {{ trans('currency.'.config('platform.currency')) }}
+                    <div class="alert alert-dark"><strong>جمع کل حروف:</strong>{{ \App\Utils\MoneyUtil::letters(Cart::getTotal()) }} {{ trans('currency.'.config('platform.currency')) }}
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="alert alert-dark">
-                        <strong>جمع کل عدد:</strong>{{ \App\Utils\MoneyUtil::format(Cart::total()) }} {{ trans('currency.'.config('platform.currency')) }}
+                        <strong>جمع کل عدد:</strong>{{ \App\Utils\MoneyUtil::format(Cart::getTotal()) }} {{ trans('currency.'.config('platform.currency')) }}
                     </div>
                 </div>
             </div>

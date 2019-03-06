@@ -15,7 +15,7 @@
                 <div class="col-md-12">
                     <a href="{{ route('product')  }}" class="btn btn-primary pull-right"><i
                                 class="fa fa-shopping-basket"></i> ادامه خرید</a>
-                    @if(Cart::total() != 0)
+                    @if(Cart::getTotal() != 0)
                         <button onclick="$('#information').submit();" class="btn btn-warning pull-left"><i
                                     class="fa fa-check-circle-o"></i>ثبت اطلاعات و پرداخت
                         </button>

@@ -65,11 +65,11 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
-                        @if(\Cart::getContent())
+                        @if(\Cart::getContent()->count())
                             <li>
                                 <a class="nav-link{{ Request::segment(1) == 'cart' ? ' active' : '' }}"
                                    href="{{ route('cart') }}"><i class="fa fa-shopping-basket"></i> سبد خرید<span
-                                            class="badge badge-pill badge-info">{{ \Cart::getContent() }}</span></a>
+                                            class="badge badge-pill badge-info">{{ \Cart::getContent()->count() }}</span></a>
                             </li>
                         @endif
                         @guest

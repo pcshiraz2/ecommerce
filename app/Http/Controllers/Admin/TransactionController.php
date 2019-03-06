@@ -82,9 +82,12 @@ class TransactionController extends Controller
         $transaction->category_id = $request->category_id;
         $transaction->account_id = $request->account_id;
         $transaction->user_id = $request->user_id;
-        $transaction->type = $request->type;
         $transaction->transaction_at = \Morilog\Jalali\CalendarUtils::createDatetimeFromFormat('Y/m/d', \App\Utils\TextUtil::convertToEnglish($request->transaction_at));
-        $transaction->paid_at = \Morilog\Jalali\CalendarUtils::createDatetimeFromFormat('Y/m/d', \App\Utils\TextUtil::convertToEnglish($request->paid_at));
+        if ($request->paid_at) {
+            $transaction->paid_at = \Morilog\Jalali\CalendarUtils::createDatetimeFromFormat('Y/m/d', \App\Utils\TextUtil::convertToEnglish($request->paid_at));
+        } else {
+            $transaction->paid_at = null;
+        }
         $transaction->save();
         flash('تراکنش با موفقیت ویرایش شد.')->success();
         return redirect()->route('admin.transaction');

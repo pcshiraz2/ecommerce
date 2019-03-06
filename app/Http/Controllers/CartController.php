@@ -115,10 +115,10 @@ class CartController extends Controller
         }
         if(\Cart::getContent()->count()) {
             $redirectFlag = false;
-            $items = Cart::getContent();
+            $items = \Cart::getContent();
             foreach ($items as $item) {
-                if($item->options->factory) {
-                    $className = '\App\Factory\\'.$item->options->factory;
+                if($item->attributes->factory) {
+                    $className = '\App\Factory\\'.$item->attributes->factory;
                     $factory = new $className;
                     if($factory->factoryCartInformation) {
                         $redirectFlag = true;
@@ -154,7 +154,7 @@ class CartController extends Controller
             $tax = 0;
             $discount = 0;
             $total = 0;
-            if (Cart::total() == 0) {
+            if (\Cart::getTotal() == 0) {
                 flash("سبد خرید شما خالی است لطفا ابتدا کالا مورد نظر خود را انتخاب کنید.")->warning();
                 return redirect()->route('shop');
             }
@@ -175,10 +175,10 @@ class CartController extends Controller
             $invoice->province_id = Auth::user()->province_id;
             $invoice->save();
 
-            foreach (Cart::content() as $product) {
-                if($product->options->factory) {
+            foreach (\Cart::getContent() as $product) {
+                if($product->attributes->factory) {
                     for($i=0;$i<$product->qty;$i++) {
-                        $className = '\App\Factories\\'.$product->options->factory;
+                        $className = '\App\Factories\\'.$product->attributes->factory;
                         $factory = new $className;
                         $record = new Record();
                         $record->invoice_id = $invoice->id;
@@ -186,9 +186,9 @@ class CartController extends Controller
                         $record->description = $product->description;
 
                         $record->quantity = abs($product->qty) * -1;
-                        $record->price = $product->options->sale_price;
-                        $record->discount = $product->options->discount;
-                        $record->tax = $product->options->tax;
+                        $record->price = $product->attributes->sale_price;
+                        $record->discount = $product->attributes->discount;
+                        $record->tax = $product->attributes->tax;
                         $record->total = (($record->price - $record->discount) + $record->tax) * abs($product->qty);
 
                         $record->product_id = $product->id;
@@ -209,9 +209,9 @@ class CartController extends Controller
                     $record->title = $product->name;
                     $record->description = $product->description;
                     $record->quantity = abs($product->qty) * -1;
-                    $record->price = $product->options->sale_price;
-                    $record->discount = $product->options->discount;
-                    $record->tax = $product->options->tax;
+                    $record->price = $product->attributes->sale_price;
+                    $record->discount = $product->attributes->discount;
+                    $record->tax = $product->attributes->tax;
                     $record->total = (($record->price - $record->discount) + $record->tax) * abs($product->qty);
 
                     $record->product_id = $product->id;
@@ -227,7 +227,7 @@ class CartController extends Controller
             $invoice->discount = $discount;
             $invoice->save();
 
-            Cart::destroy();
+            \Cart::clear();
             if (Auth::check()) {
                 $user = Auth::user();
                 try {

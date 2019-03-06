@@ -75,7 +75,7 @@
                         <div class="form-group">
                             <label for="category_id">دسته</label>
 
-                            <select name="category_id" id="category_id" class="form-control">
+                            <select name="category_id" id="category_id" class="form-control selector">
                                 @foreach($categories as $category)
                                     <option value="{{ $category->id }}"{{ old('category_id') == $category->id  ? ' selected' : '' }}>{{$category->title}}</option>
                                 @endforeach
@@ -113,7 +113,7 @@
                             <div class="form-group">
                                 <label for="account_id">حساب</label>
 
-                                <select name="account_id" id="account_id" class="form-control">
+                                <select name="account_id" id="account_id" class="selector form-control">
                                     @foreach($accounts as $account)
                                         <option value="{{ $account->id }}"{{ old('account_id') == $account->id  ? ' selected' : '' }}>{{$account->name}}</option>
                                     @endforeach

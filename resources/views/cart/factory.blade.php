@@ -23,10 +23,10 @@
                     @endif
                 </div>
             </div>
-            @if(Cart::count())
-                    @foreach(Cart::content() as $product)
-                        @for($i = 0;$i < $product->qty; $i++)
-                            @include('factory.'.strtolower($product->options->factory).'.cart',['i' => $i,'product' => $product])
+            @if(Cart::getContent()->count())
+                    @foreach(Cart::getContent() as $product)
+                        @for($i = 0;$i < $product->quantity; $i++)
+                            @include('factory.'.strtolower($product->attributes->factory).'.cart',['i' => $i,'product' => $product])
                         @endfor
                     @endforeach
             @else

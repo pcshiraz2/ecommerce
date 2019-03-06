@@ -431,7 +431,7 @@
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="discount_expire_at">انقضای حراج<span class="font-weight-light font-italic"> - اختیاری</span></label>
-                                <div dir="ltr">
+                                <div dir="rtl">
                                     <date-picker
                                             id="discount_expire_at"
                                             name="discount_expire_at"

@@ -95,7 +95,7 @@
                     <div class="row">
                         <div class="col-md-9">
                             <div class="alert alert-dark">
-                                مجموع حروف: {{ number_to_letters($invoice->total) }} تومان
+                                مجموع حروف: {{ \App\Utils\MoneyUtil::letters($invoice->total) }} تومان
                             </div>
                         </div>
                         <div class="col-md-3">
