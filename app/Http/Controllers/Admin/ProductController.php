@@ -183,4 +183,57 @@ class ProductController extends Controller
         flash('کالا با موفقیت حذف شد.')->success();
         return redirect()->route('admin.product');
     }
+
+
+    public function image($id)
+    {
+
+    }
+
+    public function imageCreate($id)
+    {
+
+    }
+
+    public function imageInsert($id, Request $request)
+    {
+
+    }
+
+    public function imageEdit($id)
+    {
+
+    }
+
+    public function imageUpdate($id, Request $request)
+    {
+
+    }
+
+    public function file($id)
+    {
+
+    }
+
+    public function fileCreate($id)
+    {
+
+    }
+
+    public function fileInsert($id, Request $request)
+    {
+
+    }
+
+    public function fileEdit($id)
+    {
+
+    }
+
+    public function fileUpdate($id, Request $request)
+    {
+
+    }
+
+
 }

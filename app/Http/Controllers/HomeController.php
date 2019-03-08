@@ -20,14 +20,50 @@ class HomeController extends Controller
      */
     public function index()
     {
-        //TODO: Need Cache system for more speed.
+        if (Cache::has('slides')) {
+            $slides = Cache::get('slides');
+        } else {
+            $slides = Slide::enabled()->orderBy('order', 'asc')->get();
+            Cache::put('slides', $slides);
+        }
 
-        $slides = Slide::enabled()->orderBy('order', 'asc')->get();
-        $articles = Article::enabled()->limit(5)->orderBy('created_at', 'desc')->get();
-        $topProducts = Product::enabled()->shop()->top()->limit(4)->get();
-        $newProducts = Product::enabled()->shop()->new()->limit(4)->get();
-        $discountProducts = Product::enabled()->shop()->discount()->limit(4)->orderBy('updated_at', 'desc')->get();
-        $discussions = Discussion::enabled()->limit(5)->orderBy('updated_at', 'desc')->get();
+        if (Cache::has('topProducts')) {
+            $topProducts = Cache::get('topProducts');
+        } else {
+            $topProducts = Product::enabled()->shop()->top()->limit(4)->get();
+            Cache::put('topProducts', $topProducts);
+        }
+
+
+        if (Cache::has('newProducts')) {
+            $newProducts = Cache::get('newProducts');
+        } else {
+            $newProducts = Product::enabled()->shop()->new()->limit(4)->get();
+            Cache::put('newProducts', $newProducts);
+        }
+
+        if (Cache::has('discountProducts')) {
+            $discountProducts = Cache::get('discountProducts');
+        } else {
+            $discountProducts = Product::enabled()->shop()->discount()->limit(4)->orderBy('updated_at', 'desc')->get();
+            Cache::put('discountProducts', $discountProducts);
+        }
+
+        if (Cache::has('articles')) {
+            $articles = Cache::get('articles');
+        } else {
+            $articles = Article::enabled()->limit(5)->orderBy('created_at', 'desc')->get();
+            Cache::put('articles', $articles);
+        }
+
+
+        if (Cache::has('discussions')) {
+            $discussions = Cache::get('discussions');
+        } else {
+            $discussions = Discussion::enabled()->limit(5)->orderBy('updated_at', 'desc')->get();
+            Cache::put('discussions', $discussions);
+        }
+
         $page = Page::findWithCache(config('platform.index-page-id'));
         return view('home.index', [
             'page' => $page,

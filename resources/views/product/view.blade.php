@@ -21,19 +21,22 @@
                             @can('products')
                                 <div class="btn-group pull-left mb-1" role="group" aria-label="Basic example">
                                     <a href="{{ route('admin.product.edit',['id' => $product->id])  }}"
-                                       class="btn btn-mobile btn-primary btn-sm"><i class="fa fa-edit"></i> ویرایش کالا</a>
+                                       class="btn btn-mobile btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="ویرایش کالا">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
                                     <button type="button" onclick="$('#deleteProduct').toggle();"
-                                            class="btn btn-mobile btn-danger btn-sm"><i class="fa fa-trash-o"></i> حذف
-                                        کالا
+                                            class="btn btn-mobile btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="حذف کالا">
+                                        <i class="fa fa-trash-o"></i>
                                     </button>
                                     <a type="button"
                                        href="{{ route('admin.product.image.create',['id' => $product->id]) }}"
-                                       class="btn btn-mobile btn-dark btn-sm"><i class="fa fa-file-image-o"></i> افزودن
-                                        تصویر</a>
+                                       class="btn btn-mobile btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="افزودن تصویر">
+                                        <i class="fa fa-file-image-o"></i>
+                                    </a>
                                     <a type="button"
                                        href="{{ route('admin.product.file.create',['id' => $product->id]) }}"
-                                       class="btn btn-mobile btn-info btn-sm"><i class="fa fa-files-o"></i> افزودن
-                                        فایل</a>
+                                       class="btn btn-mobile btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="افزودن فایل"><i class="fa fa-files-o"></i>
+                                    </a>
                                 </div>
                             @endcan
                         @endif

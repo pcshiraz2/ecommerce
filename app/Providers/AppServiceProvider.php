@@ -21,6 +21,10 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
         \URL::forceRootUrl(\Config::get('app.url'));
         \App\Models\Transaction::observe(\App\Observers\TransactionObserver::class);
+        \App\Models\Product::observe(\App\Observers\ProductObserver::class);
+        \App\Models\Article::observe(\App\Observers\ArticleObserver::class);
+        \App\Models\Discussion::observe(\App\Observers\DiscussionObserver::class);
+        \App\Models\Slide::observe(\App\Observers\SlideObserver::class);
     }
 
     /**

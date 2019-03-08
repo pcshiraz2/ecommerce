@@ -47,7 +47,6 @@ class CreateUsersTable extends Migration
             $table->ipAddress('register_ip')->nullable();
             $table->ipAddress('last_ip')->nullable();
 
-
             //For Disable and Enable
             $table->boolean('enabled');
 

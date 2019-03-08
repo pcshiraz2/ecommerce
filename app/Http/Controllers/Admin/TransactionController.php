@@ -58,6 +58,10 @@ class TransactionController extends Controller
             return redirect()->route('admin.invoice.view',['id' => $transaction->invoice_id]);
         }
 
+        if($transaction->category_id) {
+
+        }
+
 
         return view('admin.transaction.edit', ['categories' => $categories, 'accounts' => $accounts, 'transaction' => $transaction]);
     }
@@ -116,6 +120,7 @@ class TransactionController extends Controller
         $transaction->user_id = $request->user_id;
         $transaction->type = $request->type;
         $transaction->transaction_at = \Morilog\Jalali\CalendarUtils::createDatetimeFromFormat('Y/m/d', \App\Utils\TextUtil::convertToEnglish($request->transaction_at));
+
         if($request->paid_at) {
             $transaction->paid_at = \Morilog\Jalali\CalendarUtils::createDatetimeFromFormat('Y/m/d', \App\Utils\TextUtil::convertToEnglish($request->paid_at));
         } else {

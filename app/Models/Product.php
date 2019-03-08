@@ -4,6 +4,17 @@ namespace App\Models;
 
 class Product extends Model
 {
+    public static function findWithCache($id)
+    {
+        if (Cache::has('product_' . $id)) {
+            return Cache::get('product_' . $id);
+        } else {
+            $product = Page::findOrFail($id);
+            Cache::forever('product_' . $id, $product);
+            return $product;
+        }
+    }
+
     public function category()
     {
         return $this->belongsTo('App\Models\Category');
