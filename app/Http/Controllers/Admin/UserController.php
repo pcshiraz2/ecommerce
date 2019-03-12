@@ -26,12 +26,6 @@ class UserController extends Controller
         return view('admin.user.index', ['users' => $users]);
     }
 
-    public function balance($id)
-    {
-        $user = User::findOrFail($id);
-        return $user->getBalance();
-    }
-
     public function create()
     {
         return view('admin.user.create');
@@ -81,18 +75,18 @@ class UserController extends Controller
         }
         $user = User::findOrFail($id);
         Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'mobile' => 'required|numeric|digits:11|unique:users,mobile,' . $user->id,
             'password' => 'confirmed',
-            'level' => 'required',
         ])->validate();
-        $user->name = $request->name;
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
         $user->email = $request->email;
         $user->mobile = $request->mobile;
         $user->note = $request->note;
         $user->title = $request->title;
-        $user->level = $request->level;
         if ($request->password) {
             $user->password = Hash::make($request->password);
         }

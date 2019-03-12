@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Cache;
+
 class Product extends Model
 {
     public static function findWithCache($id)
@@ -9,7 +11,7 @@ class Product extends Model
         if (Cache::has('product_' . $id)) {
             return Cache::get('product_' . $id);
         } else {
-            $product = Page::findOrFail($id);
+            $product = Product::findOrFail($id);
             Cache::forever('product_' . $id, $product);
             return $product;
         }

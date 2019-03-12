@@ -7,16 +7,10 @@
     @section('title', 'فاکتور خرید جدید - ')
 @endif
 
-@section('css')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"/>
-    <link rel="stylesheet" href="https://unpkg.com/persian-datepicker@latest/dist/css/persian-datepicker.min.css"/>
-@endsection
 @section('content')
     <div class="row justify-content-center">
-        <div class="col-md-{{ config('platform.sidebar-size') }}">
-            @include('admin.sidebar')
-        </div>
-        <div class="col-md-{{ config('platform.content-size') }}">
+
+        <div class="col-md-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('index') }}">{{ config('platform.name') }}</a></li>
@@ -35,17 +29,20 @@
             </nav>
             <div class="card card-default">
                 <div class="card-header">
-                    @if(Request::segment(4) == 'sale')
-                        فاکتور فروش جدید
-                    @endif
+                    <div class="clearfix">
+                        <div class="pull-right">
+                            @if(Request::segment(4) == 'sale')
+                                فاکتور فروش جدید
+                            @endif
 
-                    @if(Request::segment(4) == 'purchase')
-                        فاکتور خرید جدید
-                    @endif
-
-                    @if(Request::segment(4) == 'purchase')
-                        فاکتور خرید جدید
-                    @endif
+                            @if(Request::segment(4) == 'purchase')
+                                فاکتور خرید جدید
+                            @endif
+                        </div>
+                        <div class="pull-left">
+                            <a href="{{ route('admin.invoice') }}" class="btn btn-primary btn-sm"><i class="fa fa-step-backward"></i> بازگشت به لیست فاکتور ها</a>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="card-body">
@@ -55,7 +52,7 @@
                         @method('post')
                         <input type="hidden" name="type" value="{{ $type }}">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="user_id">
                                         @if(Request::segment(4) == 'sale')
@@ -66,12 +63,7 @@
                                             فروشنده
                                         @endif
                                     </label>
-                                    <select name="user_id" id="user_id" class="form-control" required autofocus>
-                                        @foreach($users as $user)
-                                            <option value="{{ $user->id }}"{{ old('user_id') == $user->id  ? ' selected' : '' }}>{{$user->name}}</option>
-                                        @endforeach
-
-                                    </select>
+                                    <select name="user_id" id="user_id" class="form-control"></select>
                                     @if ($errors->has('user_id'))
                                         <span class="invalid-feedback">
                                         <strong>{{ $errors->first('user_id') }}</strong>
@@ -79,13 +71,24 @@
                                     @endif
                                 </div>
                             </div>
+
+                        </div>
+                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="invoice_at">تاریخ</label>
-                                    <input dir="ltr" id="invoice_at" autocomplete="off" placeholder="____/__/__"
-                                           type="text"
-                                           class="invoice_at date form-control{{ $errors->has('invoice_at') ? ' is-invalid' : '' }}"
-                                           name="invoice_at" value="{{ old('invoice_at') }}" required>
+
+                                    <div dir="rtl">
+                                        <date-picker
+                                                id="invoice_at"
+                                                name="invoice_at"
+                                                format="jYYYY/jMM/jDD"
+                                                display-format="jYYYY/jMM/jDD"
+                                                color="#6838b8"
+                                                type="date"
+                                                value="{{ old('invoice_at') }}">
+                                        </date-picker>
+                                    </div>
 
                                     @if ($errors->has('invoice_at'))
                                         <span class="invalid-feedback">
@@ -94,27 +97,20 @@
                                     @endif
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="period">دوره زمانی</label>
-                                    <input id="period" autocomplete="off" placeholder="به روز" type="number"
-                                           class="form-control{{ $errors->has('period') ? ' is-invalid' : '' }}"
-                                           name="period" value="{{ old('period') }}">
-                                    @if ($errors->has('period'))
-                                        <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('period') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="due_at">تاریخ سرسید</label>
-                                    <input dir="ltr" id="due_at" autocomplete="off" placeholder="____/__/__" type="text"
-                                           class="due_at date form-control{{ $errors->has('due_at') ? ' is-invalid' : '' }}"
-                                           name="due_at" value="{{ old('due_at') }}">
+                                    <div dir="rtl">
+                                        <date-picker
+                                                id="due_at"
+                                                name="due_at"
+                                                format="jYYYY/jMM/jDD"
+                                                display-format="jYYYY/jMM/jDD"
+                                                color="#6838b8"
+                                                type="date"
+                                                value="{{ old('due_at') }}">
+                                        </date-picker>
+                                    </div>
 
                                     @if ($errors->has('due_at'))
                                         <span class="invalid-feedback">
@@ -124,14 +120,15 @@
                                 </div>
                             </div>
                         </div>
-
-                        <table class="table table-striped table-bordered table-hover">
+                        <table class="table table-hover table-striped table-bordered two-axis" cellspacing="0">
                             <thead class="thead-dark">
                             <tr>
                                 <th scope="col" class="text-center">اقدام</th>
                                 <th scope="col" class="text-center">شرح کالا</th>
                                 <th scope="col" class="text-center">تعداد</th>
                                 <th scope="col" class="text-center">قیمت واحد</th>
+                                <th scope="col" class="text-center">تخفیف</th>
+                                <th scope="col" class="text-center">مالیات</th>
                                 <th scope="col" class="text-center">مبلغ کل</th>
                             </tr>
                             </thead>
@@ -153,16 +150,27 @@
                                 </td>
                                 <td class="text-center">
                                     <input type="text" autocomplete="off" name="record[0][quantity]" value=""
-                                           class="form-control form-control-sm text-center" placeholder="تعداد"
+                                           class="price form-control form-control-sm text-center" placeholder="تعداد"
                                            id="record-quantity-0" required>
                                 </td>
                                 <td class="text-center">
                                     <input type="text" autocomplete="off" name="record[0][price]" value=""
-                                           class="form-control form-control-sm text-center" placeholder="قیمت واحد"
+                                           class="price form-control form-control-sm text-center" placeholder="قیمت واحد"
                                            id="record-price-0" required>
                                 </td>
                                 <td class="text-center">
-                                    <input type="text" readonly class="form-control form-control-sm text-center"
+                                    <input type="text" autocomplete="off" name="record[0][discount]" value=""
+                                           class="price form-control form-control-sm text-center" placeholder="تخفیف"
+                                           id="record-discount-0" required>
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" autocomplete="off" name="record[0][tax]" value=""
+                                           class="price form-control form-control-sm text-center" placeholder="مالیات"
+                                           id="record-tax-0" required>
+                                </td>
+
+                                <td class="text-center">
+                                    <input type="text" readonly class="price form-control form-control-sm text-center"
                                            id="record-total-0">
                                 </td>
                             </tr>
@@ -170,48 +178,12 @@
                             </tbody>
                             <tfoot id="addRecord">
                             <tr>
-                                <th scope="col" class="text-center">
+                                <td class="text-center">
                                     <button class="btn btn-sm btn-primary" type="button" onclick="addRecord()"><i
                                                 class="fa fa-plus"></i></button>
-                                </th>
-                                <th scope="col" class="text-left" colspan="3">مجموع:</th>
-                                <th scope="col" class="text-center">
-                                    <input type="text" readonly value="0" name="sub_total" id="sub_total"
-                                           class="form-control form-control-sm text-center" required>
-                                </th>
+                                </td>
+                                <td colspan="6">تعداد اقلام:</td>
 
-                            </tr>
-                            <tr>
-                                <th scope="col" class="text-left" colspan="3">تخفیف:</th>
-                                <th scope="col" class="text-center">
-                                    <input type="text" autocomplete="off" name="discount_percent" id="discount_percent"
-                                           class="form-control form-control-sm text-center" placeholder="درصد تخفیف">
-                                </th>
-                                <th scope="col" class="text-center">
-                                    <input type="text" autocomplete="off" value="0" name="discount" id="discount"
-                                           class="form-control form-control-sm text-center" required>
-                                </th>
-                            </tr>
-                            <tr>
-                                <th scope="col" class="text-left" colspan="3">مالیات:</th>
-                                <th scope="col" class="text-left">
-                                    <input type="text" autocomplete="off" name="tax_percent" id="tax_percent"
-                                           class="form-control form-control-sm text-center" placeholder="درصد مالیات">
-                                </th>
-                                <th scope="col" class="text-center">
-                                    <input type="text" autocomplete="off" value="0" name="tax" id="tax"
-                                           class="form-control form-control-sm text-center" required>
-                                </th>
-                            </tr>
-                            <tr>
-                                <th scope="col" class="text-right" colspan="3">جمع حروف:
-                                    <span id="total_letters"></span>
-                                </th>
-                                <th scope="col" class="text-left">جمع کل:</th>
-                                <th scope="col" class="text-center"><input type="text" id="total" name="total" value="0"
-                                                                           readonly
-                                                                           class="price form-control form-control-sm text-center"
-                                                                           id="record-0-total" required></th>
                             </tr>
                             </tfoot>
                         </table>
@@ -223,6 +195,16 @@
                             @if ($errors->has('note'))
                                 <span class="invalid-feedback">
                                         <strong>{{ $errors->first('note') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
+
+                        <div class="form-group">
+                            <label>فایل پیوست</label>
+                            <input id="attachment" type="file" class="form-control{{ $errors->has('attachment') ? ' is-invalid' : '' }}" name="attachment" value="{{ old('attachment') }}">
+                            @if ($errors->has('attachment'))
+                                <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('attachment') }}</strong>
                                     </span>
                             @endif
                         </div>
@@ -239,30 +221,37 @@
     </div>
 @endsection
 @section('js')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script src="https://unpkg.com/persian-date@latest/dist/persian-date.min.js"></script>
-    <script src="https://unpkg.com/persian-datepicker@latest/dist/js/persian-datepicker.min.js"></script>
-
     <script>
+        $("#user_id").select2({
+            dir: "rtl",
+            language: "fa",
+            ajax: {
+                url: "{{ route('admin.ajax.users') }}",
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        search: params.term, // search term
+                    };
+                },
+                processResults: function (data, params) {
+                    return {
+                        results: $.map(data.data, function(item) {
+                            if(item.title) {
+                                return { id: item.id, text: item.first_name + ' ' + item.last_name + '(' + item.title + ')' };
+                            } else {
+                                return { id: item.id, text: item.first_name + ' ' + item.last_name };
+                            }
 
-        var record_row = 1;
-        $(function () {
-            $('.price').mask('#,##0', {reverse: true});
-            $('.date').mask('0000/00/00');
-            $(".invoice_at").persianDatepicker({
-                format: 'YYYY/MM/DD',
-                initialValue: false,
-                autoClose: true,
-                persianDigit: false
-            });
-            $(".due_at").persianDatepicker({
-                format: 'YYYY/MM/DD',
-                initialValue: false,
-                minDate: new persianDate().unix(),
-                autoClose: true,
-                persianDigit: false
-            });
+                        })
+                    };
+                },
+                cache: true
+            },
+            placeholder: 'جستجوی شخص',
+            minimumInputLength: 3,
         });
+        var record_row = 1;
 
         function addRecord() {
             html = '<tr class="record" id="record-' + record_row + '">';
@@ -275,16 +264,30 @@
             html += '<input type="hidden" name="record[' + record_row + '][item_id]" class="form-control form-control-sm text-center" id="record-item-id-' + record_row + '">';
             html += '</td>';
             html += '<td class="text-center">';
-            html += '<input type="text" autocomplete="off" name="record[' + record_row + '][quantity]" value="" class="form-control form-control-sm text-center" placeholder="تعداد" id="record-quantity-' + record_row + '" required>';
+            html += '<input type="text" autocomplete="off" name="record[' + record_row + '][quantity]" value="" class="price form-control form-control-sm text-center" placeholder="تعداد" id="record-quantity-' + record_row + '" required>';
             html += '</td>';
             html += '<td class="text-center">';
-            html += '<input type="text" autocomplete="off" name="record[' + record_row + '][price]" value="" class="form-control form-control-sm text-center" placeholder="قیمت واحد" id="record-price-' + record_row + '" required>';
+            html += '<input type="text" autocomplete="off" name="record[' + record_row + '][price]" value="" class="price form-control form-control-sm text-center" placeholder="قیمت واحد" id="record-price-' + record_row + '" required>';
             html += '</td>';
-            html += '<td class="text-center"><input type="text" readonly class="form-control form-control-sm text-center" id="record-total-' + record_row + '"></td>';
+
+
+            html += '<td class="text-center">';
+            html += '<input type="text" autocomplete="off" name="record[' + record_row + '][discount]" value="" class="price form-control form-control-sm text-center" placeholder="تخفیف" id="record-discount-' + record_row + '">';
+            html += '</td>';
+
+
+            html += '<td class="text-center">';
+            html += '<input type="text" autocomplete="off" name="record[' + record_row + '][tax]" value="" class="price form-control form-control-sm text-center" placeholder="مالیات" id="record-tax-' + record_row + '">';
+            html += '</td>';
+
+
+
+            html += '<td class="text-center"><input type="text" readonly class="price form-control form-control-sm text-center" id="record-total-' + record_row + '"></td>';
             html += '</tr>';
             $('#records').append(html);
-            makeAutoItems();
             record_row++;
+            $('table').basictable();
+            $('.price').mask('#,##0', {reverse: true});
         }
 
         function removeRecord(row_id) {
@@ -325,21 +328,5 @@
             calculateTotal();
         });
 
-
-        function makeAutoItems() {
-            $(".typeahead").autocomplete({
-                source: "{{route('admin.invoice.items')}}",
-                select: function (event, item) {
-                    var input_id = event.target.id.split('-');
-                    var row_id = parseInt(input_id[input_id.length - 1]);
-                    $('#record-item-id-' + row_id).val(item.item.id);
-
-                    $('#record-price-' + row_id).val(item.item.sale_price);
-
-                }
-            });
-        }
-
-        makeAutoItems();
     </script>
 @endsection

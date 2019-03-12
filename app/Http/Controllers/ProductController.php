@@ -22,13 +22,13 @@ class ProductController extends Controller
 
     public function view($id)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::findWithCache($id);
         return view('product.view', compact('product'));
     }
 
     public function slug($id)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::findWithCache($id);
         return view('product.view', compact('product'));
     }
 

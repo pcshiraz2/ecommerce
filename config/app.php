@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'ShirazPlatform'),
+    'name' => env('APP_NAME', 'PCShiraz'),
 
     /*
     |--------------------------------------------------------------------------
@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'debug' =>  ($_SERVER['REMOTE_ADDR'] == env('DEBUG_IP') ? true : false),
+    'debug' =>  env('APP_DEBUG'),
 
     /*
     |--------------------------------------------------------------------------

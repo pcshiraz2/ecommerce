@@ -45,7 +45,7 @@
                 <div class="card-body">
                     @include('global.top-table-options',['route' => 'admin.page.export'])
                     @if($invoices->count())
-                    <table class="table table-striped table-bordered table-hover">
+                    <table class="table table-hover table-striped table-bordered two-axis" cellspacing="0">
                         <thead class="thead-dark">
                         <tr>
                             <th scope="col" class="text-center">نوع</th>
@@ -72,7 +72,7 @@
                                 <td class="text-center">
                                     {{ $invoice->user->name }}
                                 </td>
-                                <td class="text-center" dir="ltr">
+                                <td class="text-center">
                                     {{  jdate($invoice->invoice_at)->format('Y/m/d H:i:s')  }}
                                 </td>
                                 <td class="text-center">
