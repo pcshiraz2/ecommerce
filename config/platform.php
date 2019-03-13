@@ -14,7 +14,7 @@ return [
     'navbar-type' => 'navbar-dark bg-dark',
     'navbar-bottom-type' => 'navbar-light bg-light',
     'navbar-sidebar-type' => 'bg-light',
-    'product-card-class' => 'col-md-4',
+    'product-card-class' => 'col-6 col-sm-4',
     'sidebar-size' => 3,
     'content-size' => 9,
     'admin-route' => 'admin',

@@ -135,7 +135,7 @@ Route::get('/sitemap/products', 'SitemapController@products')->name('sitemap.pro
 Route::get('/sitemap/categories', 'SitemapController@categories')->name('sitemap.categories');
 
 
-Route::prefix(Config('platform.admin-route'))->name('admin.')->group(function () {
+Route::prefix(config('platform.admin-route'))->name('admin.')->group(function () {
 
     Route::get('/ajax/users', 'Admin\AjaxController@users')->name('ajax.users');
 

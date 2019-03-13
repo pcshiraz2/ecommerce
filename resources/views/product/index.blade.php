@@ -30,6 +30,24 @@
                 </div>
                 <div class="col-md-{{ config('platform.content-size') }}">
                     <div class="row">
+                        <div class="col-md-12 mb-2">
+                            <ul class="nav nav-pills justify-content-end">
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="#">جدید ترین</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">پرفروش ترین</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">ارزان ترین</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">گران ترین</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
                         @foreach($products as $product)
                             @include('product.card',['product'=> $product])
                         @endforeach

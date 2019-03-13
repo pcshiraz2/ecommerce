@@ -76,7 +76,7 @@
     <h2>پیشنهاد های شگفت انگیز</h2>
     <div class="row justify-content-center mb-2">
                 @foreach($discountProducts as $product)
-                    @include('product.card',['product'=> $product,'size' => 'col-md-3'])
+                    @include('product.card',['product'=> $product,'size' => 'col-6 col-sm-3'])
                 @endforeach
 
     </div>
@@ -84,14 +84,14 @@
     <h2>کالاهای جدید</h2>
     <div class="row justify-content-center mb-2">
             @foreach($newProducts as $product)
-                @include('product.card',['product'=> $product,'size' => 'col-md-3'])
+                @include('product.card',['product'=> $product,'size' => 'col-6 col-sm-3'])
             @endforeach
     </div>
 
     <h2>کالاهای اصلی</h2>
     <div class="row justify-content-center mb-2">
             @foreach($topProducts as $product)
-                @include('product.card',['product'=> $product,'size' => 'col-md-3'])
+                @include('product.card',['product'=> $product,'size' => 'col-6 col-sm-3'])
             @endforeach
     </div>
 
