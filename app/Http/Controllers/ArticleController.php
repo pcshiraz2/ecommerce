@@ -36,7 +36,7 @@ class ArticleController extends Controller
 
     public function index()
     {
-        $articles = Article::with(['user', 'category'])->orderBy('created_at', 'desc')->paginate(config('platform.file-per-page'));
+        $articles = Article::enabled()->with(['category'])->orderBy('created_at', 'desc')->paginate(config('platform.file-per-page'));
         $categories = Category::findType('Article');
         return view('article.index', ['categories' => $categories, 'articles' => $articles]);
     }
@@ -44,7 +44,7 @@ class ArticleController extends Controller
     public function category($id)
     {
         $category = Category::findWithCache($id);
-        $articles = Article::with(['user', 'category'])->where('category_id', $id)->orderBy('created_at', 'desc')->paginate(config('platform.file-per-page'));
+        $articles = Article::with(['category'])->where('category_id', $id)->orderBy('created_at', 'desc')->paginate(config('platform.file-per-page'));
         $categories = Category::findType('Article');
         return view('article.category', ['categories' => $categories, 'articles' => $articles, 'category' => $category]);
     }

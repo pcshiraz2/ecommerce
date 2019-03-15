@@ -132,6 +132,7 @@ Route::post('/cart/store/factory', 'CartController@storeFactory')->name('cart.st
 Route::get('/sitemap', 'SitemapController@index')->name('sitemap');
 Route::get('/sitemap.xml', 'SitemapController@index')->name('sitemap.xml');
 Route::get('/sitemap/products', 'SitemapController@products')->name('sitemap.products');
+Route::get('/sitemap/articles', 'SitemapController@articles')->name('sitemap.articles');
 Route::get('/sitemap/categories', 'SitemapController@categories')->name('sitemap.categories');
 
 

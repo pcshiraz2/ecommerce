@@ -5,4 +5,8 @@
         <loc>{{ route('sitemap.products') }}</loc>
         <lastmod>{{ $product->created_at->tz('UTC')->toAtomString() }}</lastmod>
     </sitemap>
+    <sitemap>
+        <loc>{{ route('sitemap.articles') }}</loc>
+        <lastmod>{{ $article->created_at->tz('UTC')->toAtomString() }}</lastmod>
+    </sitemap>
 </sitemapindex>

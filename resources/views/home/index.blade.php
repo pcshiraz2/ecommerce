@@ -100,6 +100,12 @@
             <div class="card card-default">
                 <div class="card-header">
                     <a href="{{ route('article') }}">آخرین اخبار</a>
+                    @if(Auth::check())
+                        @can('articles')
+                            <a href="{{ route('admin.article.create')  }}" data-toggle="tooltip" data-placement="top" title="افزودن مقاله جدید"
+                               class="btn btn-primary pull-left btn-sm"><i class="fa fa-plus"></i></a>
+                        @endif
+                    @endif
                 </div>
                 <ul class="list-group list-group-flush">
                     @foreach($articles as $article)
@@ -118,6 +124,11 @@
             <div class="card card-default">
                 <div class="card-header">
                     <a href="{{ route('discussion') }}">مباحث انجمن</a>
+
+                    @if(Auth::check())
+                            <a href="{{ route('discussion.create')  }}" data-toggle="tooltip" data-placement="top" title="ایجاد بحث جدید"
+                               class="btn btn-primary pull-left btn-sm"><i class="fa fa-send"></i></a>
+                    @endif
                 </div>
                 <ul class="list-group list-group-flush">
                     @foreach($discussions as $discussion)

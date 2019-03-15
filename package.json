@@ -20,14 +20,14 @@
     "resolve-url-loader": "^2.3.2",
     "sass": "^1.17.2",
     "sass-loader": "^7.1.0",
-    "vue": "^2.6.8",
-    "vue-template-compiler": "^2.6.8"
+    "vue": "^2.6.9",
+    "vue-template-compiler": "^2.6.9"
   },
   "dependencies": {
-    "basictable": "^1.0.8",
+    "basictable": "^1.0.9",
     "bootstrap-v4-rtl": "^4.1.1-1",
     "bootswatch": "^4.3.1",
-    "chart.js": "^2.7.3",
+    "chart.js": "^2.8.0",
     "font-awesome": "^4.7.0",
     "izitoast": "^1.4.0",
     "jquery-mask-plugin": "^1.14.15",

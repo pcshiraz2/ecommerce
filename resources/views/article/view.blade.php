@@ -15,7 +15,7 @@
             <h1>{{ $article->title }}
                 <small class="text-muted">{{ $article->description }}</small>
                 @if(Auth::check())
-                    @if(Auth::user()->level == 'admin')
+                    @can('articles')
                         <a href="{{ route('admin.article.edit',['id' => $article->id])  }}"
                            class="btn btn-primary pull-left btn-sm"><i class="fa fa-edit"></i> ویرایش مقاله</a>
                     @endif

@@ -36,8 +36,6 @@
                                         </h5>
                                         <small>
                                             {{ jdate($article->created_at)->ago() }}
-                                            <br/>
-                                            {{ $article->user->name }}
                                         </small>
                                     </div>
                                 </a>
