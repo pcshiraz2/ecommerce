@@ -53,6 +53,15 @@ class ArticleController extends Controller
         $article->enabled = $request->enabled;
         $article->user_id = Auth::user()->id;
         $article->save();
+
+
+        if ($request->tags) {
+            $article->retag($request->tags);
+        } else {
+            $article->untag();
+        }
+        $article->save();
+
         Cache::forget('article_' . $article->id);
         flash('مقاله با موفقیت ایجاد شد.')->success();
         return redirect()->route('admin.article');
@@ -73,6 +82,14 @@ class ArticleController extends Controller
         $article->slug = $request->slug;
         $article->enabled = $request->enabled;
         $article->save();
+
+        if ($request->tags) {
+            $article->retag($request->tags);
+        } else {
+            $article->untag();
+        }
+        $article->save();
+
         Cache::forget('article_' . $article->id);
         flash('صفحه با موفقیت ویرایش شد.')->success();
         return redirect()->route('admin.article.edit', ['id' => $article->id]);

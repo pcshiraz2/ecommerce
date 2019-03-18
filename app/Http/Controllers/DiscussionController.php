@@ -74,6 +74,14 @@ class DiscussionController extends Controller
             $discussion->type = $request->type;
         }
         $discussion->save();
+
+        if ($request->tags) {
+            $discussion->retag($request->tags);
+        } else {
+            $discussion->untag();
+        }
+        $discussion->save();
+
         flash('بحث با موفقیت ایجاد شد.')->success();
         return redirect()->route('discussion.view', ['id' => $discussion->id]);
     }

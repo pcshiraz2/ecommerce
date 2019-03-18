@@ -85,6 +85,17 @@
                             @endif
                         </div>
                         <div class="form-group">
+                            <label for="tags">برچسب ها<span
+                                        class="font-weight-light font-italic"> - اختیاری</span></label>
+                            <select id="tags" name="tags[]" class="form-control tags" multiple="multiple">
+                            </select>
+                            @if ($errors->has('tags'))
+                                <span class="invalid-feedback">
+                                    <strong>{{ $errors->first('tags') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        <div class="form-group">
                             <label for="enabled">فعال</label>
                             <div class="custom-control custom-radio">
                                 <input type="radio" id="enableRadioYes" name="enabled"

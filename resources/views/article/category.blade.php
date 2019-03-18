@@ -32,8 +32,7 @@
                                 <a href="{{route('article.view', ['id'=>$article->id])}}"
                                    class="list-group-item list-group-item-action flex-column align-items-start">
                                     <div class="d-flex w-100 justify-content-between">
-                                        <h5 class="mb-1">{{$article->title}}<span class="badge badge-dark">({{ $article->category->title }})</span>
-                                        </h5>
+                                        <h5 class="mb-1">{{$article->title}}</h5>
                                         <small>
                                             {{ jdate($article->created_at)->ago() }}
                                         </small>

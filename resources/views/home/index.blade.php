@@ -99,7 +99,7 @@
         <div class="col-md-6 mb-2">
             <div class="card card-default">
                 <div class="card-header">
-                    <a href="{{ route('article') }}">آخرین اخبار</a>
+                    <a href="{{ route('article') }}">اخبار و مقالات</a>
                     @if(Auth::check())
                         @can('articles')
                             <a href="{{ route('admin.article.create')  }}" data-toggle="tooltip" data-placement="top" title="افزودن مقاله جدید"

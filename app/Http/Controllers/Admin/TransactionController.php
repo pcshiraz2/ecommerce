@@ -93,6 +93,14 @@ class TransactionController extends Controller
             $transaction->paid_at = null;
         }
         $transaction->save();
+
+        if ($request->tags) {
+            $transaction->retag($request->tags);
+        } else {
+            $transaction->untag();
+        }
+        $transaction->save();
+
         flash('تراکنش با موفقیت ویرایش شد.')->success();
         return redirect()->route('admin.transaction');
     }
@@ -128,6 +136,16 @@ class TransactionController extends Controller
         }
 
         $transaction->save();
+
+
+        if ($request->tags) {
+            $transaction->retag($request->tags);
+        } else {
+            $transaction->untag();
+        }
+        $transaction->save();
+
+
         flash('تراکنش با موفقیت اضافه شد.')->success();
         return redirect()->route('admin.transaction');
     }

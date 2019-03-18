@@ -11,7 +11,7 @@ class Product extends Model
         if (Cache::has('product_' . $id)) {
             return Cache::get('product_' . $id);
         } else {
-            $product = Product::findOrFail($id);
+            $product = Product::with(['files','images','brand'])->findOrFail($id);
             Cache::forever('product_' . $id, $product);
             return $product;
         }

@@ -1,10 +1,7 @@
 @extends('layouts.app')
 
 @section('title', $discussion->title . " -" )
-
-@section('css')
-
-@endsection
+@section('keywords', implode(",", $discussion->tagNames()))
 
 @section('content')
     <div class="row justify-content-center">
@@ -92,8 +89,4 @@
             </div>
         </div>
     </div>
-@endsection
-
-@section('js')
-
 @endsection

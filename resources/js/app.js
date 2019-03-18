@@ -20,6 +20,7 @@ if (token) {
 }
 
 window.basictable = require('basictable');
+window.hammer = require('hammerjs');
 window.select2 = require('select2');
 window.Chart = require('chart.js');
 window.iziToast = require('iziToast');
@@ -144,5 +145,13 @@ $(document).ready(function () {
                 }
             }
         }
+    });
+
+    $('.carousel').hammer().bind('swipeleft', function (event)   {
+        $(event.target).carousel('next');
+    });
+
+    $('.carousel').hammer().bind('swiperight', function (event) {
+        $(event.target).carousel('prev');
     });
 });

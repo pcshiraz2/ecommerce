@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Product;
 use App\Models\Category;
-use App\Models\Tax;
+use App\Models\ProductFile;
+use App\Models\ProductImage;
 use App\Utils\MoneyUtil;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -178,6 +179,7 @@ class ProductController extends Controller
     public function delete($id, Request $request)
     {
         $product = Product::findOrFail($id);
+        Storage::delete($product->image);
         $product->delete();
         Cache::forget('product_' . $product->id);
         flash('کالا با موفقیت حذف شد.')->success();
@@ -187,22 +189,34 @@ class ProductController extends Controller
 
     public function image($id)
     {
-
+        $product = Product::findWithCache($id);
+        return view('admin.product.image.index',['product' => $product]);
     }
 
     public function imageCreate($id)
     {
-
+        $product = Product::findWithCache($id);
+        return view('admin.product.image.create',['product' => $product]);
     }
 
     public function imageInsert($id, Request $request)
     {
+        $product = Product::findWithCache($id);
+
+        Validator::make($request->all(), [
+            'title' => 'required',
+            'name' => 'required',
+            'description' => 'required',
+            'file' => 'required',
+        ])->validate();
 
     }
 
     public function imageEdit($id)
     {
-
+        $image = ProductImage::findOrFail($id);
+        $product = Product::findWithCache($image->product_id);
+        return view('admin.product.file.edit',['product' => $product, 'image' => $image]);
     }
 
     public function imageUpdate($id, Request $request)
@@ -212,26 +226,87 @@ class ProductController extends Controller
 
     public function file($id)
     {
-
+        $product = Product::findWithCache($id);
+        return view('admin.product.file.index',['product' => $product]);
     }
 
     public function fileCreate($id)
     {
-
+        $product = Product::findWithCache($id);
+        return view('admin.product.file.create',['product' => $product]);
     }
 
     public function fileInsert($id, Request $request)
     {
+        Validator::make($request->all(), [
+            'title' => 'required',
+            'name' => 'required',
+            'description' => 'required',
+            'source' => 'required',
+        ])->validate();
+        $product = Product::findWithCache($id);
 
+        $file = new ProductFile();
+        $file->product_id = $product->id;
+        $file->title = $request->title;
+        $file->name = $request->name;
+        $file->size = $request->file('source')->getSize();
+        $file->source = $request->file('source')->store('file');
+        $file->description = $request->description;
+        $file->free = $request->free;
+        $file->public = $request->public;
+        $file->enabled = $request->enabled;
+        $file->save();
+
+        Cache::forget('product_' . $product->id);
+        flash('فایل با موفقیت اضافه شد.')->success();
+        return redirect()->route('admin.product.file',[$product->id]);
     }
 
     public function fileEdit($id)
     {
-
+        $file = ProductFile::findOrFail($id);
+        $product = Product::findWithCache($file->product_id);
+        return view('admin.product.file.edit',['product' => $product, 'file' => $file]);
     }
 
     public function fileUpdate($id, Request $request)
     {
+        Validator::make($request->all(), [
+            'title' => 'required',
+            'name' => 'required',
+            'description' => 'required',
+        ])->validate();
+
+        $file = ProductFile::with(['product'])->findOrFail($id);
+        $file->title = $request->title;
+        $file->name = $request->name;
+        if($request->source) {
+            Storage::delete($file->source);
+            $file->size = $request->file('source')->getSize();
+            $file->source = $request->file('source')->store('file');
+        }
+
+        $file->description = $request->description;
+        $file->free = $request->free;
+        $file->public = $request->public;
+        $file->enabled = $request->enabled;
+        $file->save();
+
+        Cache::forget('product_' . $file->product_id);
+        flash('فایل با موفقیت اضافه شد.')->success();
+        return redirect()->route('admin.product.file',[$file->product_id]);
+    }
+
+    public function fileDelete($id)
+    {
+        $file = ProductFile::findOrFail($id);
+        $product_id = $file->product_id;
+        Storage::delete($file->source);
+        $file->delete();
+        Cache::forget('product_' . $product_id);
+        flash('فایل با موفقیت اضافه شد.')->success();
+        return redirect()->route('admin.product.file',[$product_id]);
 
     }
 

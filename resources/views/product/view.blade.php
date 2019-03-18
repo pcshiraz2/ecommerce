@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('title', $product->title . "-")
+@section('description', $product->description)
+@section('keywords', implode(",", $product->tagNames()))
 
 @section('content')
     <div class="row justify-content-center">

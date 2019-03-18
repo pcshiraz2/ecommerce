@@ -60,6 +60,7 @@ class CreateProductsTable extends Migration
             $table->string('title');
             $table->string('name');
             $table->string('source');
+            $table->bigInteger('size');
             $table->text('description')->nullable();
             $table->boolean('free');
             $table->boolean('public');
