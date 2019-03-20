@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'کالا جدید - ')
+@section('title', 'فایل جدید - ')
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-{{ config('platform.sidebar-size') }}">
@@ -92,7 +92,7 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-group col-md-2">
-                                    <label for="enable">فعال</label>
+                                    <label for="enabled">فعال</label>
                                     <div class="custom-control custom-radio">
                                         <input type="radio" id="enableRadioYes" name="enabled"
                                                value="1"
@@ -122,7 +122,7 @@
                                         <label class="custom-control-label" for="freeRadioYes">بلی</label>
                                     </div>
                                     <div class="custom-control custom-radio">
-                                        <input type="radio" id="enableRadioNo" name="free"
+                                        <input type="radio" id="freeRadioNo" name="free"
                                                value="0"
                                                class="custom-control-input"{{ old('free',false) == false  ? ' checked' : '' }}>
                                         <label class="custom-control-label" for="freeRadioNo">خیر</label>

@@ -22,6 +22,7 @@ class CreateProductsTable extends Migration
             $table->bigInteger('category_id');
             $table->bigInteger('brand_id')->nullable();
             $table->string('model')->nullable();
+            $table->double('weight')->nullable();
             $table->decimal('sale_price', 15, 4);
             $table->decimal('purchase_price', 15, 4)->nullable();
             $table->decimal('period_price', 15, 4)->nullable();

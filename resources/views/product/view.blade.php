@@ -131,10 +131,11 @@
                                 <li class="nav-item"><a class="nav-link" id="spec" data-toggle="tab"
                                                         href="#product-spec" role="tab" aria-controls="text"
                                                         aria-selected="true"><i class="fa fa-cogs"></i> مشخصات</a></li>
-
+                                @if($product->files->count())
                                 <li class="nav-item"><a class="nav-link" id="files" data-toggle="tab"
                                                         href="#product-files" role="tab" aria-controls="files"
                                                         aria-selected="false"><i class="fa fa-files-o"></i> فایل ها</a></li>
+                                @endif
                             </ul>
                         </div>
                         <div class="card-body">
@@ -145,10 +146,28 @@
                                      aria-labelledby="spec-tab">
                                     <i class="fa fa-cogs"></i> مشخصات
                                 </div>
+                                @if($product->files->count())
                                 <div class="tab-pane fade" id="product-files" role="tabpanel"
                                      aria-labelledby="files-tab">
-                                    فایل ها
+                                    <ul class="list-group list-group-flush">
+                                    @foreach($product->files as $file)
+                                            <li class="list-group-item list-group-item-action flex-column align-items-start">
+                                                    <h5>{{ $file->title }}<span class="badge badge-info">{{ round($file->size / 1024) }}KB</span></h5>
+                                                    <a href="{{ route('product.download', [$file->id]) }}" class="btn btn-primary btn-sm pull-left"><i class="fa fa-download"></i> دریافت فایل</a>
+                                                    <small>
+
+                                                        {{ $file->description }}
+                                                        <br/>
+                                                        {{ jdate($file->created_at) }}
+
+                                                    </small>
+                                            </li>
+                                    @endforeach
+                                    </ul>
                                 </div>
+
+
+                                @endif
 
                             </div>
                         </div>

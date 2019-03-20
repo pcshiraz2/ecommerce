@@ -50,7 +50,7 @@
                                         @method('delete')
                                         <button onclick="return confirm('آیا از عملیات حذف اطمینان دارید؟')"
                                                 class="btn btn-danger btn-sm btn-mobile"
-                                                data-toggle="tooltip" data-placement="top" title="حذف کالا"><i
+                                                data-toggle="tooltip" data-placement="top" title="حذف فایل"><i
                                                     class="fa fa-trash"></i></button>
                                     </form>
                                 </td>

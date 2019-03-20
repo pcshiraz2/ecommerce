@@ -201,14 +201,25 @@ class ProductController extends Controller
 
     public function imageInsert($id, Request $request)
     {
-        $product = Product::findWithCache($id);
-
         Validator::make($request->all(), [
             'title' => 'required',
-            'name' => 'required',
             'description' => 'required',
-            'file' => 'required',
+            'source' => 'required',
         ])->validate();
+        $product = Product::findWithCache($id);
+
+        $image = new ProductImage();
+        $image->product_id = $product->id;
+        $image->title = $request->title;
+        $image->source = $request->file('source')->store('public');
+        $image->description = $request->description;
+        $image->enabled = $request->enabled;
+        $image->order = $request->order;
+        $image->save();
+
+        Cache::forget('product_' . $product->id);
+        flash('تصویر با موفقیت اضافه شد.')->success();
+        return redirect()->route('admin.product.image',[$product->id]);
 
     }
 
@@ -216,12 +227,41 @@ class ProductController extends Controller
     {
         $image = ProductImage::findOrFail($id);
         $product = Product::findWithCache($image->product_id);
-        return view('admin.product.file.edit',['product' => $product, 'image' => $image]);
+        return view('admin.product.image.edit',['product' => $product, 'image' => $image]);
     }
 
     public function imageUpdate($id, Request $request)
     {
+        Validator::make($request->all(), [
+            'title' => 'required',
+            'description' => 'required',
+        ])->validate();
 
+        $image = ProductImage::with(['product'])->findOrFail($id);
+        $image->title = $request->title;
+        if($request->source) {
+            Storage::delete($image->source);
+            $image->source = $request->file('source')->store('public');
+        }
+        $image->description = $request->description;
+        $image->enabled = $request->enabled;
+        $image->order = $request->order;
+        $image->save();
+
+        Cache::forget('product_' . $image->product_id);
+        flash('تصویر با موفقیت اضافه شد.')->success();
+        return redirect()->route('admin.product.image',[$image->product_id]);
+    }
+
+    public function imageDelete($id, Request $request)
+    {
+        $image = ProductImage::findOrFail($id);
+        $product_id = $image->product_id;
+        Storage::delete($image->source);
+        $image->delete();
+        Cache::forget('product_' . $product_id);
+        flash('تصویر با موفقیت اضافه شد.')->success();
+        return redirect()->route('admin.product.image',[$product_id]);
     }
 
     public function file($id)
@@ -256,6 +296,7 @@ class ProductController extends Controller
         $file->free = $request->free;
         $file->public = $request->public;
         $file->enabled = $request->enabled;
+        $file->order = $request->order;
         $file->save();
 
         Cache::forget('product_' . $product->id);
@@ -291,6 +332,7 @@ class ProductController extends Controller
         $file->free = $request->free;
         $file->public = $request->public;
         $file->enabled = $request->enabled;
+        $file->order = $request->order;
         $file->save();
 
         Cache::forget('product_' . $file->product_id);

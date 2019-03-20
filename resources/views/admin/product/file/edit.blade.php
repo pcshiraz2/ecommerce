@@ -122,7 +122,7 @@
                                         <label class="custom-control-label" for="freeRadioYes">بلی</label>
                                     </div>
                                     <div class="custom-control custom-radio">
-                                        <input type="radio" id="enableRadioNo" name="free"
+                                        <input type="radio" id="freeRadioNo" name="free"
                                                value="0"
                                                class="custom-control-input"{{ old('free', $file->free) == false  ? ' checked' : '' }}>
                                         <label class="custom-control-label" for="freeRadioNo">خیر</label>
