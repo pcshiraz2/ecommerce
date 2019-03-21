@@ -67,30 +67,34 @@ class ProductController extends Controller
     public function download($id)
     {
         $file = ProductFile::enabled()->with(['product'])->findOrFail($id);
-        if($file->public) {
-            if($file->free) {
+        if($file->free) {
+            if($file->public) {
                 return Storage::download($file->source, $file->name);
             } else {
-                $record = Record::with(['invoice'])->where('invoice.user_id', Auth::user()->id);
+                if(Auth::check()) {
+                    return Storage::download($file->source, $file->name);
+                } else {
+                    flash('برای دانلود لطفا وارد سیستم شوید.')->warning();
+                    return redirect()->route('product.view',[$file->product_id]);
+                }
+            }
+        } else {
+            if(Auth::check()) {
+                $record = Record::with(['invoice'])->where('product_id', $file->product_id)->whereHas('invoice', function ($q){
+                    $q->where('user_id', Auth::user()->id);
+                })->first();
                 if($record->invoice->status == 'paid' || $record->invoice->status == 'done' || $record->invoice->status == 'approved') {
                     return Storage::download($file->source, $file->name);
                 } else {
                     flash('لطفا کالا را خریداری کنید.')->warning();
                     return redirect()->route('product.view',[$file->product_id]);
                 }
-            }
-        } else {
-            if(Auth::check()) {
-                return Storage::download($file->source, $file->name);
             } else {
                 flash('برای دانلود لطفا وارد سیستم شوید.')->warning();
                 return redirect()->route('product.view',[$file->product_id]);
             }
+
         }
-
-
-
-
 
     }
 }

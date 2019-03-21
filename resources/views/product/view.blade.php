@@ -31,13 +31,13 @@
                                         <i class="fa fa-trash-o"></i>
                                     </button>
                                     <a type="button"
-                                       href="{{ route('admin.product.image.create',['id' => $product->id]) }}"
-                                       class="btn btn-mobile btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="افزودن تصویر">
+                                       href="{{ route('admin.product.image',['id' => $product->id]) }}"
+                                       class="btn btn-mobile btn-dark btn-sm" data-toggle="tooltip" data-placement="top" title="تصاویر">
                                         <i class="fa fa-file-image-o"></i>
                                     </a>
                                     <a type="button"
-                                       href="{{ route('admin.product.file.create',['id' => $product->id]) }}"
-                                       class="btn btn-mobile btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="افزودن فایل"><i class="fa fa-files-o"></i>
+                                       href="{{ route('admin.product.file',['id' => $product->id]) }}"
+                                       class="btn btn-mobile btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="فایل ها"><i class="fa fa-files-o"></i>
                                     </a>
                                 </div>
                             @endcan
