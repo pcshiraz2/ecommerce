@@ -19,6 +19,7 @@ class CreateInvoicesTable extends Migration
             $table->string('subject')->nullable();
             $table->string('number')->nullable();
             $table->bigInteger('user_id')->nullable();
+            $table->bigInteger('project_id')->nullable();
 
             //type: ['sale', 'purchase']
             $table->string('type');
@@ -84,6 +85,7 @@ class CreateInvoicesTable extends Migration
             $table->decimal('total', 15, 4)->nullable()->default(0);
             $table->bigInteger('invoice_id');
             $table->bigInteger('product_id')->nullable();
+            $table->bigInteger('service_id')->nullable();
             $table->longText('options')->nullable();
             $table->timestamps();
             $table->softDeletes();

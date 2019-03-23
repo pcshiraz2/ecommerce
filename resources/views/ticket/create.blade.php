@@ -25,18 +25,14 @@
                                 @method('post')
                                 @if(Auth::user()->level != 'user')
                                     <div class="form-group">
-                                        <label for="user_id">مخاطب</label>
+                                        <label for="user_id">شخص</label>
 
-                                            <select id="user_id" name="user_id"
-                                                    class="form-control{{ $errors->has('user_id') ? ' is-invalid' : '' }}">
-                                                @foreach($users as $user)
-                                                    <option value="{{ $user->id }}"{{old('user_id') == $user->id ? ' selected' : ''}}>{{ $user->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            @if ($errors->has('user_id'))
-                                                <span class="invalid-feedback"><strong>{{ $errors->first('user_id') }}</strong></span>
-                                            @endif
-
+                                        <select name="user_id" id="user_id" class="form-control"></select>
+                                        @if ($errors->has('user_id'))
+                                            <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('user_id') }}</strong>
+                                    </span>
+                                        @endif
                                     </div>
                                 @endif
                                 <div class="form-group">
@@ -116,3 +112,37 @@
     </div>
 @endsection
 
+@section('js')
+
+    <script>
+        $("#user_id").select2({
+            dir: "rtl",
+            language: "fa",
+            ajax: {
+                url: "{{ route('admin.ajax.users') }}",
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        search: params.term, // search term
+                    };
+                },
+                processResults: function (data, params) {
+                    return {
+                        results: $.map(data.data, function(item) {
+                            if(item.title) {
+                                return { id: item.id, text: item.first_name + ' ' + item.last_name + '(' + item.title + ')' };
+                            } else {
+                                return { id: item.id, text: item.first_name + ' ' + item.last_name };
+                            }
+
+                        })
+                    };
+                },
+                cache: true
+            },
+            placeholder: 'جستجوی شخص',
+            minimumInputLength: 3,
+        });
+    </script>
+@endsection

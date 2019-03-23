@@ -86,12 +86,12 @@ class ProductController extends Controller
                 if($record->invoice->status == 'paid' || $record->invoice->status == 'done' || $record->invoice->status == 'approved') {
                     return Storage::download($file->source, $file->name);
                 } else {
-                    flash('لطفا کالا را خریداری کنید.')->warning();
+                    flash('جهت دریافت فایل ابتدا باید محصول را خریداری کنید.')->warning();
                     return redirect()->route('product.view',[$file->product_id]);
                 }
             } else {
                 flash('برای دانلود لطفا وارد سیستم شوید.')->warning();
-                return redirect()->route('product.view',[$file->product_id]);
+                return redirect()->route('login');
             }
 
         }
