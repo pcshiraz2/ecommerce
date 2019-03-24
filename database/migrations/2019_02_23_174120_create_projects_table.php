@@ -18,6 +18,8 @@ class CreateProjectsTable extends Migration
             $table->string('title');
             $table->timestamp('start_at')->nullable();
             $table->timestamp('finish_at')->nullable();
+            $table->timestamp('real_start_at')->nullable();
+            $table->timestamp('real_finish_at')->nullable();
             $table->bigInteger('order')->nullable();
             $table->string('color')->nullable();
             $table->boolean('enabled');

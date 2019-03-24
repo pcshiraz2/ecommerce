@@ -19,6 +19,6 @@ class UpdateController extends Controller
 
     public function download()
     {
-        
+
     }
 }
