@@ -104,55 +104,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-9"></div>
-                        <div class="col-md-3 text-center">
-                            @if($invoice->status == 'paid' || $invoice->status == 'approved')
-                                <div class="alert alert-success">
-                                    زمان پرداخت
-                                    <br/><span dir="ltr">{{jdate($invoice->paid_at)->format('Y/m/d H:i:s')}}</span>
-                                </div>
-                            @else
-                                @if($invoice->type == 'sale')
-                                    <div class="alert alert-info">
-                                        <form action="{{ route('invoice.pay-password',[$invoice->password]) }}"
-                                              method="post">
-                                            @csrf
-                                            @method('post')
-
-                                            <input type="hidden" name="invoice_id" value="{{ $invoice->id }}">
-                                            <div class="form-group">
-                                                <label for="gateway text-center">درگاه انتخابی</label>
-                                                <select name="gateway" id="gateway"
-                                                        class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}">
-                                                    @foreach(config('gateway') as $key => $gateway)
-                                                        @if(isset($gateway['enable']))
-                                                            @if($gateway['enable'] == 'yes')
-                                                                <option value="{{$key}}"{{ old('gateway') == $key  ? ' selected' : '' }}>{{$gateway['title']}}</option>
-                                                            @endif
-                                                        @endif
-                                                    @endforeach
-                                                </select>
-                                                @if ($errors->has('gateway'))
-                                                    <span class="invalid-feedback">
-                                                <strong>{{ $errors->first('gateway') }}</strong>
-                                            </span>
-                                                @endif
-                                            </div>
-                                            <button type="submit" class="btn btn-success btn-block">
-                                                <i class="fa fa-money"></i>
-                                                پرداخت
-                                            </button>
-                                        </form>
-                                    </div>
-                                @else
-                                    <div class="alert alert-info">
-                                        هنوز پرداختی برای این فاکتور نداشته ایم.
-                                    </div>
-                                @endif
-                            @endif
-                        </div>
-                    </div>
                 </div>
             </div>
             @if($invoice->status == 'paid' || $invoice->status == 'approved')

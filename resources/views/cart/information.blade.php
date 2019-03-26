@@ -25,7 +25,7 @@
         </div>
     </div>
     <div class="row justify-content-center mb-2">
-        <div class="col-md-10">
+        <div class="col-md-12">
             <div class="card card-default">
                 <div class="card-header">اطلاعات تکمیلی</div>
 
@@ -33,27 +33,35 @@
                     <form method="POST" id="information" action="{{ route('cart.store-information') }}">
                         @csrf
                         @method('post')
-                        <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label @lang('platform.input-pull')">نام و نام
-                                خانوادگی</label>
+                        <div class="form-group">
+                            <label for="first_name">نام</label>
+                                <input id="first_name" type="text"
+                                       class="form-control{{ $errors->has('first_name') ? ' is-invalid' : '' }}" name="first_name"
+                                       value="{{ old('first_name',Auth::user()->first_name) }}" required autofocus>
 
-                            <div class="col-md-7">
-                                <input id="name" type="text"
-                                       class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name"
-                                       value="{{ old('name',Auth::user()->name) }}" required autofocus>
-
-                                @if ($errors->has('name'))
+                                @if ($errors->has('first_name'))
                                     <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('name') }}</strong>
+                                        <strong>{{ $errors->first('first_name') }}</strong>
                                     </span>
                                 @endif
-                            </div>
                         </div>
-                        <div class="form-group row">
-                            <label for="gender"
-                                   class="col-md-4 col-form-label @lang('platform.input-pull')">جنسیت</label>
 
-                            <div class="col-md-7">
+
+                        <div class="form-group">
+                            <label for="last_name">نام خانوادگی</label>
+                            <input id="last_name" type="text"
+                                   class="form-control{{ $errors->has('last_name') ? ' is-invalid' : '' }}" name="last_name"
+                                   value="{{ old('last_name',Auth::user()->last_name) }}" required>
+
+                            @if ($errors->has('last_name'))
+                                <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('last_name') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
+
+                        <div class="form-group">
+                            <label for="gender">جنسیت</label>
                                 <select class="form-control{{ $errors->has('gender') ? ' is-invalid' : '' }}"
                                         name="gender" required>
                                     <option value="male"{{ old('gender', Auth::user()->gender) == 'male' ? ' selected' :'' }}>
@@ -69,14 +77,13 @@
                                         <strong>{{ $errors->first('gender') }}</strong>
                                     </span>
                                 @endif
-                            </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="national_code" class="col-md-4 col-form-label @lang('platform.input-pull')">کد
+                        <div class="form-group">
+                            <label for="national_code">کد
                                 ملی</label>
 
-                            <div class="col-md-7">
+
                                 <input id="national_code" type="text" dir="ltr"
                                        class="form-control{{ $errors->has('national_code') ? ' is-invalid' : '' }}"
                                        name="national_code"
@@ -87,14 +94,13 @@
                                         <strong>{{ $errors->first('national_code') }}</strong>
                                     </span>
                                 @endif
-                            </div>
+
                         </div>
 
-                        <div class="form-group row">
-                            <label for="phone" class="col-md-4 col-form-label @lang('platform.input-pull')">شماره
+                        <div class="form-group">
+                            <label for="phone">شماره
                                 تماس</label>
 
-                            <div class="col-md-7">
                                 <input id="phone" type="text" dir="ltr"
                                        class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone"
                                        value="{{ old('phone', Auth::user()->mobile) }}" required>
@@ -104,13 +110,12 @@
                                         <strong>{{ $errors->first('mobile') }}</strong>
                                     </span>
                                 @endif
-                            </div>
+
                         </div>
-                        <div class="form-group row">
-                            <label for="zip_code" class="col-md-4 col-form-label @lang('platform.input-pull')">کد
+                        <div class="form-group">
+                            <label for="zip_code">کد
                                 پستی</label>
 
-                            <div class="col-md-7">
                                 <input id="zip_code" type="text" dir="ltr"
                                        class="form-control{{ $errors->has('zip_code') ? ' is-invalid' : '' }}"
                                        name="zip_code" value="{{ old('zip_code', Auth::user()->zip_code) }}" required>
@@ -120,13 +125,10 @@
                                         <strong>{{ $errors->first('zip_code') }}</strong>
                                     </span>
                                 @endif
-                            </div>
                         </div>
-                        <div class="form-group row">
-                            <label for="province_id"
-                                   class="col-md-4 col-form-label @lang('platform.input-pull')">استان</label>
+                        <div class="form-group">
+                            <label for="province_id">استان</label>
 
-                            <div class="col-md-7">
                                 <select onchange="selectProvince(this.value);"
                                         class="form-control{{ $errors->has('province_id') ? ' is-invalid' : '' }}"
                                         name="province_id" required>
@@ -139,13 +141,10 @@
                                         <strong>{{ $errors->first('province_id') }}</strong>
                                     </span>
                                 @endif
-                            </div>
                         </div>
-                        <div class="form-group row">
-                            <label for="city_id"
-                                   class="col-md-4 col-form-label @lang('platform.input-pull')">شهر</label>
+                        <div class="form-group">
+                            <label for="city_id">شهر</label>
 
-                            <div class="col-md-7">
                                 <select id="city_id"
                                         class="form-control{{ $errors->has('city_id') ? ' is-invalid' : '' }}"
                                         name="city_id" required>
@@ -158,13 +157,12 @@
                                         <strong>{{ $errors->first('city_id') }}</strong>
                                     </span>
                                 @endif
-                            </div>
+
                         </div>
-                        <div class="form-group row">
-                            <label for="address" class="col-md-4 col-form-label @lang('platform.input-pull')">آدرس
+                        <div class="form-group">
+                            <label for="address">آدرس
                                 پستی</label>
 
-                            <div class="col-md-7">
                                 <textarea class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}"
                                           name="address" value=""
                                           required>{{ old('address', Auth::user()->address) }}</textarea>
@@ -174,15 +172,14 @@
                                         <strong>{{ $errors->first('address') }}</strong>
                                     </span>
                                 @endif
-                            </div>
+
                         </div>
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
+                        <div class="form-group">
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fa fa-save"></i>
                                     ثبت اطلاعات و پرداخت
                                 </button>
-                            </div>
+
                         </div>
                     </form>
                 </div>

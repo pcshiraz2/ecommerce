@@ -154,11 +154,11 @@ return [
     //--------------------------------
     'zarinpal'     => [
         'name'         => 'زرین پال',
-        'active'       => false,
+        'active'       => true,
         'order'        => 11,
         'merchant-id'  => env('ZARINPAL_API_KEY', 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'),
         'type'         => 'normal',             // Types: [zarin-gate || normal || zarin-gate-sad || zarin-gate-sep]
-        'server'       => 'test',                // Servers: [germany || iran || test]
+        'server'       => 'iran',                // Servers: [germany || iran || test]
         'description'  => 'description',
         'callback-url' => '/',
         'account-id'   => '1',

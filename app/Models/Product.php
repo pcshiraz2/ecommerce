@@ -11,7 +11,7 @@ class Product extends Model
         if (Cache::has('product_' . $id)) {
             return Cache::get('product_' . $id);
         } else {
-            $product = Product::with(['files','images','brand'])->findOrFail($id);
+            $product = Product::with(['files','images','brand','attributes','category','attributes.attribute','attributes.attribute.category'])->findOrFail($id);
             Cache::forever('product_' . $id, $product);
             return $product;
         }
@@ -35,6 +35,11 @@ class Product extends Model
     public function files()
     {
         return $this->hasMany('App\Models\ProductFile');
+    }
+
+    public function attributes()
+    {
+        return $this->hasMany('App\Models\ProductAttribute');
     }
 
     public function records()

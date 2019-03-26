@@ -99,8 +99,9 @@ class CreateProductsTable extends Migration
         Schema::create('product_attributes', function (Blueprint $table) {
             $table->increments('id');
             $table->bigInteger('product_id');
-            $table->string('code');
+            $table->bigInteger('attribute_id');
             $table->text('value')->nullable();
+            $table->bigInteger('order')->nullable();
             $table->longText('options')->nullable();
             $table->boolean('enabled');
             $table->timestamps();

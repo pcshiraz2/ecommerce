@@ -44,6 +44,6 @@ final class License
 
     public function update(Request $request)
     {
-
+        return ['domain'];
     }
 }

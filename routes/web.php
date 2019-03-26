@@ -140,6 +140,7 @@ Route::get('/sitemap/categories', 'SitemapController@categories')->name('sitemap
 Route::prefix(config('platform.admin-route'))->name('admin.')->group(function () {
 
     Route::get('/ajax/users', 'Admin\AjaxController@users')->name('ajax.users');
+    Route::post('/ajax/attributes', 'Admin\AjaxController@attributes')->name('ajax.attributes');
 
     Route::get('/dashboard', 'Admin\DashboardController@index')->name('dashboard');
     Route::get('/dashboard/tiles', 'Admin\DashboardController@tiles')->name('dashboard.tiles');
@@ -204,6 +205,13 @@ Route::prefix(config('platform.admin-route'))->name('admin.')->group(function ()
     Route::get('/product', 'Admin\ProductController@index')->name('product');
     Route::get('/product/edit/{id}', 'Admin\ProductController@edit')->name('product.edit');
     Route::get('/product/inventory/{id}', 'Admin\ProductController@inventory')->name('product.inventory');
+    Route::get('/product/factory/{id}', 'Admin\ProductController@factory')->name('product.factory');
+    Route::post('/product/factory/{id}', 'Admin\ProductController@factoryUpdate')->name('product.factory.update');
+
+    Route::get('/product/factory-action/{action}/{id}', 'Admin\ProductController@action')->name('product.factory.action');
+    Route::post('/product/factory-action/{action}/{id}', 'Admin\ProductController@actionUpdate')->name('product.factory.action.update');
+
+
     Route::post('/product/update/{id}', 'Admin\ProductController@update')->name('product.update');
     Route::get('/product/create', 'Admin\ProductController@create')->name('product.create');
     Route::post('/product/insert', 'Admin\ProductController@insert')->name('product.insert');
@@ -228,6 +236,15 @@ Route::prefix(config('platform.admin-route'))->name('admin.')->group(function ()
     Route::post('/product/file/update/{id}', 'Admin\ProductController@fileUpdate')->name('product.file.update');
     Route::delete('/product/file/delete/{id}', 'Admin\ProductController@fileDelete')->name('product.file.delete');
     Route::get('/product/file/export/{id}', 'Admin\ProductController@fileExport')->name('product.file.export');
+
+
+    Route::get('/product/attribute/{id}', 'Admin\ProductController@attribute')->name('product.attribute');
+    Route::get('/product/attribute/create/{id}', 'Admin\ProductController@attributeCreate')->name('product.attribute.create');
+    Route::get('/product/attribute/edit/{id}', 'Admin\ProductController@attributeEdit')->name('product.attribute.edit');
+    Route::post('/product/attribute/insert/{id}', 'Admin\ProductController@attributeInsert')->name('product.attribute.insert');
+    Route::post('/product/attribute/update/{id}', 'Admin\ProductController@attributeUpdate')->name('product.attribute.update');
+    Route::delete('/product/attribute/delete/{id}', 'Admin\ProductController@attributeDelete')->name('product.attribute.delete');
+    Route::get('/product/attribute/export/{id}', 'Admin\ProductController@attributeExport')->name('product.attribute.export');
 
 
     Route::get('/invoice', 'Admin\InvoiceController@index')->name('invoice');
@@ -267,7 +284,18 @@ Route::prefix(config('platform.admin-route'))->name('admin.')->group(function ()
     Route::get('/category/create', 'Admin\CategoryController@create')->name('category.create');
     Route::post('/category/insert', 'Admin\CategoryController@insert')->name('category.insert');
     Route::delete('/category/delete/{id}', 'Admin\CategoryController@delete')->name('category.delete');
-    Route::delete('/category/export', 'Admin\CategoryController@export')->name('category.export');
+    Route::get('/category/export', 'Admin\CategoryController@export')->name('category.export');
+
+
+
+    Route::get('/attribute', 'Admin\AttributeController@index')->name('attribute');
+    Route::get('/attribute/data', 'Admin\AttributeController@data')->name('attribute.data');
+    Route::get('/attribute/edit/{id}', 'Admin\AttributeController@edit')->name('attribute.edit');
+    Route::post('/attribute/update/{id}', 'Admin\AttributeController@update')->name('attribute.update');
+    Route::get('/attribute/create', 'Admin\AttributeController@create')->name('attribute.create');
+    Route::post('/attribute/insert', 'Admin\AttributeController@insert')->name('attribute.insert');
+    Route::delete('/attribute/delete/{id}', 'Admin\AttributeController@delete')->name('attribute.delete');
+    Route::get('/attribute/export', 'Admin\AttributeController@export')->name('attribute.export');
 
 
     Route::get('/setting', 'Admin\SettingController@index')->name('setting');

@@ -61,13 +61,29 @@
                                     {{ $product->category->title }}
                                 </td>
                                 <td class="text-center align-middle">
-                                    {{ \App\Utils\MoneyUtil::format($product->sale_price) }}
+                                    @if($product->sale_price == 0)
+                                        رایگان
+                                    @else
+                                        {{ \App\Utils\MoneyUtil::format($product->sale_price) }}
+                                    @endif
                                 </td>
                                 <td scope="row" class="text-center align-middle">
                                     <span-component web-address="{{ route('admin.product.inventory', [$product->id]) }}"></span-component>
                                 </td>
 
                                 <td scope="row" class="text-center align-middle">
+                                    @if($product->factory)
+                                        <a href="{{ route('admin.product.factory', ['id' => $product->id]) }}"
+                                           class="btn btn-sm btn-success"
+                                           data-toggle="tooltip" data-placement="top" title="تنظیمات سازنده"><i
+                                                    class="fa fa-gear"></i></a>
+                                    @endif
+
+                                    <a href="{{ route('admin.product.attribute', ['id' => $product->id]) }}"
+                                       class="btn btn-sm btn-primary"
+                                       data-toggle="tooltip" data-placement="top" title="مشخصات محصول"><i
+                                                class="fa fa-cogs"></i></a>
+
                                     <a href="{{ route('admin.product.file', ['id' => $product->id]) }}"
                                        class="btn btn-sm btn-warning"
                                        data-toggle="tooltip" data-placement="top" title="فایل های محصول"><i

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Attribute;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\ProductAttribute;
 use App\Models\ProductFile;
 use App\Models\ProductImage;
 use App\Utils\MoneyUtil;
@@ -41,6 +43,47 @@ class ProductController extends Controller
         $categories = Category::findType('Product');
         $brands = Category::findType('Brand');
         return view('admin.product.edit', ['categories' => $categories, 'brands' => $brands, 'product' => $product]);
+    }
+
+
+    public function factory($id)
+    {
+        $product = Product::findOrFail($id);
+        $className = '\App\Factories\\'.$product->factory;
+        $factory = new $className;
+        return $factory->productConfig($product);
+    }
+
+
+
+    public function factoryUpdate(Request $request, $id)
+    {
+        $product = Product::findOrFail($id);
+        $className = '\App\Factories\\'.$product->factory;
+        $factory = new $className;
+        $factory->storeProductConfig($product, $request);
+        flash('تنظیمات با موفقیت انجام شد.')->success();
+        return redirect()->route('admin.product');
+    }
+
+
+    public function action($id, $action)
+    {
+        $product = Product::findOrFail($id);
+        $className = '\App\Factories\\'.$product->factory;
+        $factory = new $className;
+        $factory->{$action};
+    }
+
+
+
+    public function actionUpdate(Request $request, $id, $action)
+    {
+        $action = $action . 'Update';
+        $product = Product::findOrFail($id);
+        $className = '\App\Factories\\'.$product->factory;
+        $factory = new $className;
+        $factory->{$action}($request, $id);
     }
 
     public function inventory($id)
@@ -351,6 +394,83 @@ class ProductController extends Controller
         return redirect()->route('admin.product.file',[$product_id]);
 
     }
+
+
+    public function attribute($id)
+    {
+        $product = Product::findWithCache($id);
+        return view('admin.product.attribute.index',['product' => $product]);
+    }
+
+    public function attributeCreate($id)
+    {
+        $categories = Category::findType('Attribute');
+        $attributes = Attribute::where('category_id', $categories->first()->id)->get();
+        $product = Product::findWithCache($id);
+        return view('admin.product.attribute.create',['product' => $product,'categories' => $categories, 'attributes' => $attributes]);
+    }
+
+    public function attributeInsert($id, Request $request)
+    {
+        Validator::make($request->all(), [
+            'value' => 'required',
+            'attribute_id' => 'required'
+        ])->validate();
+
+        $product = Product::findWithCache($id);
+        $attribute = new ProductAttribute();
+        $attribute->product_id = $product->id;
+        $attribute->value = $request->value;
+        $attribute->attribute_id = $request->attribute_id;
+        $attribute->order = $request->order;
+        $attribute->enabled = $request->enabled;
+        $attribute->save();
+
+        Cache::forget('product_' . $product->id);
+        flash('مشخصه با موفقیت اضافه شد.')->success();
+        return redirect()->route('admin.product.attribute',[$product->id]);
+    }
+
+    public function attributeEdit($id)
+    {
+        $attribute = ProductAttribute::with('attribute')->findOrFail($id);
+        $product = Product::findWithCache($attribute->product_id);
+        $categories = Category::findType('Attribute');
+        $attributes = Attribute::where('category_id', $attribute->attribute->category_id)->get();
+        return view('admin.product.attribute.edit',['product' => $product,'categories' => $categories, 'attributes' => $attributes, 'attribute' => $attribute]);
+    }
+
+    public function attributeUpdate($id, Request $request)
+    {
+        Validator::make($request->all(), [
+            'value' => 'required',
+            'attribute_id' => 'required'
+        ])->validate();
+
+        $attribute = ProductAttribute::findOrFail($id);
+
+        $attribute->value = $request->value;
+        $attribute->attribute_id = $request->attribute_id;
+        $attribute->order = $request->order;
+        $attribute->enabled = $request->enabled;
+        $attribute->save();
+
+        Cache::forget('product_' . $attribute->product_id);
+        flash('مشخصه با موفقیت ویرایش شد.')->success();
+        return redirect()->route('admin.product.attribute',[$attribute->product_id]);
+    }
+
+    public function attributeDelete($id)
+    {
+        $attribute = ProductAttribute::findOrFail($id);
+        $product_id = $attribute->product_id;
+        $attribute->delete();
+        Cache::forget('product_' . $product_id);
+        flash('مشخصه با موفقیت حذف شد.')->success();
+        return redirect()->route('admin.product.attribute',[$product_id]);
+
+    }
+
 
 
 }

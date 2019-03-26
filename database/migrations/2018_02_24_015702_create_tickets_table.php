@@ -19,6 +19,7 @@ class CreateTicketsTable extends Migration
             $table->string('title');
             $table->text('text');
             $table->bigInteger('user_id')->nullable();
+            $table->bigInteger('service_id')->nullable();
             $table->string('name')->nullable();
             $table->string('email')->nullable();
             $table->string('mobile')->nullable();

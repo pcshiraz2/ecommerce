@@ -144,7 +144,22 @@
                                      aria-labelledby="text-tab">{!! $product->text  !!}</div>
                                 <div class="tab-pane fade" id="product-spec" role="tabpanel"
                                      aria-labelledby="spec-tab">
-                                    <i class="fa fa-cogs"></i> مشخصات
+                                    <table class="table table-striped table-bordered table-hover two-axis">
+                                        <thead class="thead-dark">
+                                        <tr>
+                                            <th scope="col" class="text-center">عنوان</th>
+                                            <th scope="col" class="text-center">مقدار</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($product->attributes as $attribute)
+                                            <tr>
+                                                <td scope="row" class="text-center align-middle">{{$attribute->attribute->title}}</td>
+                                                <td scope="row" class="text-center align-middle">{{$attribute->value}}</td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
                                 </div>
                                 @if($product->files->count())
                                 <div class="tab-pane fade" id="product-files" role="tabpanel"
@@ -165,8 +180,6 @@
                                     @endforeach
                                     </ul>
                                 </div>
-
-
                                 @endif
 
                             </div>

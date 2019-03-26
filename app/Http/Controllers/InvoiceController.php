@@ -69,8 +69,6 @@ class InvoiceController extends Controller
         } else {
             try {
                 $settledTransaction = Gateway::settle();
-
-
                 $transaction = new Transaction();
                 $transaction->invoice_id = $invoice->id;
                 $transaction->user_id = Auth::user()->id;

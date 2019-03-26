@@ -187,7 +187,38 @@
                             </tr>
                             </tfoot>
                         </table>
-
+                        <div class="row">
+                            <div class="col-md-9"></div>
+                            <div class="col-md-3">
+                                <div class="alert alert-dark">
+                                  تخفیف:
+                                    <span id="discount_value"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-9"></div>
+                            <div class="col-md-3">
+                                <div class="alert alert-dark">
+                                    مالیات:
+                                    <span id="tax_value"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-9">
+                                <div class="alert alert-dark">
+                                    جمع حروف:
+                                    <span id="total_letters_value"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="alert alert-dark">
+                                    جمع عدد:
+                                    <span id="total_value"></span>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label for="note">توضیحات</label>
                             <textarea id="note" class="form-control{{ $errors->has('note') ? ' is-invalid' : '' }}"

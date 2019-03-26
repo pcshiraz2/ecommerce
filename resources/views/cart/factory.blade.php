@@ -17,16 +17,16 @@
                 <div class="col-md-12">
                     <a href="{{ route('product')  }}" class="btn btn-primary pull-right"><i
                                 class="fa fa-shopping-basket"></i>ادامه خرید</a>
-                    @if(Cart::total() != 0)
+                    @if(\Cart::getContent()->count() != 0)
                         <button type="submit" class="btn btn-warning pull-left"><i
-                                    class="fa fa-gears"></i> تکمیل خرید با مشخصات زیر</button>
+                                    class="fa fa-gears"></i> مشخصات تکمیلی محصول</button>
                     @endif
                 </div>
             </div>
-            @if(Cart::getContent()->count())
-                    @foreach(Cart::getContent() as $product)
+            @if(\Cart::getContent()->count())
+                    @foreach(\Cart::getContent() as $product)
                         @for($i = 0;$i < $product->quantity; $i++)
-                            @include('factory.'.strtolower($product->attributes->factory).'.cart',['i' => $i,'product' => $product])
+                            @include('factories.'.strtolower($product->attributes->factory).'.cart',['i' => $i,'product' => $product])
                         @endfor
                     @endforeach
             @else
@@ -34,7 +34,6 @@
                     <i class="fa fa-info-circle"></i>
                     شما هنوز کالایی انتخاب نکردید.
                 </div>
-
             @endif
             </form>
         </div>

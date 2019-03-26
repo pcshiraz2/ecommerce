@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\User;
 use App\Notifications\InvoiceCreated;
 use App\Models\Record;
+use App\Utils\MoneyUtil;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
@@ -87,6 +88,8 @@ class CartController extends Controller
     {
         Validator::make($request->all(), [
             'national_code' => 'required||numeric|unique:users,national_code,' . Auth::user()->id,
+            'first_name' => 'required',
+            'last_name' => 'required',
             'phone' => 'required|numeric',
             'zip_code' => 'required|numeric',
             'address' => 'required|string',
@@ -94,8 +97,9 @@ class CartController extends Controller
             'province_id' => 'required|numeric',
         ])->validate();
         $user = User::findOrFail(Auth::user()->id);
-        session(['name' => $request->name]);
         $user->gender = $request->gender;
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
         $user->phone = $request->phone;
         $user->zip_code = $request->zip_code;
         $user->address = $request->address;
@@ -118,7 +122,7 @@ class CartController extends Controller
             $items = \Cart::getContent();
             foreach ($items as $item) {
                 if($item->attributes->factory) {
-                    $className = '\App\Factory\\'.$item->attributes->factory;
+                    $className = '\App\Factories\\'.$item->attributes->factory;
                     $factory = new $className;
                     if($factory->factoryCartInformation) {
                         $redirectFlag = true;
@@ -140,6 +144,14 @@ class CartController extends Controller
 
     public function storeFactory(Request $request)
     {
+        $items = \Cart::getContent();
+        foreach ($items as $item) {
+            if($item->attributes->factory) {
+                $className = '\App\Factories\\'.$item->attributes->factory;
+                $factory = new $className;
+                $factory->cartStoreInformation($request);
+            }
+        }
         Session::put('factory_data', $request->all());
         flash("اطلاعات شما برای محصولات مورد نظر بروز شد.")->success();
         return redirect()->route('cart.checkout');
@@ -158,6 +170,7 @@ class CartController extends Controller
                 flash("سبد خرید شما خالی است لطفا ابتدا کالا مورد نظر خود را انتخاب کنید.")->warning();
                 return redirect()->route('shop');
             }
+
             $invoice = new Invoice();
             $invoice->user_id = Auth::user()->id;
             $invoice->first_name = Auth::user()->first_name;
@@ -165,7 +178,9 @@ class CartController extends Controller
             $invoice->status = 'sent';
             $invoice->total = 0;
             $invoice->tax = 0;
+            $invoice->discount = 0;
             $invoice->type = 'sale';
+            $invoice->economical_number = Auth::user()->economical_number;
             $invoice->password = uniqid();
             $invoice->invoice_at = date("Y-m-d H:i:s");
             $invoice->zip_code = Auth::user()->zip_code;
@@ -177,23 +192,21 @@ class CartController extends Controller
 
             foreach (\Cart::getContent() as $product) {
                 if($product->attributes->factory) {
-                    for($i=0;$i<$product->qty;$i++) {
+                    for($i=0;$i<$product->quantity;$i++) {
                         $className = '\App\Factories\\'.$product->attributes->factory;
                         $factory = new $className;
                         $record = new Record();
                         $record->invoice_id = $invoice->id;
                         $record->title = $product->name;
                         $record->description = $product->description;
-
-                        $record->quantity = abs($product->qty) * -1;
-                        $record->price = $product->attributes->sale_price;
-                        $record->discount = $product->attributes->discount;
-                        $record->tax = $product->attributes->tax;
-                        $record->total = (($record->price - $record->discount) + $record->tax) * abs($product->qty);
-
+                        $record->quantity = -1;
+                        $record->price = MoneyUtil::database($product->attributes->sale_price);
+                        $record->discount = MoneyUtil::database($product->attributes->discount);
+                        $record->tax = MoneyUtil::database($product->attributes->tax);
+                        $record->total = MoneyUtil::database((($record->price - $record->discount) + $record->tax) * abs(1));
                         $record->product_id = $product->id;
                         $options = [];
-                        foreach ($factory->getCartAttribs() as $attrib) {
+                        foreach ($factory->cartArributes() as $attrib) {
                             $options[$attrib] = session('factory_data')[$attrib][$i];
                         }
                         $record->options = $options;
@@ -208,12 +221,11 @@ class CartController extends Controller
                     $record->invoice_id = $invoice->id;
                     $record->title = $product->name;
                     $record->description = $product->description;
-                    $record->quantity = abs($product->qty) * -1;
-                    $record->price = $product->attributes->sale_price;
-                    $record->discount = $product->attributes->discount;
-                    $record->tax = $product->attributes->tax;
-                    $record->total = (($record->price - $record->discount) + $record->tax) * abs($product->qty);
-
+                    $record->quantity = abs($product->quantity) * -1;
+                    $record->price = MoneyUtil::database($product->attributes->sale_price);
+                    $record->discount = MoneyUtil::database($product->attributes->discount);
+                    $record->tax = MoneyUtil::database($product->attributes->tax);
+                    $record->total = MoneyUtil::database((($record->price - $record->discount) + $record->tax) * abs($product->quantity));
                     $record->product_id = $product->id;
                     $record->save();
                     $tax += $record->tax;
@@ -233,9 +245,11 @@ class CartController extends Controller
                 try {
                     Notification::send($user, new InvoiceCreated($invoice, $user));
                 } catch (\Exception $e) {
+
                 }
 
             }
+
             return redirect()->route('invoice.view', ['id' => $invoice->id]);
         }
 
