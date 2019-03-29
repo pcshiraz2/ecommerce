@@ -39,6 +39,7 @@ class InvoiceController extends Controller
                 $gateway->callbackUrl(url('invoice/callback', ['id' => $request->invoice_id]));
                 $gateway->stateless();
                 $transaction = new RequestTransaction(new Amount($invoice->total, config('platform.currency')));
+                $transaction->setExtraField('description', "پرداخت فاکتور شماره:" . $request->invoice_id);
                 $authorizedTransaction = $gateway->authorize($transaction);
                 return $gateway->redirect($authorizedTransaction);
             } catch (Exception $e) {
