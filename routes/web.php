@@ -198,6 +198,7 @@ Route::prefix(config('platform.admin-route'))->name('admin.')->group(function ()
     Route::post('/transaction/update/{id}', 'Admin\TransactionController@update')->name('transaction.update');
     Route::get('/transaction/edit/{id}', 'Admin\TransactionController@edit')->name('transaction.edit');
     Route::get('/transaction/pay/{id}', 'Admin\TransactionController@pay')->name('transaction.pay');
+    Route::post('/transaction/pay/{id}', 'Admin\TransactionController@payUpdate')->name('transaction.pay');
     Route::delete('/transaction/delete/{id}', 'Admin\TransactionController@delete')->name('transaction.delete');
     Route::get('/transaction/export', 'Admin\TransactionController@export')->name('transaction.export');
 

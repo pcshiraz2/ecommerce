@@ -98,9 +98,13 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{ route('admin.transaction.pay', ['id' => $transaction->id]) }}"
-                                       class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="پرداخت تراکنش"><i class="fa fa-money"></i></a>
-
+                                    @if($transaction->paid_at)
+                                        <a href="{{ route('admin.transaction.pay', ['id' => $transaction->id]) }}"
+                                           class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="ویرایش تاریخ پرداخت تراکنش"><i class="fa fa-money"></i></a>
+                                    @else
+                                        <a href="{{ route('admin.transaction.pay', ['id' => $transaction->id]) }}"
+                                           class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="top" title="پرداخت تراکنش پرداخت نشده"><i class="fa fa-money"></i></a>
+                                    @endif
                                     <a href="{{ route('admin.transaction.edit', ['id' => $transaction->id]) }}"
                                            class="btn btn-sm btn-dark" data-toggle="tooltip" data-placement="top" title="ویرایش تراکنش"><i class="fa fa-edit"></i></a>
 

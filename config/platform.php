@@ -40,14 +40,14 @@ return [
     'income-transfer-category-id' => '13',
     'expense-transfer-category-id' => '17',
 
-    'income-check-category-id' => '10',
-    'expense-check-category-id' => '13',
+    'income-check-category-id' => '11',
+    'expense-check-category-id' => '14',
 
-    'income-installment-category-id' => '11',
-    'expense-installment-category-id' => '12',
+    'income-installment-category-id' => '12',
+    'expense-installment-category-id' => '15',
 
-    'income-sale-category-id' => '9',
-    'expense-purchase-category-id' => '15',
+    'income-sale-category-id' => '10',
+    'expense-purchase-category-id' => '16',
 
     'free-pay-category-id' => '10',
 

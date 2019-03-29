@@ -139,34 +139,6 @@
                             @endif
                         </div>
 
-                        <div class="form-group">
-                            <label for="paid_at">تاریخ
-                                @if(Request::segment(4) == 'income')
-                                    دریافت
-                                @elseif(Request::segment(4) == 'expense')
-                                    پرداخت
-                                @endif
-                                <span class="font-weight-light font-italic"> - اختیاری</span>
-                            </label>
-                            <div dir="rtl">
-                                <date-picker
-                                        id="paid_at"
-                                        name="paid_at"
-                                        format="jYYYY/jMM/jDD"
-                                        display-format="jYYYY/jMM/jDD"
-                                        color="#6838b8"
-                                        type="date"
-                                        value="{{ old('paid_at') }}">
-                                </date-picker>
-                            </div>
-                            <span class="form-text text-muted">در صورتی که تراکنش پرداخت شده است تاریخ را بنویسید.</span>
-                            @if ($errors->has('paid_at'))
-                                <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('paid_at') }}</strong>
-                                    </span>
-                            @endif
-                        </div>
-
                         <button type="submit" class="btn btn-primary">
                             <i class="fa fa-edit"></i>
                             ویرایش تراکنش

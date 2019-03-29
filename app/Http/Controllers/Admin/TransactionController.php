@@ -58,12 +58,28 @@ class TransactionController extends Controller
             return redirect()->route('admin.invoice.view',['id' => $transaction->invoice_id]);
         }
 
-        if($transaction->category_id) {
-
-        }
-
-
         return view('admin.transaction.edit', ['categories' => $categories, 'accounts' => $accounts, 'transaction' => $transaction]);
+    }
+
+    public function pay($id)
+    {
+        $transaction = Transaction::findOrFail($id);
+        return view('admin.transaction.pay', ['transaction' => $transaction]);
+    }
+
+    public function payUpdate($id, Request $request)
+    {
+
+        Validator::make($request->all(), [
+            'paid_at' => 'required'
+        ])->validate();
+
+        $transaction = Transaction::findOrFail($id);
+        $transaction->paid_at = \Morilog\Jalali\CalendarUtils::createDatetimeFromFormat('Y/m/d', \App\Utils\TextUtil::convertToEnglish($request->paid_at));
+        $transaction->save();
+
+        flash('تاریخ پرداخت با موفقیت ثبت شد.')->success();
+        return redirect()->route('admin.transaction');
     }
 
 
@@ -87,11 +103,13 @@ class TransactionController extends Controller
         $transaction->account_id = $request->account_id;
         $transaction->user_id = $request->user_id;
         $transaction->transaction_at = \Morilog\Jalali\CalendarUtils::createDatetimeFromFormat('Y/m/d', \App\Utils\TextUtil::convertToEnglish($request->transaction_at));
-        if ($request->paid_at) {
-            $transaction->paid_at = \Morilog\Jalali\CalendarUtils::createDatetimeFromFormat('Y/m/d', \App\Utils\TextUtil::convertToEnglish($request->paid_at));
+
+        if(in_array($request->category_id, array(config('platform.income-check-category-id'),config('platform.expense-check-category-id'),config('platform.income-installment-category-id'),config('platform.expense-installment-category-id')))) {
+            //$transaction->paid_at = null;
         } else {
-            $transaction->paid_at = null;
+            $transaction->paid_at = \Morilog\Jalali\CalendarUtils::createDatetimeFromFormat('Y/m/d', \App\Utils\TextUtil::convertToEnglish($request->transaction_at));
         }
+
         $transaction->save();
 
         if ($request->tags) {
@@ -129,10 +147,10 @@ class TransactionController extends Controller
         $transaction->type = $request->type;
         $transaction->transaction_at = \Morilog\Jalali\CalendarUtils::createDatetimeFromFormat('Y/m/d', \App\Utils\TextUtil::convertToEnglish($request->transaction_at));
 
-        if($request->paid_at) {
-            $transaction->paid_at = \Morilog\Jalali\CalendarUtils::createDatetimeFromFormat('Y/m/d', \App\Utils\TextUtil::convertToEnglish($request->paid_at));
-        } else {
+        if(in_array($request->category_id, array(config('platform.income-check-category-id'),config('platform.expense-check-category-id'),config('platform.income-installment-category-id'),config('platform.expense-installment-category-id')))) {
             $transaction->paid_at = null;
+        } else {
+            $transaction->paid_at = \Morilog\Jalali\CalendarUtils::createDatetimeFromFormat('Y/m/d', \App\Utils\TextUtil::convertToEnglish($request->transaction_at));
         }
 
         $transaction->save();
