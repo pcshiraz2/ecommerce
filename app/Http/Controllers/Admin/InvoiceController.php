@@ -62,6 +62,7 @@ class InvoiceController extends Controller
             'discount' => 'required|numeric|min:0',
             'record.*.price' => 'required|numeric|min:1',
             'record.*.quantity' => 'required|numeric|min:1',
+            'record.*.tax' => 'required|numeric|min:1',
             'record.*.description' => 'required|string',
         ])->validate();
 

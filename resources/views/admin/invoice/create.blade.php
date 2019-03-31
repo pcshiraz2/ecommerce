@@ -77,7 +77,6 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="invoice_at">تاریخ</label>
-
                                     <div dir="rtl">
                                         <date-picker
                                                 id="invoice_at"
