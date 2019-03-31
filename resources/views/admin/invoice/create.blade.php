@@ -71,7 +71,6 @@
                                     @endif
                                 </div>
                             </div>
-
                         </div>
                         <div class="row">
                             <div class="col-md-6">
@@ -142,8 +141,8 @@
                                     <input type="text" autocomplete="off" name="record[0][description]" dir="rtl"
                                            class="typeahead form-control form-control-sm"
                                            placeholder="نام کالا یا شرح خدمات" id="record-description-0" required>
-                                    <input type="hidden" name="record[0][item_id]"
-                                           class="form-control form-control-sm text-center" id="record-item-id-0">
+                                    <input type="hidden" name="record[0][product_id]"
+                                           class="form-control form-control-sm text-center" id="record-product-id-0">
                                     <input type="hidden" name="record[0][id]"
                                            class="form-control form-control-sm text-center" value="0" id="record-id-0">
                                 </td>
@@ -218,6 +217,8 @@
                                 </div>
                             </div>
                         </div>
+
+
                         <div class="form-group">
                             <label for="note">توضیحات</label>
                             <textarea id="note" class="form-control{{ $errors->has('note') ? ' is-invalid' : '' }}"
@@ -291,7 +292,7 @@
             html += '<td class="text-center">';
             html += '<input type="text" autocomplete="off" dir="rtl" name="record[' + record_row + '][description]" class="typeahead form-control form-control-sm" placeholder="نام کالا یا شرح خدمات" id="record-description-' + record_row + '" required>';
             html += '<input type="hidden" name="record[' + record_row + '][id]" class="form-control form-control-sm text-center" value="' + record_row + '" id="record-id-' + record_row + '">';
-            html += '<input type="hidden" name="record[' + record_row + '][item_id]" class="form-control form-control-sm text-center" id="record-item-id-' + record_row + '">';
+            html += '<input type="hidden" name="record[' + record_row + '][product_id]" class="form-control form-control-sm text-center" id="record-product-id-' + record_row + '">';
             html += '</td>';
             html += '<td class="text-center">';
             html += '<input type="text" autocomplete="off" name="record[' + record_row + '][quantity]" value="" class="price form-control form-control-sm text-center" placeholder="تعداد" id="record-quantity-' + record_row + '" required>';

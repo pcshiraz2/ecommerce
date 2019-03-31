@@ -32,24 +32,21 @@ class InvoiceController extends Controller
 
     public function createSale()
     {
-        $users = User::all();
         $type = 'sale';
-        return view('admin.invoice.create', ['type' => $type, 'users' => $users]);
+        return view('admin.invoice.create', ['type' => $type]);
     }
 
     public function createPurchase()
     {
-        $users = User::all();
         $type = 'purchase';
-        return view('admin.invoice.create', ['type' => $type, 'users' => $users]);
+        return view('admin.invoice.create', ['type' => $type]);
     }
 
     public function createUserInvoice($id)
     {
-        $users = User::all();
         $type = 'sale';
         $user = User::findOrFail($id);
-        return view('admin.invoice.user', ['type' => $type, 'select_user' => $user, 'users' => $users]);
+        return view('admin.invoice.user', ['type' => $type, 'user' => $user]);
     }
 
     public function insert(Request $request)
@@ -74,28 +71,28 @@ class InvoiceController extends Controller
         $invoice->discount = $request->discount;
         $invoice->type = $request->type;
         $invoice->password = uniqid();
-        $invoice->invoice_at = jDateTime::createDatetimeFromFormat('Y/m/d', en_numbers($request->invoice_at));
+        $invoice->invoice_at = \Morilog\Jalali\CalendarUtils::createDatetimeFromFormat('Y/m/d', \App\Utils\TextUtil::convertToEnglish($request->invoice_at));
         if ($request->due_at) {
-            $invoice->due_at = jDateTime::createDatetimeFromFormat('Y/m/d', en_numbers($request->due_at));
-        }
-        if ($request->period) {
-            $invoice->period = $request->period;
-            $dut_at = new Carbon($invoice->due_at);
-            $invoice->next_at = $dut_at->addDays($request->period);
+            $invoice->due_at = \Morilog\Jalali\CalendarUtils::createDatetimeFromFormat('Y/m/d', \App\Utils\TextUtil::convertToEnglish($request->due_at));
+        } else {
+            $invoice->due_at = NULL;
         }
         $invoice->save();
         foreach ($request->record as $record_request) {
             $record = new Record();
             $record->invoice_id = $invoice->id;
+            $record->title = $record_request['title'];
             $record->description = $record_request['description'];
             $record->price = $record_request['price'];
+            $record->discount = $record_request['discount'];
+            $record->tax = $record_request['tax'];
             if ($request->type == 'sale') {
                 $record->quantity = abs($record_request['quantity']) * -1;
             } else if ($request->type == 'purchase') {
                 $record->quantity = abs($record_request['quantity']);
             }
-            if (isset($record_request['item_id'])) {
-                $record->item_id = $record_request['item_id'];
+            if (isset($record_request['product_id'])) {
+                $record->item_id = $record_request['product_id'];
             }
             $record->total = $record_request['price'] * $record_request['quantity'];
             $record->save();
@@ -113,9 +110,8 @@ class InvoiceController extends Controller
 
     public function edit($id)
     {
-        $invoice = Invoice::with('records')->findOrFail($id);
-        $users = User::all();
-        return view('admin.invoice.edit', ['invoice' => $invoice, 'users' => $users]);
+        $invoice = Invoice::with(['records', 'user'])->findOrFail($id);
+        return view('admin.invoice.edit', ['invoice' => $invoice]);
     }
 
     public function delete($id, Request $request)
