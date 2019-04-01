@@ -317,7 +317,6 @@
             html += '</tr>';
             $('#records').append(html);
             record_row++;
-            $('table').basictable();
             $('.price').mask('#,##0', {reverse: true});
         }
 

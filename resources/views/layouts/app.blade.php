@@ -21,6 +21,10 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @yield('css')
+
+    @if(View::exists('analytics'))
+        @include('analytics')
+    @endif
 </head>
 <body class="rtl">
 <div id="app">
