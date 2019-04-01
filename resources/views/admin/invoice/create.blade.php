@@ -7,6 +7,9 @@
     @section('title', 'فاکتور خرید جدید - ')
 @endif
 
+@section('css')
+
+@endsection
 @section('content')
     <div class="row justify-content-center">
 
@@ -47,10 +50,14 @@
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('admin.invoice.insert') }}" onsubmit="$('.price').unmask();"
-                          id="invoice_form">
+                          id="invoice_form" enctype="multipart/form-data">
                         @csrf
                         @method('post')
                         <input type="hidden" name="type" value="{{ $type }}">
+                        <input type="hidden" name="tax" id="tax_value" value="0">
+                        <input type="hidden" name="discount" id="discount_value" value="0">
+                        <input type="hidden" name="quantity" id="quantity_value" value="0">
+                        <input type="hidden" name="total" id="total_value" value="0">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -138,37 +145,37 @@
                                                 class="fa fa-trash"></i></button>
                                 </td>
                                 <td class="text-center">
-                                    <input type="text" autocomplete="off" name="record[0][description]" dir="rtl"
+                                    <input type="text" autocomplete="off" name="record[0][title]" dir="rtl"
                                            class="typeahead form-control form-control-sm"
-                                           placeholder="نام کالا یا شرح خدمات" id="record-description-0" required>
+                                           placeholder="نام کالا یا شرح خدمات" id="record-title-0" required>
                                     <input type="hidden" name="record[0][product_id]"
                                            class="form-control form-control-sm text-center" id="record-product-id-0">
-                                    <input type="hidden" name="record[0][id]"
-                                           class="form-control form-control-sm text-center" value="0" id="record-id-0">
+                                    <input type="hidden" name="record[0][record_row]"
+                                           class="form-control form-control-sm text-center" value="0" id="record-row-0">
                                 </td>
                                 <td class="text-center">
-                                    <input type="text" autocomplete="off" name="record[0][quantity]" value=""
+                                    <input type="tel" autocomplete="off" name="record[0][quantity]" value=""
                                            class="price form-control form-control-sm text-center" placeholder="تعداد"
-                                           id="record-quantity-0" required>
+                                           id="record-quantity-0" dir="ltr" required>
                                 </td>
                                 <td class="text-center">
-                                    <input type="text" autocomplete="off" name="record[0][price]" value=""
+                                    <input type="tel" dir="ltr" autocomplete="off" name="record[0][price]" value=""
                                            class="price form-control form-control-sm text-center" placeholder="قیمت واحد"
                                            id="record-price-0" required>
                                 </td>
                                 <td class="text-center">
-                                    <input type="text" autocomplete="off" name="record[0][discount]" value=""
+                                    <input type="tel" dir="ltr" autocomplete="off" name="record[0][discount]" value=""
                                            class="price form-control form-control-sm text-center" placeholder="تخفیف"
                                            id="record-discount-0" required>
                                 </td>
                                 <td class="text-center">
-                                    <input type="text" autocomplete="off" name="record[0][tax]" value=""
+                                    <input type="tel" dir="ltr" autocomplete="off" name="record[0][tax]" value=""
                                            class="price form-control form-control-sm text-center" placeholder="مالیات"
                                            id="record-tax-0" required>
                                 </td>
 
                                 <td class="text-center">
-                                    <input type="text" readonly class="price form-control form-control-sm text-center"
+                                    <input type="text" dir="ltr" readonly class="price form-control form-control-sm text-center"
                                            id="record-total-0">
                                 </td>
                             </tr>
@@ -180,7 +187,11 @@
                                     <button class="btn btn-sm btn-primary" type="button" onclick="addRecord()"><i
                                                 class="fa fa-plus"></i></button>
                                 </td>
-                                <td colspan="6">تعداد اقلام:</td>
+                                <td colspan="6">
+                                    تعداد اقلام:
+                                    <span id="quantity_format"></span>
+
+                                </td>
 
                             </tr>
                             </tfoot>
@@ -190,7 +201,7 @@
                             <div class="col-md-3">
                                 <div class="alert alert-dark">
                                   تخفیف:
-                                    <span id="discount_value"></span>
+                                    <span id="discount_format"></span>
                                 </div>
                             </div>
                         </div>
@@ -199,7 +210,7 @@
                             <div class="col-md-3">
                                 <div class="alert alert-dark">
                                     مالیات:
-                                    <span id="tax_value"></span>
+                                    <span id="tax_format"></span>
                                 </div>
                             </div>
                         </div>
@@ -207,13 +218,13 @@
                             <div class="col-md-9">
                                 <div class="alert alert-dark">
                                     جمع حروف:
-                                    <span id="total_letters_value"></span>
+                                    <span id="total_letters_format"></span>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="alert alert-dark">
                                     جمع عدد:
-                                    <span id="total_value"></span>
+                                    <span id="total_format"></span>
                                 </div>
                             </div>
                         </div>
@@ -222,7 +233,7 @@
                         <div class="form-group">
                             <label for="note">توضیحات</label>
                             <textarea id="note" class="form-control{{ $errors->has('note') ? ' is-invalid' : '' }}"
-                                      name="note" value="{{ old('note') }}"></textarea>
+                                      name="note">{{ old('note') }}</textarea>
                             @if ($errors->has('note'))
                                 <span class="invalid-feedback">
                                         <strong>{{ $errors->first('note') }}</strong>
@@ -284,79 +295,98 @@
         });
         var record_row = 1;
 
-        function addRecord() {
+        function addRecord()
+        {
             html = '<tr class="record" id="record-' + record_row + '">';
             html += '<td class="text-center">';
             html += '<button class="btn btn-sm btn-danger" type="button" onclick="removeRecord(' + record_row + ')"><i class="fa fa-trash"></i></button>';
             html += '</td>';
             html += '<td class="text-center">';
-            html += '<input type="text" autocomplete="off" dir="rtl" name="record[' + record_row + '][description]" class="typeahead form-control form-control-sm" placeholder="نام کالا یا شرح خدمات" id="record-description-' + record_row + '" required>';
-            html += '<input type="hidden" name="record[' + record_row + '][id]" class="form-control form-control-sm text-center" value="' + record_row + '" id="record-id-' + record_row + '">';
+            html += '<input type="text" autocomplete="off" dir="rtl" name="record[' + record_row + '][title]" class="typeahead form-control form-control-sm" placeholder="نام کالا یا شرح خدمات" id="record-description-' + record_row + '" required>';
+            html += '<input type="hidden" name="record[' + record_row + '][record_row]" class="form-control form-control-sm text-center" value="' + record_row + '" id="record-row-' + record_row + '">';
             html += '<input type="hidden" name="record[' + record_row + '][product_id]" class="form-control form-control-sm text-center" id="record-product-id-' + record_row + '">';
             html += '</td>';
             html += '<td class="text-center">';
-            html += '<input type="text" autocomplete="off" name="record[' + record_row + '][quantity]" value="" class="price form-control form-control-sm text-center" placeholder="تعداد" id="record-quantity-' + record_row + '" required>';
+            html += '<input type="tel" autocomplete="off" dir="ltr" name="record[' + record_row + '][quantity]" value="" class="price form-control form-control-sm text-center" placeholder="تعداد" id="record-quantity-' + record_row + '" required>';
             html += '</td>';
             html += '<td class="text-center">';
-            html += '<input type="text" autocomplete="off" name="record[' + record_row + '][price]" value="" class="price form-control form-control-sm text-center" placeholder="قیمت واحد" id="record-price-' + record_row + '" required>';
-            html += '</td>';
-
-
-            html += '<td class="text-center">';
-            html += '<input type="text" autocomplete="off" name="record[' + record_row + '][discount]" value="" class="price form-control form-control-sm text-center" placeholder="تخفیف" id="record-discount-' + record_row + '">';
+            html += '<input type="tel" autocomplete="off" dir="ltr" name="record[' + record_row + '][price]" value="" class="price form-control form-control-sm text-center" placeholder="قیمت واحد" id="record-price-' + record_row + '" required>';
             html += '</td>';
 
 
             html += '<td class="text-center">';
-            html += '<input type="text" autocomplete="off" name="record[' + record_row + '][tax]" value="" class="price form-control form-control-sm text-center" placeholder="مالیات" id="record-tax-' + record_row + '">';
+            html += '<input type="tel" autocomplete="off" dir="ltr" name="record[' + record_row + '][discount]" value="" class="price form-control form-control-sm text-center" placeholder="تخفیف" id="record-discount-' + record_row + '">';
+            html += '</td>';
+
+
+            html += '<td class="text-center">';
+            html += '<input type="tel" autocomplete="off" dir="ltr" name="record[' + record_row + '][tax]" value="" class="price form-control form-control-sm text-center" placeholder="مالیات" id="record-tax-' + record_row + '">';
             html += '</td>';
 
 
 
-            html += '<td class="text-center"><input type="text" readonly class="price form-control form-control-sm text-center" id="record-total-' + record_row + '"></td>';
+            html += '<td class="text-center"><input type="tel" dir="ltr" readonly class="price form-control form-control-sm text-center" id="record-total-' + record_row + '"></td>';
             html += '</tr>';
             $('#records').append(html);
             record_row++;
             $('.price').mask('#,##0', {reverse: true});
         }
 
-        function removeRecord(row_id) {
+        function removeRecord(row_id)
+        {
             $('#record-' + row_id).remove();
         }
 
-        function calculateTotal() {
+        function calculateTotal()
+        {
             $.ajax({
                 url: '{{ route('admin.invoice.calculate-total') }}',
                 type: 'POST',
                 dataType: 'JSON',
-                data: $('#invoice_form input[type=\'text\'],#invoice_form input[type=\'hidden\']'),
+                data: $('#invoice_form input[type=\'text\'],#invoice_form input[type=\'hidden\'],#invoice_form input[type=\'tel\']'),
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                 success: function (data) {
                     if (data) {
                         $.each(data.record_total, function (key, value) {
                             $('#record-total-' + key).val(value);
                         });
-                        $('#sub_total').val(data.sub_total);
-                        $('#total').val(data.total);
-                        $('#total_letters').html(data.total_letters);
-                        if (data.tax_percent) {
-                            $('#tax').val(data.tax);
-                        }
-                        if (data.discount_percent) {
-                            $('#discount').val(data.discount);
-                        }
+
+                        $('#total_format').html(data.total_format);
+                        $('#total_value').val(data.total_value);
+                        $('#total_letters_format').html(data.total_letters_format);
+                        $('#discount_format').html(data.discount_format);
+                        $('#discount_value').val(data.discount_value);
+                        $('#tax_format').html(data.tax_format);
+                        $('#tax_value').val(data.tax_value);
+                        $('#quantity_format').html(data.quantity_format);
+                        $('#quantity_value').val(data.quantity_value);
+
                     }
                 }
             });
         }
 
-        $(document).on('change', '#invoice_form', function () {
-            calculateTotal();
+        var timer = null;
+        $('#invoice_form').keydown(function(){
+            clearTimeout(timer);
+            timer = setTimeout(calculateTotal, 1000)
         });
 
-        $(document).on('keyup', '#invoice_form .form-control', function () {
-            calculateTotal();
+        $('.typeahead').autocomplete({
+            serviceUrl: '{{ route('admin.invoice.items') }}',
+            minChars: 2,
+            showNoSuggestionNotice: true,
+            noSuggestionNotice: 'کالایی با این نام وجود ندارد.',
+            onSelect: function (suggestion) {
+                var input_id = this.id.split('-');
+                var row_id = parseInt(input_id[input_id.length-1]);
+                $('#record-product-id-'+row_id).val(suggestion.id);
+                $('#record-price-'+row_id).val(suggestion.price);
+                $('#record-tax-'+row_id).val(suggestion.tax);
+                $('#record-discount-'+row_id).val(suggestion.discount);
+                calculateTotal();
+                $('.price').mask('#,##0', {reverse: true});
+            }
         });
-
     </script>
 @endsection

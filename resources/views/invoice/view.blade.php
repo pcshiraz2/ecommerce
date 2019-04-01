@@ -44,7 +44,7 @@
                                     @if($record->product_id)
                                         <a href="{{ route('product.view', ['id'=>$record->product_id]) }}">{{$record->title}}</a>
                                     @else
-                                        {{$record->name}}
+                                        {{$record->title}}
                                     @endif
                                     @if($record->description)
                                         <small>{{$record->description}}</small>

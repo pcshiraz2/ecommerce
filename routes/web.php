@@ -220,7 +220,6 @@ Route::prefix(config('platform.admin-route'))->name('admin.')->group(function ()
     Route::get('/product/export', 'Admin\ProductController@export')->name('product.export');
 
 
-
     Route::get('/product/image/{id}', 'Admin\ProductController@image')->name('product.image');
     Route::get('/product/image/create/{id}', 'Admin\ProductController@imageCreate')->name('product.image.create');
     Route::get('/product/image/edit/{id}', 'Admin\ProductController@imageEdit')->name('product.image.edit');
@@ -265,6 +264,7 @@ Route::prefix(config('platform.admin-route'))->name('admin.')->group(function ()
     Route::get('/invoice/send/{id}', 'Admin\InvoiceController@sendInvoice')->name('invoice.send');
 
     Route::get('/invoice/export', 'Admin\InvoiceController@export')->name('invoice.export');
+    Route::get('/invoice/download/{id}', 'Admin\InvoiceController@download')->name('invoice.download');
 
 
     Route::get('/account', 'Admin\AccountController@index')->name('account');

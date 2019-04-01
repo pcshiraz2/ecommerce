@@ -20,12 +20,12 @@ if (token) {
 }
 
 window.basictable = require('basictable');
-window.hammer = require('hammerjs');
 window.select2 = require('select2');
 window.Chart = require('chart.js');
 window.iziToast = require('iziToast');
 window.mask = require('jquery-mask-plugin');
 window.Vue = require('vue');
+window.autocomplete = require('devbridge-autocomplete');
 window.trumbowyg = require('trumbowyg');
 require('trumbowyg/dist/plugins/upload/trumbowyg.upload.js');
 require('trumbowyg/dist/langs/fa.min');
@@ -147,11 +147,4 @@ $(document).ready(function () {
         }
     });
 
-    $('.carousel').hammer().bind('swipeleft', function (event)   {
-        $(event.target).carousel('next');
-    });
-
-    $('.carousel').hammer().bind('swiperight', function (event) {
-        $(event.target).carousel('prev');
-    });
 });

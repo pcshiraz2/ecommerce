@@ -21,6 +21,11 @@ final class MoneyUtil
 
     }
 
+    public static function removeMask($value)
+    {
+        return str_replace(',', '', $value);
+    }
+
     public static function database($value)
     {
         if (config('platform.currency') == 'IRR') {
@@ -32,6 +37,7 @@ final class MoneyUtil
 
     public static function display($value)
     {
+        $value = abs($value);
         if (config('platform.currency') == 'IRR') {
             return number_format($value);
         } else {
@@ -41,6 +47,7 @@ final class MoneyUtil
 
     public static function baseLetters($money)
     {
+        $money = abs($money);
         $one = array(
             'صفر',
             'یک',

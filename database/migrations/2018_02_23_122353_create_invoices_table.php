@@ -33,6 +33,7 @@ class CreateInvoicesTable extends Migration
             $table->decimal('interest', 15, 4)->nullable();
             $table->decimal('discount', 15, 4)->nullable();
             $table->decimal('shipping', 15, 4)->nullable();
+            $table->decimal('quantity', 15, 4)->nullable();
 
 
             //Status
@@ -44,8 +45,9 @@ class CreateInvoicesTable extends Migration
             //post:فاکتوری است که به پست تحویل شده است
             //done: فاکتوری است که کالا به دست مشتری رسیده است و کلیه فرآیند های آن از ارسال تا پرداخت انجام شده است.
             //return: فاکتور مرجوعی
-            //status: ['draft', 'sent', 'submitted', 'approved', 'paid', 'done', 'post', 'payment', 'return']
+            //status: ['draft', 'sent', 'submitted', 'approved', 'paid', 'done', 'post', 'payment', 'return', canceled]
             $table->string('status')->default('submitted');
+
 
 
             //Information

@@ -27,7 +27,6 @@ class InvoiceController extends Controller
 
     public function pay(Request $request)
     {
-        //dd($request);
         $this->middleware(['auth']);
         session(['gateway' => $request->gateway]);
         $invoice = Invoice::findOrFail($request->invoice_id);

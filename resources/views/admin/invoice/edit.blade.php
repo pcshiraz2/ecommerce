@@ -46,10 +46,14 @@
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('admin.invoice.update',[$invoice->id]) }}"
-                          onsubmit="$('.price').unmask();" id="invoice_form">
+                          onsubmit="$('.price').unmask();" id="invoice_form" enctype="multipart/form-data">
                         @csrf
                         @method('post')
                         <input type="hidden" name="type" value="{{ $invoice->type }}">
+                        <input type="hidden" name="tax" id="tax_value" value="{{ \App\Utils\MoneyUtil::display($invoice->tax) }}">
+                        <input type="hidden" name="discount" id="discount_value" value="{{ \App\Utils\MoneyUtil::display($invoice->discount) }}">
+                        <input type="hidden" name="quantity" id="quantity_value" value="{{ \App\Utils\MoneyUtil::display($invoice->quantity) }}">
+                        <input type="hidden" name="total" id="total_value" value="{{ \App\Utils\MoneyUtil::display($invoice->total) }}">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -143,40 +147,42 @@
                                                     class="fa fa-trash"></i></button>
                                     </td>
                                     <td class="text-center">
-                                        <input type="text" autocomplete="off" name="record[{{$record_row}}][description]" dir="rtl"
+                                        <input type="text" autocomplete="off" name="record[{{$record_row}}][title]" dir="rtl"
                                                class="typeahead form-control form-control-sm"
                                                value="{{ $record->title }}"
-                                               placeholder="نام کالا یا شرح خدمات" id="record-description-{{$record_row}}" required>
+                                               placeholder="نام کالا یا شرح خدمات" id="record-title-{{$record_row}}" required>
                                         <input type="hidden" name="record[{{$record_row}}][product_id]"
                                                value="{{ $record->product_id }}"
                                                class="form-control form-control-sm text-center" id="record-product-id-{{$record_row}}">
+                                        <input type="hidden" name="record[{{$record_row}}][record_row]"
+                                               class="form-control form-control-sm text-center" value="{{$record_row}}" id="record-row-{{$record_row}}">
                                         <input type="hidden" name="record[{{$record_row}}][id]"
-                                               class="form-control form-control-sm text-center" value="{{ $record->id }}" id="record-id-{{$record_row}}">
+                                               class="form-control form-control-sm text-center" value="{{$record->id}}" id="record-id-{{$record_row}}">
                                     </td>
                                     <td class="text-center">
                                         <input type="text" autocomplete="off" name="record[{{$record_row}}][quantity]" value="{{ \App\Utils\MoneyUtil::display($record->quantity) }}"
                                                class="price form-control form-control-sm text-center" placeholder="تعداد"
-                                               id="record-quantity-{{$record_row}}" required>
+                                               id="record-quantity-{{$record_row}}" dir="ltr" required>
                                     </td>
                                     <td class="text-center">
                                         <input type="text" autocomplete="off" name="record[{{$record_row}}][price]" value="{{ \App\Utils\MoneyUtil::display($record->price) }}"
                                                class="price form-control form-control-sm text-center" placeholder="قیمت واحد"
-                                               id="record-price-{{$record_row}}" required>
+                                               id="record-price-{{$record_row}}" dir="ltr" required>
                                     </td>
                                     <td class="text-center">
                                         <input type="text" autocomplete="off" name="record[{{$record_row}}][discount]" value="{{ \App\Utils\MoneyUtil::display($record->discount) }}"
                                                class="price form-control form-control-sm text-center" placeholder="تخفیف"
-                                               id="record-discount-{{$record_row}}" required>
+                                               id="record-discount-{{$record_row}}" dir="ltr" required>
                                     </td>
                                     <td class="text-center">
                                         <input type="text" autocomplete="off" name="record[{{$record_row}}][tax]" value="{{ \App\Utils\MoneyUtil::display($record->tax) }}"
                                                class="price form-control form-control-sm text-center" placeholder="مالیات"
-                                               id="record-tax-{{$record_row}}" required>
+                                               id="record-tax-{{$record_row}}" dir="ltr" required>
                                     </td>
 
                                     <td class="text-center">
                                         <input type="text" readonly class="price form-control form-control-sm text-center"
-                                               value="{{ \App\Utils\MoneyUtil::display($record->total) }}" id="record-total-{{$record_row}}">
+                                               value="{{ \App\Utils\MoneyUtil::display($record->total) }}" dir="ltr" id="record-total-{{$record_row}}">
                                     </td>
                                 </tr>
                                 @php
@@ -190,7 +196,10 @@
                                     <button class="btn btn-sm btn-primary" type="button" onclick="addRecord()"><i
                                                 class="fa fa-plus"></i></button>
                                 </td>
-                                <td colspan="6">تعداد اقلام:</td>
+                                <td colspan="6">
+                                    تعداد اقلام:
+                                    <span id="quantity_format">{{ \App\Utils\MoneyUtil::display($invoice->quantity) }}</span>
+                                </td>
 
                             </tr>
                             </tfoot>
@@ -200,7 +209,7 @@
                             <div class="col-md-3">
                                 <div class="alert alert-dark">
                                     تخفیف:
-                                    <span id="discount_value">{{ \App\Utils\MoneyUtil::display($invoice->discount) }}</span>
+                                    <span id="discount_format">{{ \App\Utils\MoneyUtil::display($invoice->discount) }}</span>
                                 </div>
                             </div>
                         </div>
@@ -209,7 +218,7 @@
                             <div class="col-md-3">
                                 <div class="alert alert-dark">
                                     مالیات:
-                                    <span id="tax_value">{{ \App\Utils\MoneyUtil::display($invoice->tax) }}</span>
+                                    <span id="tax_format">{{ \App\Utils\MoneyUtil::display($invoice->tax) }}</span>
                                 </div>
                             </div>
                         </div>
@@ -217,20 +226,20 @@
                             <div class="col-md-9">
                                 <div class="alert alert-dark">
                                     جمع حروف:
-                                    <span id="total_letters_value">{{ \App\Utils\MoneyUtil::letters($invoice->total) }}</span>
+                                    <span id="total_letters_format">{{ \App\Utils\MoneyUtil::letters($invoice->total) }}</span>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="alert alert-dark">
                                     جمع عدد:
-                                    <span id="total_value">{{ \App\Utils\MoneyUtil::display($invoice->total) }}</span>
+                                    <span id="total_format">{{ \App\Utils\MoneyUtil::display($invoice->total) }}</span>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="note">توضیحات</label>
                             <textarea id="note" class="form-control{{ $errors->has('note') ? ' is-invalid' : '' }}"
-                                      name="note" value="{{ old('note') }}"></textarea>
+                                      name="note">{{ old('note', $invoice->note) }}</textarea>
                             @if ($errors->has('note'))
                                 <span class="invalid-feedback">
                                         <strong>{{ $errors->first('note') }}</strong>
@@ -241,6 +250,9 @@
                         <div class="form-group">
                             <label>فایل پیوست</label>
                             <input id="attachment" type="file" class="form-control{{ $errors->has('attachment') ? ' is-invalid' : '' }}" name="attachment" value="{{ old('attachment') }}">
+                            @if($invoice->attachment)
+                                <a href="{{ route('admin.invoice.download', [$invoice->id]) }}" class="btn btn-link">دریافت فایل پیوست</a>
+                            @endif
                             @if ($errors->has('attachment'))
                                 <span class="invalid-feedback">
                                         <strong>{{ $errors->first('attachment') }}</strong>
@@ -299,39 +311,105 @@
         html += '<button class="btn btn-sm btn-danger" type="button" onclick="removeRecord(' + record_row + ')"><i class="fa fa-trash"></i></button>';
         html += '</td>';
         html += '<td class="text-center">';
-        html += '<input type="text" autocomplete="off" dir="rtl" name="record[' + record_row + '][description]" class="typeahead form-control form-control-sm" placeholder="نام کالا یا شرح خدمات" id="record-description-' + record_row + '" required>';
-        html += '<input type="hidden" name="record[' + record_row + '][id]" class="form-control form-control-sm text-center" value="' + record_row + '" id="record-id-' + record_row + '">';
+        html += '<input type="text" autocomplete="off" dir="rtl" name="record[' + record_row + '][title]" class="typeahead form-control form-control-sm" placeholder="نام کالا یا شرح خدمات" id="record-title-' + record_row + '" required>';
+        html += '<input type="hidden" name="record[' + record_row + '][record_row]" class="form-control form-control-sm text-center" value="' + record_row + '" id="record-row-' + record_row + '">';
         html += '<input type="hidden" name="record[' + record_row + '][product_id]" class="form-control form-control-sm text-center" id="record-product-id-' + record_row + '">';
         html += '</td>';
         html += '<td class="text-center">';
-        html += '<input type="text" autocomplete="off" name="record[' + record_row + '][quantity]" value="" class="price form-control form-control-sm text-center" placeholder="تعداد" id="record-quantity-' + record_row + '" required>';
+        html += '<input type="tel" dir="ltr" autocomplete="off" name="record[' + record_row + '][quantity]" value="" class="price form-control form-control-sm text-center" placeholder="تعداد" id="record-quantity-' + record_row + '" required>';
         html += '</td>';
         html += '<td class="text-center">';
-        html += '<input type="text" autocomplete="off" name="record[' + record_row + '][price]" value="" class="price form-control form-control-sm text-center" placeholder="قیمت واحد" id="record-price-' + record_row + '" required>';
-        html += '</td>';
-
-
-        html += '<td class="text-center">';
-        html += '<input type="text" autocomplete="off" name="record[' + record_row + '][discount]" value="" class="price form-control form-control-sm text-center" placeholder="تخفیف" id="record-discount-' + record_row + '">';
+        html += '<input type="tel" dir="ltr" autocomplete="off" name="record[' + record_row + '][price]" value="" class="price form-control form-control-sm text-center" placeholder="قیمت واحد" id="record-price-' + record_row + '" required>';
         html += '</td>';
 
 
         html += '<td class="text-center">';
-        html += '<input type="text" autocomplete="off" name="record[' + record_row + '][tax]" value="" class="price form-control form-control-sm text-center" placeholder="مالیات" id="record-tax-' + record_row + '">';
+        html += '<input type="tel" dir="ltr" autocomplete="off" name="record[' + record_row + '][discount]" value="" class="price form-control form-control-sm text-center" placeholder="تخفیف" id="record-discount-' + record_row + '">';
+        html += '</td>';
+
+
+        html += '<td class="text-center">';
+        html += '<input type="tel" dir="ltr" autocomplete="off" name="record[' + record_row + '][tax]" value="" class="price form-control form-control-sm text-center" placeholder="مالیات" id="record-tax-' + record_row + '">';
         html += '</td>';
 
 
 
-        html += '<td class="text-center"><input type="text" readonly class="price form-control form-control-sm text-center" id="record-total-' + record_row + '"></td>';
+        html += '<td class="text-center"><input type="tel" dir="ltr" readonly class="price form-control form-control-sm text-center" id="record-total-' + record_row + '"></td>';
         html += '</tr>';
         $('#records').append(html);
-        record_row++;
         record_row++;
         $('.price').mask('#,##0', {reverse: true});
     }
 
     function removeRecord(row_id) {
-        $('#record-' + row_id).remove();
+        if($('#record-id-'+row_id).val()) {
+            axios.post('{{ route('admin.invoice.delete-record') }}', {
+                id: $('#record-id-'+row_id).val(),
+                invoice_id: '{{$invoice->id}}'
+            }).then(function (response) {
+                $('#record-'+row_id).remove();
+                calculateTotal();
+            }).catch(function (error) {
+                alert(error);
+            });
+        } else {
+            $('#record-'+row_id).remove();
+            calculateTotal();
+        }
     }
+
+    function calculateTotal()
+    {
+        $.ajax({
+            url: '{{ route('admin.invoice.calculate-total') }}',
+            type: 'POST',
+            dataType: 'JSON',
+            data: $('#invoice_form input[type=\'text\'],#invoice_form input[type=\'hidden\'],#invoice_form input[type=\'tel\']'),
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            success: function (data) {
+                if (data) {
+                    $.each(data.record_total, function (key, value) {
+                        $('#record-total-' + key).val(value);
+                    });
+
+                    $('#total_format').html(data.total_format);
+                    $('#total_value').val(data.total_value);
+                    $('#total_letters_format').html(data.total_letters_format);
+                    $('#discount_format').html(data.discount_format);
+                    $('#discount_value').val(data.discount_value);
+                    $('#tax_format').html(data.tax_format);
+                    $('#tax_value').val(data.tax_value);
+                    $('#quantity_format').html(data.quantity_format);
+                    $('#quantity_value').val(data.quantity_value);
+
+                }
+            }
+        });
+    }
+
+    var timer = null;
+    $('#invoice_form').keydown(function(){
+        clearTimeout(timer);
+        timer = setTimeout(calculateTotal, 1000)
+    });
+
+
+
+    $('.typeahead').autocomplete({
+        serviceUrl: '{{ route('admin.invoice.items') }}',
+        minChars: 2,
+        showNoSuggestionNotice: true,
+        noSuggestionNotice: 'کالایی با این نام وجود ندارد.',
+        onSelect: function (suggestion) {
+            var input_id = this.id.split('-');
+            var row_id = parseInt(input_id[input_id.length-1]);
+            $('#record-product-id-'+row_id).val(suggestion.id);
+            $('#record-price-'+row_id).val(suggestion.price);
+            $('#record-tax-'+row_id).val(suggestion.tax);
+            $('#record-discount-'+row_id).val(suggestion.discount);
+            calculateTotal();
+            $('.price').mask('#,##0', {reverse: true});
+        }
+    });
 </script>
 @endsection
