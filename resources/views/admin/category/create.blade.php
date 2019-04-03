@@ -129,8 +129,6 @@
 @endsection
 
 @section('js')
-    <script type="text/javascript">
-        $('.color').colorPicker(); // that's it
-    </script>
+
 @endsection
 

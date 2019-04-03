@@ -24,6 +24,7 @@ window.select2 = require('select2');
 window.Chart = require('chart.js');
 window.iziToast = require('iziToast');
 window.mask = require('jquery-mask-plugin');
+window.colorpicker = require('bootstrap-colorpicker');
 window.Vue = require('vue');
 window.autocomplete = require('devbridge-autocomplete');
 window.trumbowyg = require('trumbowyg');
@@ -104,6 +105,10 @@ $(document).ready(function () {
     $('table').basictable();
 
     $("[data-toggle='tooltip']").tooltip();
+
+    $('.color').colorpicker({
+        format: 'rgb'
+    });
 
 
 

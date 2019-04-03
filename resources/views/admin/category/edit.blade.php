@@ -55,7 +55,7 @@
                             <label for="color">رنگ</label>
                             <input dir="ltr" id="color" type="text"
                                    class="color form-control{{ $errors->has('color') ? ' is-invalid' : '' }}"
-                                   name="color" value="{{ old('color', $category->color) }}">
+                                   name="color" value="{{ old('color', $category->color) }}" data-color="{{ old('color', $category->color) }}">
 
                             @if ($errors->has('color'))
                                 <span class="invalid-feedback">
@@ -131,7 +131,4 @@
 @endsection
 
 @section('js')
-    <script type="text/javascript">
-        $('.color').colorPicker(); // that's it
-    </script>
 @endsection

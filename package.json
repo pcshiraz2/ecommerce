@@ -35,6 +35,7 @@
     "trumbowyg": "^2.15.1",
     "vazir-font": "^19.2.0",
     "vue-persian-datetime-picker": "^1.1.7",
-    "devbridge-autocomplete": "^1.4.10"
+    "devbridge-autocomplete": "^1.4.10",
+    "bootstrap-colorpicker": "^3.1.1"
   }
 }
