@@ -58,7 +58,7 @@
                     </ul>
                     <form class="my-auto mx-auto w-50 d-none d-md-block d-lg-block d-xl-block" method="get" action="{{ route('product.find') }}">
                         <div class="input-group">
-                            <input type="text" autocomplete="off" id="search" name="search" class="form-control"
+                            <input type="text" autocomplete="off" id="ajax_search" name="search" class="form-control"
                                    placeholder="جستجو..." aria-label="جستجوی ..." aria-describedby="navbar-search" value="{{ request('search') }}">
                             <div class="input-group-append">
                                 <button id="search-btn" class="btn btn-warning" type="submit" id="navbar-search"><i

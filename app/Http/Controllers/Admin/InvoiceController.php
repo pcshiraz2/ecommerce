@@ -374,7 +374,7 @@ class InvoiceController extends Controller
             'query' => 'Unit',
             'suggestions' => []
         );
-        $products = Product::enabled()->shop()->Where('title', 'like', '%' . Input::get('query') . '%')->select(['id', 'title', 'sale_price', 'tax', 'discount'])->get();
+        $products = Product::enabled()->shop()->where('title', 'like', '%' . Input::get('query') . '%')->select(['id', 'title', 'sale_price', 'tax', 'discount'])->get();
         $products_array = array();
         $i = 0;
         foreach ($products as $product) {

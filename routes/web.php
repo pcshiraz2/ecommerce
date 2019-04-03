@@ -24,6 +24,7 @@ Route::post('/editor/upload', 'MiscController@upload')->name('editor.upload');
 
 
 Route::post('/ajax/search', 'AjaxController@search')->name('ajax.search');
+Route::get('/ajax/tags', 'AjaxController@tags')->name('ajax.tags');
 Route::post('/ajax/cities', 'AjaxController@cities')->name('ajax.cities');
 
 Route::get('/dashboard/tickets', 'DashboardController@index')->name('dashboard.tickets');

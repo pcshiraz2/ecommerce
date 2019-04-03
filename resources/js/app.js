@@ -105,6 +105,18 @@ $(document).ready(function () {
 
     $("[data-toggle='tooltip']").tooltip();
 
+
+
+    //Search Finder
+    $('#ajax_search').autocomplete({
+        serviceUrl: 'ajax/tags',
+        minChars: 2,
+        showNoSuggestionNotice: false,
+        onSelect: function (suggestion) {
+
+        }
+    });
+
     //Wisywig
     $('.wysiwyg').trumbowyg({
         btnsDef: {
