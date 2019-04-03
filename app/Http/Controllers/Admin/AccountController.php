@@ -42,7 +42,7 @@ class AccountController extends Controller
         $account->title = $request->title;
         $account->order = $request->order;
         $account->initial_balance = $request->initial_balance;
-        $account->enable = $request->enable;
+        $account->enabled = $request->enabled;
         $account->note = $request->note;
         $account->save();
         flash('حساب با موفقیت اضافه شد.')->success();
@@ -58,7 +58,7 @@ class AccountController extends Controller
         $account->title = $request->title;
         $account->order = $request->order;
         $account->initial_balance = $request->initial_balance;
-        $account->enable = $request->enable;
+        $account->enabled = $request->enabled;
         $account->note = $request->note;
         $account->save();
         flash('حساب  با موفقیت ویرایش شد.')->success();

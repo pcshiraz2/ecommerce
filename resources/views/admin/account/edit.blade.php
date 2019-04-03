@@ -50,6 +50,27 @@
                             @endif
                         </div>
 
+                        <div class="form-group">
+                            <label for="enabled">فعال</label>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="enableRadioYes" name="enabled"
+                                       value="1"
+                                       class="custom-control-input"{{ old('enabled', $account->enabled) == true  ? ' checked' : '' }}>
+                                <label class="custom-control-label" for="enableRadioYes">بلی</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="enableRadioNo" name="enabled"
+                                       value="0"
+                                       class="custom-control-input"{{ old('enabled', $account->enabled) == false  ? ' checked' : '' }}>
+                                <label class="custom-control-label" for="enableRadioNo">خیر</label>
+                            </div>
+                            @if ($errors->has('enabled'))
+                                <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('enabled') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
+
                         <button type="submit" class="btn btn-primary">
                             <i class="fa fa-save"></i>
                             ویرایش حساب
