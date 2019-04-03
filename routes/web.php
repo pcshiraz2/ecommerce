@@ -73,6 +73,9 @@ Route::get('/invoice/pay-link/{id}/{password}', 'InvoiceController@payLinkPasswo
 Route::any('/invoice/callback/{id}', 'InvoiceController@callback')->name('invoice.callback');
 Route::any('/invoice/callback/{id}/{password}', 'InvoiceController@callbackPassword')->name('invoice.callback-password');
 
+Route::get('/invoice/installment/{id}', 'InvoiceController@installment')->name('invoice.installment')->middleware('auth');
+Route::any('/invoice/installment-callback/{id}', 'InvoiceController@installmentCallback')->name('invoice.installment-callback')->middleware('auth');
+
 
 Route::get('/shop', 'ProductController@index')->name('shop');
 Route::get('/product', 'ProductController@index')->name('product');
@@ -258,6 +261,7 @@ Route::prefix(config('platform.admin-route'))->name('admin.')->group(function ()
     Route::post('/invoice/pay', 'Admin\InvoiceController@pay')->name('invoice.pay');
 
     Route::post('/invoice/calculate-total', 'Admin\InvoiceController@calculateTotal')->name('invoice.calculate-total');
+    Route::post('/invoice/insert-installment/{id}', 'Admin\InvoiceController@insertInstallment')->name('invoice.insert-installment');
     Route::get('/invoice/items', 'Admin\InvoiceController@items')->name('invoice.items');
     Route::post('/invoice/delete-record', 'Admin\InvoiceController@deleteRecord')->name('invoice.delete-record');
     Route::get('/invoice/edit/{id}', 'Admin\InvoiceController@edit')->name('invoice.edit');

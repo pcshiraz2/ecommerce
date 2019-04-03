@@ -27,6 +27,25 @@
                 </ol>
             </nav>
 
+            @if($invoice->payment == 'credit')
+                <div class="alert alert-info">
+                    در حال حاضر این فاکتور به صورت اعتباری ثبت شده است، با پرداخت نقدی یا افزودن اقساط وضعیت آن تغییر خواهد کرد.
+                </div>
+            @endif
+
+            @if($invoice->payment == 'cash')
+                <div class="alert alert-info">
+                    فاکتور به صورت نقدی ثبت شده است و پرداخت شده است.
+                </div>
+            @endif
+
+
+            @if($invoice->payment == 'installment')
+                <div class="alert alert-info">
+                    فاکتور به صورت فروش اقساطی ثبت شده است، پس از پرداخت کلیه قسط پرداخت شده خواهد شد.
+                </div>
+            @endif
+
             <div class="card card-default mb-2">
                 <div class="card-header">
                     @if($invoice->type == 'sale')
@@ -102,7 +121,7 @@
                         <div class="col-md-9"></div>
                         <div class="col-md-3">
                             <div class="alert alert-dark">
-                                تخفیف: {{ number_format($invoice->discount)  }} تومان
+                                تخفیف: {{ number_format($invoice->discount)  }}  {{ trans('currency.'.config('platform.currency')) }}
                             </div>
                         </div>
                     </div>
@@ -110,19 +129,19 @@
                         <div class="col-md-9"></div>
                         <div class="col-md-3">
                             <div class="alert alert-dark">
-                                مالیات: {{ number_format($invoice->tax)  }} تومان
+                                مالیات: {{ number_format($invoice->tax)  }}  {{ trans('currency.'.config('platform.currency')) }}
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-9">
                             <div class="alert alert-dark">
-                                مجموع حروف: {{ \App\Utils\MoneyUtil::letters($invoice->total) }} تومان
+                                مجموع حروف: {{ \App\Utils\MoneyUtil::letters($invoice->total) }}  {{ trans('currency.'.config('platform.currency')) }}
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="alert alert-dark">
-                                جمع کل: {{ number_format($invoice->total)  }} تومان
+                                جمع کل: {{ number_format($invoice->total)  }}  {{ trans('currency.'.config('platform.currency')) }}
                             </div>
                         </div>
                     </div>
@@ -135,7 +154,6 @@
                             تراکنش های فاکتور
                         </div>
                         <div class="card-body">
-                            @if($invoice->transactions()->count() > 0)
                             <table class="table table-striped table-bordered table-hover">
                                 <thead class="thead-dark">
                                 <tr>
@@ -148,7 +166,26 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($invoice->transactions() as $transaction)
+                                @php
+                                    $total = 0;
+                                    $paid = 0;
+                                    $wait = 0;
+                                    $profit = 0;
+                                    $expiredInstallment = 0;
+                                @endphp
+
+                                @foreach($invoice->transactions as $transaction)
+                                    @php
+                                        $total += $transaction->amount;
+                                        if($transaction->paid_at) {
+                                            $paid += $transaction->amount;
+                                        } else {
+                                            $wait += $transaction->amount;
+                                        }
+                                        if($transaction->transaction_at < now() && $transaction->paid_at == null) {
+                                            $expiredInstallment++;
+                                        }
+                                    @endphp
                                     <tr>
                                         <td scope="row" class="text-center">
                                             @if($transaction->type == 'expense')
@@ -167,15 +204,27 @@
                                             @if($transaction->account['title'])
                                                 {{ $transaction->account['title'] }}
                                             @else
-                                                فاقد حساب
+                                                @if($transaction->type == 'invoice')
+                                                    حساب شخص
+                                                    @else
+                                                    فاقد حساب
+                                                    @endif
                                             @endif
                                         </td>
                                         @if($transaction->amount < 0)
                                             <td class="text-center table-danger">{{ \App\Utils\MoneyUtil::format($transaction->amount) }}</td>
                                         @else
-                                            <td class="text-center table-success">{{ \App\Utils\MoneyUtil::format($transaction->amount) }}</td>
+                                            @if($transaction->paid_at)
+                                                    <td class="text-center table-success">{{ \App\Utils\MoneyUtil::format($transaction->amount) }}</td>
+                                            @else
+                                                    <td class="text-center table-warning">{{ \App\Utils\MoneyUtil::format($transaction->amount) }}</td>
+                                            @endif
                                         @endif
-                                        <td class="text-center">{{ jdate($transaction->transaction_at)->format('Y/m/d') }}</td>
+                                        @if($transaction->transaction_at < now() && $transaction->paid_at == null)
+                                            <td class="text-center table-danger">{{ jdate($transaction->transaction_at)->format('Y/m/d') }}</td>
+                                        @else
+                                            <td class="text-center">{{ jdate($transaction->transaction_at)->format('Y/m/d') }}</td>
+                                        @endif
                                         <td class="text-center">
                                             @if($transaction->invoice_id)
                                                 <a href="{{route('admin.invoice.view',['id'=>$transaction->invoice_id])}}">{{ $transaction->description }}</a>
@@ -209,11 +258,47 @@
                                 </tbody>
                             </table>
 
-                            @else
-                            <div class="alert alert-warning">
-                                هنوز تراکنشی برای این فاکتور ثبت نشده است.
+
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="alert alert-info">
+                                       جمع کل تراکنش ها:
+                                        <br />
+                                        {{ number_format($total)  }}  {{ trans('currency.'.config('platform.currency')) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="alert alert-success">
+                                        جمع تراکنش های پرداختی:
+                                        <br />
+                                        {{ number_format($paid)  }}  {{ trans('currency.'.config('platform.currency')) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="alert alert-warning">
+                                        جمع تراکنش های پرداخت نشده:
+                                        <br />
+                                        {{ number_format($wait)  }}  {{ trans('currency.'.config('platform.currency')) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="alert alert-dark">
+                                        سود اقساط:
+                                        <br />
+                                        {{ number_format($total - $invoice->total)  }}  {{ trans('currency.'.config('platform.currency')) }}
+                                    </div>
+                                </div>
                             </div>
+
+                            @if($expiredInstallment > 0)
+                                <div class="alert-danger alert">
+                                تعداد اقساط سررسید شده
+                                <span class="badge badge-danger">{{ $expiredInstallment }}</span>
+                                می باشد.
+                                </div>
                             @endif
+
                         </div>
                     </div>
                 </div>
@@ -229,7 +314,8 @@
                             </button>
                         </div>
                         <div class="card-body">
-                                <form>
+                                <form method="POST" action="{{ route('admin.invoice.insert-installment',[$invoice->id]) }}"
+                                      onsubmit="$('.price').unmask();">
                                     @method('post')
                                     @csrf
                                     <div class="form-group">
@@ -315,6 +401,20 @@
                                             </span>
                                         @endif
                                     </div>
+                                    <div class="form-group">
+                                        <label for="account_id">واریز به حساب جهت پیش پرداخت</label>
+                                        <select name="account_id" id="account_id"
+                                                class="selector form-control{{ $errors->has('account_id') ? ' is-invalid' : '' }}">
+                                            @foreach($accounts as $account)
+                                                <option value="{{ $account->id }}"{{ old('account_id') == $account->id  ? ' selected' : '' }}>{{ $account->title }}</option>
+                                            @endforeach
+                                        </select>
+                                        @if ($errors->has('account_id'))
+                                            <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('account_id') }}</strong>
+                                    </span>
+                                        @endif
+                                    </div>
                                     <button type="submit" class="btn btn-success btn-sm">
                                         <i class="fa fa-money"></i>
                                         ثبت فروش اقساطی
@@ -360,6 +460,11 @@
 
                     </div>
                 </div>
+            @if($invoice->attachment)
+            <div class="card">
+                    <a href="{{ route('admin.invoice.download', [$invoice->id]) }}" class="btn btn-link"><i class="fa fa-download"></i> دریافت فایل پیوست</a>
+            </div>
+            @endif
 
 
         </div>

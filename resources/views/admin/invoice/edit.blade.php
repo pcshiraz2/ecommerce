@@ -209,7 +209,7 @@
                             <div class="col-md-3">
                                 <div class="alert alert-dark">
                                     تخفیف:
-                                    <span id="discount_format">{{ \App\Utils\MoneyUtil::display($invoice->discount) }}</span>
+                                    <span id="discount_format">{{ \App\Utils\MoneyUtil::display($invoice->discount) }}</span> {{ trans('currency.'.config('platform.currency')) }}
                                 </div>
                             </div>
                         </div>
@@ -218,7 +218,7 @@
                             <div class="col-md-3">
                                 <div class="alert alert-dark">
                                     مالیات:
-                                    <span id="tax_format">{{ \App\Utils\MoneyUtil::display($invoice->tax) }}</span>
+                                    <span id="tax_format">{{ \App\Utils\MoneyUtil::display($invoice->tax) }}</span> {{ trans('currency.'.config('platform.currency')) }}
                                 </div>
                             </div>
                         </div>
@@ -226,13 +226,13 @@
                             <div class="col-md-9">
                                 <div class="alert alert-dark">
                                     جمع حروف:
-                                    <span id="total_letters_format">{{ \App\Utils\MoneyUtil::letters($invoice->total) }}</span>
+                                    <span id="total_letters_format">{{ \App\Utils\MoneyUtil::letters($invoice->total) }}</span> {{ trans('currency.'.config('platform.currency')) }}
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="alert alert-dark">
                                     جمع عدد:
-                                    <span id="total_format">{{ \App\Utils\MoneyUtil::display($invoice->total) }}</span>
+                                    <span id="total_format">{{ \App\Utils\MoneyUtil::display($invoice->total) }}</span> {{ trans('currency.'.config('platform.currency')) }}
                                 </div>
                             </div>
                         </div>

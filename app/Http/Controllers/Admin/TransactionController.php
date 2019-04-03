@@ -79,7 +79,12 @@ class TransactionController extends Controller
         $transaction->save();
 
         flash('تاریخ پرداخت با موفقیت ثبت شد.')->success();
-        return redirect()->route('admin.transaction');
+        if($request->redirect == 'invoice') {
+            return redirect()->route('admin.invoice.view',[$transaction->invoice_id]);
+        } else {
+            return redirect()->route('admin.transaction');
+        }
+
     }
 
 

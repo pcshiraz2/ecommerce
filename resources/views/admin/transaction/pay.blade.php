@@ -55,10 +55,16 @@
                             @endif
                         </div>
 
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit" value="transaction" name="redirect" class="btn btn-primary btn-sm">
                             <i class="fa fa-money"></i>
                             ویرایش تراکنش
                         </button>
+                        @if($transaction->invoice_id)
+                            <button type="submit" value="invoice" name="redirect" class="btn btn-secondary btn-sm">
+                                <i class="fa fa-money"></i>
+                                ویرایش و مشاهده فاکتور
+                            </button>
+                        @endif
                     </form>
                 </div>
             </div>

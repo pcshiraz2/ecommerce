@@ -12,7 +12,7 @@ class Invoice extends Model
 
     public function transactions()
     {
-        return $this->belongsTo('App\Models\Transaction');
+        return $this->hasMany('App\Models\Transaction');
     }
 
     public function records()
@@ -46,4 +46,8 @@ class Invoice extends Model
         return $query->where('status', '!=', 'paid');
     }
 
+    public function getFullDescriptionAttribute()
+    {
+        return "{$this->description}<br />{$this->paid_at}";
+    }
 }

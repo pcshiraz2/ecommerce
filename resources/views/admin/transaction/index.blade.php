@@ -81,13 +81,21 @@
                                     @if($transaction->account['title'])
                                         {{ $transaction->account['title'] }}
                                     @else
-                                        فاقد حساب
+                                        @if($transaction->type == 'invoice')
+                                            حساب شخص
+                                        @else
+                                            فاقد حساب
+                                        @endif
                                     @endif
                                 </td>
                                 @if($transaction->amount < 0)
                                     <td class="text-center table-danger">{{ \App\Utils\MoneyUtil::format($transaction->amount) }}</td>
                                 @else
-                                    <td class="text-center table-success">{{ \App\Utils\MoneyUtil::format($transaction->amount) }}</td>
+                                    @if($transaction->paid_at)
+                                        <td class="text-center table-success">{{ \App\Utils\MoneyUtil::format($transaction->amount) }}</td>
+                                    @else
+                                        <td class="text-center table-warning">{{ \App\Utils\MoneyUtil::format($transaction->amount) }}</td>
+                                    @endif
                                 @endif
                                 <td class="text-center">{{ jdate($transaction->transaction_at)->format('Y/m/d') }}</td>
                                 <td class="text-center">

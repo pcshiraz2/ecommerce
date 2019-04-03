@@ -131,7 +131,133 @@
                     @endif
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-default mb-2">
+                        <div class="card-header">
+                            تراکنش های فاکتور
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-striped table-bordered table-hover">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col" class="text-center">نوع</th>
+                                    <th scope="col" class="text-center">مبلغ</th>
+                                    <th scope="col" class="text-center">تاریخ</th>
+                                    <th scope="col" class="text-center">شرح</th>
+                                    <th scope="col" class="text-center">اقدام ها</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @php
+                                    $total = 0;
+                                    $paid = 0;
+                                    $wait = 0;
+                                    $profit = 0;
+                                    $expiredInstallment = 0;
+                                @endphp
 
+                                @foreach($invoice->transactions as $transaction)
+                                    @php
+                                        $total += $transaction->amount;
+                                        if($transaction->paid_at) {
+                                            $paid += $transaction->amount;
+                                        } else {
+                                            $wait += $transaction->amount;
+                                        }
+                                        if($transaction->transaction_at < now() && $transaction->paid_at == null) {
+                                            $expiredInstallment++;
+                                        }
+                                    @endphp
+                                    <tr>
+                                        <td scope="row" class="text-center">
+                                            @if($transaction->type == 'expense')
+                                                <i class="fa fa-minus-circle"></i>
+                                            @elseif($transaction->type == 'transfer')
+                                                <i class="fa fa-exchange"></i>
+                                            @elseif($transaction->type == 'income')
+                                                <i class="fa fa-plus-circle"></i>
+                                            @elseif($transaction->type == 'invoice')
+                                                <i class="fa fa-calculator"></i>
+                                                فاکتور
+                                            @endif
+                                            {{ $transaction->category['title'] }}
+                                        </td>
+                                        @if($transaction->amount < 0)
+                                            <td class="text-center table-danger">{{ \App\Utils\MoneyUtil::format($transaction->amount) }}</td>
+                                        @else
+                                            @if($transaction->paid_at)
+                                                <td class="text-center table-success">{{ \App\Utils\MoneyUtil::format($transaction->amount) }}</td>
+                                            @else
+                                                <td class="text-center table-warning">{{ \App\Utils\MoneyUtil::format($transaction->amount) }}</td>
+                                            @endif
+                                        @endif
+                                        @if($transaction->transaction_at < now() && $transaction->paid_at == null)
+                                            <td class="text-center table-danger">{{ jdate($transaction->transaction_at)->format('Y/m/d') }}</td>
+                                        @else
+                                            <td class="text-center">{{ jdate($transaction->transaction_at)->format('Y/m/d') }}</td>
+                                        @endif
+                                        <td class="text-center">
+                                                {{ $transaction->description }}
+                                        </td>
+                                        <td>
+                                            @if($transaction->paid_at)
+                                                <button class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="اقساط با موفقیت پرداخت شده است."><i class="fa fa-money"></i></button>
+                                            @else
+                                                <a href="{{ route('invoice.installment', ['id' => $transaction->id]) }}"
+                                                   class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="top" title="پرداخت اقساط پرداخت نشده"><i class="fa fa-money"></i></a>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+
+
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="alert alert-info">
+                                        جمع کل تراکنش ها:
+                                        <br />
+                                        {{ number_format($total)  }}  {{ trans('currency.'.config('platform.currency')) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="alert alert-success">
+                                        جمع تراکنش های پرداختی:
+                                        <br />
+                                        {{ number_format($paid)  }}  {{ trans('currency.'.config('platform.currency')) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="alert alert-warning">
+                                        جمع تراکنش های پرداخت نشده:
+                                        <br />
+                                        {{ number_format($wait)  }}  {{ trans('currency.'.config('platform.currency')) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="alert alert-dark">
+                                        سود اقساط:
+                                        <br />
+                                        {{ number_format($total - $invoice->total)  }}  {{ trans('currency.'.config('platform.currency')) }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            @if($expiredInstallment > 0)
+                                <div class="alert-danger alert">
+                                    تعداد اقساط سررسید شده
+                                    <span class="badge badge-danger">{{ $expiredInstallment }}</span>
+                                    می باشد.
+                                </div>
+                            @endif
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection

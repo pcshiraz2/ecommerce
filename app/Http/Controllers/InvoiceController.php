@@ -25,6 +25,59 @@ class InvoiceController extends Controller
         return view('invoice.index', ['invoices' => $invoices]);
     }
 
+    public function installment($id)
+    {
+        $transaction = Transaction::findOrFail($id);
+        try {
+            $gateway = Gateway::of(config('platform.default-gateway'));
+            $gateway->callbackUrl(url('invoice/installment-callback', ['id' => $transaction->id]));
+            $gateway->stateless();
+            $gatewayTransaction = new RequestTransaction(new Amount($transaction->amount, config('platform.currency')));
+            $gatewayTransaction->setExtraField('description', $transaction->description);
+            $authorizedTransaction = $gateway->authorize($gatewayTransaction);
+            return $gateway->redirect($authorizedTransaction);
+        } catch (Exception $e) {
+            flash($e->getMessage())->error();
+        }
+        redirect()->route('invoice.view', ['id' => $transaction->invoice_id]);
+    }
+
+
+    public function installmentCallback($id)
+    {
+        $transaction = Transaction::findOrFail($id);
+        try {
+            $settledTransaction = Gateway::settle();
+
+            $trackingCode = $settledTransaction->getTrackingCode();
+            $refId = $settledTransaction->getReferenceId();
+            $cardNumber = $settledTransaction->getCardNumber();
+
+            $options = [
+                'trackingCode' => $trackingCode,
+                'refId' => $refId,
+                'cardNumber' => $cardNumber,
+            ];
+
+
+            $transaction->gateway_transaction_id = $settledTransaction->getId();
+            $transaction->gateway = config('platform.default-gateway');
+            $transaction->account_id = config('gateways.' . config('platform.default-gateway') . '.account-id');
+            $transaction->options = $options;
+            $transaction->paid_at = date("Y-m-d H:i:s");
+            $transaction->save();
+
+
+            flash('قسط مورد نظر با موفقیت پرداخت شد.')->success();
+        } catch (RetryException $e) {
+            flash($e->getMessage())->error();
+        } catch (\Exception $e) {
+            flash($e->getMessage())->error();
+        }
+
+        return redirect()->route('invoice.view', ['id' => $transaction->invoice_id]);
+    }
+
     public function pay(Request $request)
     {
         $this->middleware(['auth']);
@@ -69,6 +122,7 @@ class InvoiceController extends Controller
         } else {
             try {
                 $settledTransaction = Gateway::settle();
+                /* ***
                 $transaction = new Transaction();
                 $transaction->invoice_id = $invoice->id;
                 $transaction->user_id = Auth::user()->id;
@@ -79,6 +133,7 @@ class InvoiceController extends Controller
                 $transaction->transaction_at = date("Y-m-d H:i:s");
                 $transaction->paid_at = date("Y-m-d H:i:s");
                 $transaction->save();
+                 * **/
 
                 $trackingCode = $settledTransaction->getTrackingCode();
                 $refId = $settledTransaction->getReferenceId();
@@ -94,10 +149,10 @@ class InvoiceController extends Controller
                 $transaction->gateway_transaction_id = $settledTransaction->getId();
                 $transaction->gateway = session('gateway');
                 $transaction->invoice_id = $invoice->id;
-                $transaction->account_id = config('gateway.' . session('gateway') . '.account-id');
+                $transaction->account_id = config('gateways.' . session('gateway') . '.account-id');
                 $transaction->user_id = Auth::user()->id;
                 $transaction->currency_code = config('platform.currency');
-                $transaction->category_id = config('platform.sale-category-id');
+                $transaction->category_id = config('platform.income-sale-category-id');
                 $transaction->amount = MoneyUtil::database($invoice->total);
                 $transaction->first_name = Auth::user()->first_name;
                 $transaction->last_name = Auth::user()->last_name;

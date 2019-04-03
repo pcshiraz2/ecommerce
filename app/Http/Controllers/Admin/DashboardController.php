@@ -85,7 +85,7 @@ class DashboardController extends Controller
         $accounts = Account::all();
         $total_of_accounts = 0;
         foreach ($accounts as $account) {
-            $total_of_accounts += $account->getInventory();
+            $total_of_accounts += $account->balance;
         }
         $y = jdate('now')->format('Y');
         $m = jdate('now')->format('m');

@@ -7,15 +7,18 @@ use App\Models\Item;
 use App\Models\Product;
 use App\Models\Record;
 use App\Models\User;
+use App\Utils\MoneyUtil;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Invoice;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\InvoiceCreated;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Transaction;
+use Morilog\Jalali\Jalalian;
 
 class InvoiceController extends Controller
 {
@@ -69,8 +72,13 @@ class InvoiceController extends Controller
         $invoice->discount = $request->discount;
         $invoice->quantity = $request->quantity;
         $invoice->type = $request->type;
+        $invoice->payment = "credit";
+        $invoice->status = "sent";
         $invoice->password = uniqid();
-        $invoice->attachment = $request->file('attachment')->store('invoice');
+        if($request->attachment) {
+            $invoice->attachment = $request->file('attachment')->store('invoice');
+        }
+
         $invoice->invoice_at = \Morilog\Jalali\CalendarUtils::createDatetimeFromFormat('Y/m/d', \App\Utils\TextUtil::convertToEnglish($request->invoice_at));
         if ($request->due_at) {
             $invoice->due_at = \Morilog\Jalali\CalendarUtils::createDatetimeFromFormat('Y/m/d', \App\Utils\TextUtil::convertToEnglish($request->due_at));
@@ -115,9 +123,12 @@ class InvoiceController extends Controller
 
     public function delete($id, Request $request)
     {
-        $invoice = Invoice::with('records')->findOrFail($id);
+        $invoice = Invoice::with(['records', 'transactions'])->findOrFail($id);
         foreach ($invoice->records as $record) {
             $record->delete();
+        }
+        foreach ($invoice->transactions as $transaction) {
+            $transaction->delete();
         }
         if($request->attachment) {
             Storage::delete($invoice->attachment);
@@ -246,7 +257,7 @@ class InvoiceController extends Controller
     public function view($id)
     {
         $accounts = Account::enabled()->get();
-        $invoice = Invoice::with('records', 'user','transactions', 'transactions.account')->findOrFail($id);
+        $invoice = Invoice::with('records', 'user','transactions')->findOrFail($id);
         return view('admin.invoice.view', ['invoice' => $invoice, 'accounts' => $accounts]);
     }
 
@@ -255,7 +266,6 @@ class InvoiceController extends Controller
         Validator::make($request->all(), [
             'invoice_id' => 'required',
             'account_id' => 'required',
-            'amount' => 'required',
             'type' => 'required'
         ])->validate();
         $invoice = Invoice::with('records', 'user')->findOrFail($request->invoice_id);
@@ -277,6 +287,7 @@ class InvoiceController extends Controller
 
         $invoice->paid_at = date("Y-m-d H:i:s");
         $invoice->status = 'paid';
+        $invoice->payment = 'cash';
         $invoice->save();
 
         if ($invoice->type == 'sale') {
@@ -294,6 +305,86 @@ class InvoiceController extends Controller
 
 
         flash('فاکتور با موفقیت پرداخت شد.')->success();
+        return redirect()->route('admin.invoice.view', [$invoice->id]);
+    }
+
+    public function insertInstallment(Request $request, $id)
+    {
+        $invoice = Invoice::findOrFail($id);
+
+        $prepaid = $request->prepaid;
+        $installment = $request->installment;
+        $count = $request->count;
+        $period = $request->period;
+        $day = $request->day;
+
+        if($request->prepaid) {
+            $transaction = new Transaction();
+            $transaction->invoice_id = $invoice->id;
+            $transaction->account_id = $request->account_id;
+            $transaction->user_id = $invoice->user_id;
+            $transaction->currency_code = config('platform.currency');
+            if ($invoice->type == 'sale') {
+                $transaction->category_id = config('platform.income-sale-category-id');
+                $transaction->type = 'income';
+                $transaction->amount = MoneyUtil::database($prepaid);
+            } else {
+                $transaction->category_id = config('platform.expense-sale-category-id');
+                $transaction->type = 'expense';
+                $transaction->amount = -1 * MoneyUtil::database($prepaid);
+            }
+
+            $transaction->description = "پرداخت فاکتور شماره:" . $invoice->id . " - پیش پرداخت";
+            $transaction->transaction_at = date("Y-m-d H:i:s");
+            $transaction->paid_at = date("Y-m-d H:i:s");
+            $transaction->save();
+        }
+        $month = (Jalalian::now())->getMonth();
+        $year = (Jalalian::now())->getYear();
+        $lastInstallment = null;
+        for($i = 1;$i <= $count;$i++) {
+            $date =  (new Jalalian($year, $month, $day))->addMonths($period * $i);
+
+            /* *** Just When is Paid
+            $transaction = new Transaction();
+            $transaction->invoice_id = $invoice->id;
+            $transaction->user_id = $invoice->user_id;
+            $transaction->currency_code = config('platform.currency');
+            $transaction->amount = -1 * MoneyUtil::database($installment);
+            $transaction->type = 'invoice';
+            $transaction->description = "هزینه فاکتور شماره:" . $invoice->id . " - قسط شماره:" . $i;
+            $transaction->transaction_at = \Morilog\Jalali\CalendarUtils::createDatetimeFromFormat('Y-m-d H:i:s', $date);
+            $transaction->paid_at = null;
+            $transaction->save();
+             * ***/
+
+            $transaction = new Transaction();
+            $transaction->invoice_id = $invoice->id;
+            $transaction->account_id = $request->account_id;
+            $transaction->user_id = $invoice->user_id;
+            $transaction->currency_code = config('platform.currency');
+            if ($invoice->type == 'sale') {
+                $transaction->category_id = config('platform.income-installment-category-id');
+                $transaction->amount = MoneyUtil::database($installment);
+                $transaction->type = 'income';
+            } else {
+                $transaction->category_id = config('platform.expense-installment-category-id');
+                $transaction->amount = -1 * MoneyUtil::database($installment);
+                $transaction->type = 'expense';
+            }
+            $transaction->description = "پرداخت فاکتور شماره:" . $invoice->id . " - قسط شماره:" . $i;
+            $transaction->transaction_at = \Morilog\Jalali\CalendarUtils::createDatetimeFromFormat('Y-m-d H:i:s', $date);
+            $transaction->paid_at = null;
+            $transaction->save();
+
+            $lastInstallment = $transaction->transaction_at;
+        }
+
+        $invoice->payment = 'installment';
+        $invoice->due_at = $lastInstallment;
+        $invoice->save();
+
+        flash('اقساط مورد نظر اضافه شد.')->success();
         return redirect()->route('admin.invoice.view', [$invoice->id]);
     }
 

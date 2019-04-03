@@ -16,20 +16,21 @@ class TransactionObserver
      */
     public function created(Transaction $transaction)
     {
-        if($transaction->paid_at) {
-            if($transaction->user_id) {
-                $user = User::findOrFail($transaction->user_id);
-                $credit = $user->transactions()->sum('amount');
-                $user->credit = $credit;
-                $user->save();
-            }
-            if($transaction->account_id) {
-                $account = Account::findOrFail($transaction->account_id);
-                $balance = $account->initial_balance + $account->transactions()->sum('amount');
-                $account->balance = $balance;
-                $account->save();
-            }
+        if($transaction->user_id) {
+            $user = User::findOrFail($transaction->user_id);
+            $credit = Transaction::ofUser($transaction->user_id)->balance()->paid()->sum('amount');
+            $user->credit = $credit;
+            $user->save();
         }
+
+        if($transaction->account_id) {
+            $account = Account::findOrFail($transaction->account_id);
+            $balance = Transaction::ofAccount($transaction->account_id)->paid()->sum('amount');
+            $balance = $account->initial_balance + $balance;
+            $account->balance = $balance;
+            $account->save();
+        }
+
         return true;
     }
 
@@ -41,19 +42,19 @@ class TransactionObserver
      */
     public function updated(Transaction $transaction)
     {
-        if($transaction->paid_at) {
-            if($transaction->user_id) {
-                $user = User::findOrFail($transaction->user_id);
-                $credit = $user->transactions()->sum('amount');
-                $user->credit = $credit;
-                $user->save();
-            }
-            if($transaction->account_id) {
-                $account = Account::findOrFail($transaction->account_id);
-                $balance = $account->initial_balance + $account->transactions()->sum('amount');
-                $account->balance = $balance;
-                $account->save();
-            }
+        if($transaction->user_id) {
+            $user = User::findOrFail($transaction->user_id);
+            $credit = Transaction::ofUser($transaction->user_id)->balance()->paid()->sum('amount');
+            $user->credit = $credit;
+            $user->save();
+        }
+
+        if($transaction->account_id) {
+            $account = Account::findOrFail($transaction->account_id);
+            $balance = Transaction::ofAccount($transaction->account_id)->paid()->sum('amount');
+            $balance = $account->initial_balance + $balance;
+            $account->balance = $balance;
+            $account->save();
         }
 
         return true;
@@ -67,19 +68,19 @@ class TransactionObserver
      */
     public function deleted(Transaction $transaction)
     {
-        if($transaction->paid_at) {
-            if($transaction->user_id) {
-                $user = User::findOrFail($transaction->user_id);
-                $credit = $user->transactions()->sum('amount');
-                $user->credit = $credit;
-                $user->save();
-            }
-            if($transaction->account_id) {
-                $account = Account::findOrFail($transaction->account_id);
-                $balance = $account->initial_balance + $account->transactions()->sum('amount');
-                $account->balance = $balance;
-                $account->save();
-            }
+        if($transaction->user_id) {
+            $user = User::findOrFail($transaction->user_id);
+            $credit = Transaction::ofUser($transaction->user_id)->balance()->paid()->sum('amount');
+            $user->credit = $credit;
+            $user->save();
+        }
+
+        if($transaction->account_id) {
+            $account = Account::findOrFail($transaction->account_id);
+            $balance = Transaction::ofAccount($transaction->account_id)->paid()->sum('amount');
+            $balance = $account->initial_balance + $balance;
+            $account->balance = $balance;
+            $account->save();
         }
 
         return true;
@@ -93,19 +94,19 @@ class TransactionObserver
      */
     public function restored(Transaction $transaction)
     {
-        if($transaction->paid_at) {
-            if($transaction->user_id) {
-                $user = User::findOrFail($transaction->user_id);
-                $credit = $user->transactions()->sum('amount');
-                $user->credit = $credit;
-                $user->save();
-            }
-            if($transaction->account_id) {
-                $account = Account::findOrFail($transaction->account_id);
-                $balance = $account->initial_balance + $account->transactions()->sum('amount');
-                $account->balance = $balance;
-                $account->save();
-            }
+        if($transaction->user_id) {
+            $user = User::findOrFail($transaction->user_id);
+            $credit = Transaction::ofUser($transaction->user_id)->balance()->paid()->sum('amount');
+            $user->credit = $credit;
+            $user->save();
+        }
+
+        if($transaction->account_id) {
+            $account = Account::findOrFail($transaction->account_id);
+            $balance = Transaction::ofAccount($transaction->account_id)->paid()->sum('amount');
+            $balance = $account->initial_balance + $balance;
+            $account->balance = $balance;
+            $account->save();
         }
 
         return true;
@@ -119,20 +120,22 @@ class TransactionObserver
      */
     public function forceDeleted(Transaction $transaction)
     {
-        if($transaction->paid_at) {
-            if($transaction->user_id) {
-                $user = User::findOrFail($transaction->user_id);
-                $credit = $user->transactions()->sum('amount');
-                $user->credit = $credit;
-                $user->save();
-            }
-            if($transaction->account_id) {
-                $account = Account::findOrFail($transaction->account_id);
-                $balance = $account->initial_balance + $account->transactions()->sum('amount');
-                $account->balance = $balance;
-                $account->save();
-            }
+
+        if($transaction->user_id) {
+            $user = User::findOrFail($transaction->user_id);
+            $credit = Transaction::ofUser($transaction->user_id)->balance()->paid()->sum('amount');
+            $user->credit = $credit;
+            $user->save();
         }
+
+        if($transaction->account_id) {
+            $account = Account::findOrFail($transaction->account_id);
+            $balance = Transaction::ofAccount($transaction->account_id)->paid()->sum('amount');
+            $balance = $account->initial_balance + $balance;
+            $account->balance = $balance;
+            $account->save();
+        }
+
 
         return true;
     }
