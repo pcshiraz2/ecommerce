@@ -72,8 +72,8 @@ class InvoiceController extends Controller
         $invoice->discount = $request->discount;
         $invoice->quantity = $request->quantity;
         $invoice->type = $request->type;
-        $invoice->payment = "credit";
-        $invoice->status = "sent";
+        $invoice->payment = $request->payment;
+        $invoice->status = "draft";
         $invoice->password = uniqid();
         if($request->attachment) {
             $invoice->attachment = $request->file('attachment')->store('invoice');
@@ -112,7 +112,7 @@ class InvoiceController extends Controller
         } catch (\Exception $e) {
         }
         flash('فاکتور با موفقیت ثبت شد.')->success();
-        return redirect()->route('admin.invoice');
+        return redirect()->route('admin.invoice.edit',[$invoice->id]);
     }
 
     public function edit($id)
@@ -187,6 +187,7 @@ class InvoiceController extends Controller
         $invoice->tax = $request->tax;
         $invoice->note = $request->note;
         $invoice->type = $request->type;
+        $invoice->payment = $request->payment;
         $invoice->discount = $request->discount;
         if($request->attachment) {
             Storage::delete($invoice->attachment);
@@ -248,7 +249,6 @@ class InvoiceController extends Controller
             Notification::send($user, new InvoiceCreated($invoice, $user));
         } catch (\Exception $e) {
         }
-        $invoice->status = 'sent';
         $invoice->save();
         flash('فاکتور جهت مشتری ارسال شد.')->success();
         return redirect()->route('admin.invoice');
@@ -276,17 +276,17 @@ class InvoiceController extends Controller
         $transaction->invoice_id = $invoice->id;
         $transaction->description = "پرداخت فاکتور شماره:" . $invoice->id;
         if ($invoice->type == 'sale') {
-            $transaction->amount = abs($invoice->total) * 1;
+            $transaction->amount = abs($request->amount) * 1;
             $transaction->category_id = config('platform.income-sale-category-id');
         } else {
-            $transaction->amount = abs($invoice->total) * -1;
+            $transaction->amount = abs($request->amount) * -1;
             $transaction->category_id = config('platform.expense-purchase-category-id');
         }
+        $transaction->type = 'income';
         $transaction->transaction_at = date("Y-m-d H:i:s");
         $transaction->save();
 
         $invoice->paid_at = date("Y-m-d H:i:s");
-        $invoice->status = 'paid';
         $invoice->payment = 'cash';
         $invoice->save();
 
@@ -302,7 +302,6 @@ class InvoiceController extends Controller
                 }
             }
         }
-
 
         flash('فاکتور با موفقیت پرداخت شد.')->success();
         return redirect()->route('admin.invoice.view', [$invoice->id]);

@@ -59,7 +59,7 @@
                         <input type="hidden" name="quantity" id="quantity_value" value="0">
                         <input type="hidden" name="total" id="total_value" value="0">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="user_id">
                                         @if(Request::segment(4) == 'sale')
@@ -74,6 +74,23 @@
                                     @if ($errors->has('user_id'))
                                         <span class="invalid-feedback">
                                         <strong>{{ $errors->first('user_id') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="payment">
+                                        روش تسویه حساب
+                                    </label>
+                                    <select name="payment" id="payment" class="selector form-control">
+                                        <option value="cash"{{ old('payment', config('platform.default-invoice-payment')) == 'cash'  ? ' selected' : '' }}>نقدی</option>
+                                        <option value="installment"{{ old('payment', config('platform.default-invoice-payment')) == 'installment'  ? ' selected' : '' }}>اقساطی</option>
+                                        <option value="credit"{{ old('payment', config('platform.default-invoice-payment')) == 'credit'  ? ' selected' : '' }}>اعتباری</option>
+                                    </select>
+                                    @if ($errors->has('payment'))
+                                        <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('payment') }}</strong>
                                     </span>
                                     @endif
                                 </div>

@@ -47,8 +47,10 @@ class CreateInvoicesTable extends Migration
             //return: فاکتور مرجوعی
             //status: ['draft', 'sent', 'submitted', 'approved', 'paid', 'done', 'post', 'payment', 'return', canceled]
             $table->string('status')->default('submitted');
-            //payment:['cash','credit','installment']
+            //payment:['cash','credit','installment', 'post']
             $table->string('payment')->nullable();
+            //post: ['none', 'sent', 'delivered', 'ready', 'process']
+            $table->string('ship_status')->nullable();
 
 
 

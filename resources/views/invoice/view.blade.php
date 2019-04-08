@@ -92,7 +92,7 @@
                     </div>
                 </div>
             </div>
-
+            @if($invoice->payment == 'cash')
             <div class="row">
                 <div class="col-md-9"></div>
                 <div class="col-md-3 text-center">
@@ -131,6 +131,7 @@
                     @endif
                 </div>
             </div>
+            @endif
             <div class="row">
                 <div class="col-md-12">
                     <div class="card card-default mb-2">
@@ -214,7 +215,7 @@
                             </table>
 
 
-
+                            @if($invoice->payment == 'installment')
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="alert alert-info">
@@ -253,7 +254,34 @@
                                     می باشد.
                                 </div>
                             @endif
+                            @else
 
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="alert alert-info">
+                                            جمع کل تراکنش ها:
+                                            <br />
+                                            {{ number_format($total)  }}  {{ trans('currency.'.config('platform.currency')) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="alert alert-success">
+                                            جمع تراکنش های پرداختی:
+                                            <br />
+                                            {{ number_format($paid)  }}  {{ trans('currency.'.config('platform.currency')) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="alert alert-warning">
+                                            جمع تراکنش های پرداخت نشده:
+                                            <br />
+                                            {{ number_format($wait)  }}  {{ trans('currency.'.config('platform.currency')) }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                            @endif
                         </div>
                     </div>
                 </div>

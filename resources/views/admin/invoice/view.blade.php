@@ -27,24 +27,40 @@
                 </ol>
             </nav>
 
-            @if($invoice->payment == 'credit')
+            @if($invoice->status == "draft")
                 <div class="alert alert-info">
-                    در حال حاضر این فاکتور به صورت اعتباری ثبت شده است، با پرداخت نقدی یا افزودن اقساط وضعیت آن تغییر خواهد کرد.
+                    <i class="fa fa-exclamation-circle fa-2x pull-right" aria-hidden="true"></i>
+                    این فاکتور به صورت پیش نویس است و چنانچه پس از گذشت
+                    <span class="badge-danger badge">{{ config('platform.default-hour-draft-invoice') }}</span>
+                    ساعت  تعیین تکلیف نشود با توجه به روش پرداخت تراکنش های آن ایجاد خواهد شد و در صورتی که روش پرداخت تنظیم نشده باشد هشدار آن در صفحه مدیریت نمایان می شود.
                 </div>
             @endif
 
-            @if($invoice->payment == 'cash')
-                <div class="alert alert-info">
-                    فاکتور به صورت نقدی ثبت شده است و پرداخت شده است.
-                </div>
-            @endif
+            <div class="alert alert-warning">
+                <i class="fa fa-money fa-2x pull-right" aria-hidden="true"></i>
+                روش پرداخت
+                <span class="badge-warning badge">
+                        @if($invoice->payment == 'installment')
+                            اقساطی
+                        @endif
 
 
-            @if($invoice->payment == 'installment')
-                <div class="alert alert-info">
-                    فاکتور به صورت فروش اقساطی ثبت شده است، پس از پرداخت کلیه قسط پرداخت شده خواهد شد.
-                </div>
-            @endif
+                        @if($invoice->payment == 'cash')
+                            نقدی
+                        @endif
+
+
+                            @if($invoice->payment == 'credit')
+                                اعتباری
+                            @endif
+
+
+                            @if($invoice->payment == 'post')
+                                پستی
+                            @endif
+                </span>
+                 می باشد، جهت تغییر روش پرداخت شما می بایست از طریق ویرایش فاکتور اقدام نمایید و جهت پرداخت فاکتور از طریق افزودن تراکنش اقدام کنید.
+            </div>
 
             <div class="card card-default mb-2">
                 <div class="card-header">
@@ -55,6 +71,18 @@
                     @if($invoice->type == 'purchase')
                             فاکتور خرید: {{ $invoice->id }}
                     @endif
+                        <div class="dropdown pull-left">
+                            <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-cogs"></i> اقدام ها
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="{{ route('admin.invoice.edit', [$invoice->id]) }}"><i class="fa fa-edit"></i> ویرایش فاکتور</a>
+                                <a class="dropdown-item" href="{{ route('admin.invoice.submit', [$invoice->id]) }}"><i class="fa fa-save"></i> ثبت نهایی</a>
+                                <a class="dropdown-item" href="{{ route('admin.invoice.ship', [$invoice->id]) }}"><i class="fa fa-ship"></i> ارسال قطعات</a>
+                                <a class="dropdown-item" href="{{ route('admin.invoice.send', [$invoice->id]) }}"><i class="fa fa-send"></i> اطلاعیه صدور فاکتور</a>
+                                <a class="dropdown-item" href="{{ route('admin.invoice.done', [$invoice->id]) }}"><i class="fa fa-check"></i> فاکتور انجام شده</a>
+                            </div>
+                        </div>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -147,6 +175,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="card card-default mb-2">
@@ -260,6 +289,8 @@
 
 
 
+
+@if($invoice->payment == 'installment')
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="alert alert-info">
@@ -297,6 +328,35 @@
                                 <span class="badge badge-danger">{{ $expiredInstallment }}</span>
                                 می باشد.
                                 </div>
+                            @endif
+
+    @else
+
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="alert alert-info">
+                                            جمع کل تراکنش ها:
+                                            <br />
+                                            {{ number_format($total)  }}  {{ trans('currency.'.config('platform.currency')) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="alert alert-success">
+                                            جمع تراکنش های پرداختی:
+                                            <br />
+                                            {{ number_format($paid)  }}  {{ trans('currency.'.config('platform.currency')) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="alert alert-warning">
+                                            جمع تراکنش های پرداخت نشده:
+                                            <br />
+                                            {{ number_format($wait)  }}  {{ trans('currency.'.config('platform.currency')) }}
+                                        </div>
+                                    </div>
+                                </div>
+
                             @endif
 
                         </div>
@@ -437,6 +497,44 @@
                             <input type="hidden" name="type" id="type" value="{{ $invoice->type }}">
                             <input type="hidden" name="amount" id="amount" value="{{ $invoice->total }}">
                             <input type="hidden" name="invoice_id" id="invoice_id" value="{{ $invoice->id }}">
+                            <div class="form-group">
+                                <label for="account_id">واریز به حساب</label>
+                                <select name="account_id" id="account_id"
+                                        class="selector form-control{{ $errors->has('account_id') ? ' is-invalid' : '' }}">
+                                    @foreach($accounts as $account)
+                                        <option value="{{ $account->id }}"{{ old('account_id') == $account->id  ? ' selected' : '' }}>{{ $account->title }}</option>
+                                    @endforeach
+                                </select>
+                                @if ($errors->has('account_id'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('account_id') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <button type="submit" class="btn btn-success btn-sm">
+                                <i class="fa fa-money"></i>
+                                پرداخت فاکتور
+                            </button>
+                        </form>
+
+
+                    </div>
+                </div>
+            <div class="card card-default mb-2">
+                    <div class="card-header">
+                       دریافت مبلغی از فاکتور
+                    </div>
+                    <div class="card-body">
+                        <form action="{{ route('admin.invoice.pay',[$invoice->id])}}"
+                              onsubmit="$('.price').unmask();" method="post">
+                            @csrf
+                            @method('post')
+                            <input type="hidden" name="type" id="type" value="{{ $invoice->type }}">
+                            <input type="hidden" name="invoice_id" id="invoice_id" value="{{ $invoice->id }}">
+                            <div class="form-group">
+                                <label for="amount">مبلغ</label>
+                                <input class="price form-control" name="amount" id="amount" dir="ltr">
+                            </div>
                             <div class="form-group">
                                 <label for="account_id">واریز به حساب</label>
                                 <select name="account_id" id="account_id"

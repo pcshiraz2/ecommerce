@@ -26,6 +26,17 @@
                     </li>
                 </ol>
             </nav>
+
+
+            @if($invoice->status == "draft")
+                <div class="alert alert-info">
+                    <i class="fa fa-exclamation-circle fa-3x pull-right" aria-hidden="true"></i>
+                    این فاکتور به صورت پیش نویس است و چنانچه پس از گذشت
+                    <span class="badge-danger badge">{{ config('platform.default-hour-draft-invoice') }}</span>
+                    ساعت  تعیین تکلیف نشود با توجه به روش پرداخت تراکنش های آن ایجاد خواهد شد و در صورتی که روش پرداخت تنظیم نشده باشد هشدار آن در صفحه مدیریت نمایان می شود.
+                </div>
+            @endif
+
             <div class="card card-default">
                 <div class="card-header">
                     <div class="clearfix">
@@ -55,7 +66,7 @@
                         <input type="hidden" name="quantity" id="quantity_value" value="{{ \App\Utils\MoneyUtil::display($invoice->quantity) }}">
                         <input type="hidden" name="total" id="total_value" value="{{ \App\Utils\MoneyUtil::display($invoice->total) }}">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="user_id">
                                         @if($invoice->type == 'sale')
@@ -72,6 +83,23 @@
                                     @if ($errors->has('user_id'))
                                         <span class="invalid-feedback">
                                         <strong>{{ $errors->first('user_id') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="payment">
+                                        روش تسویه حساب
+                                    </label>
+                                    <select name="payment" id="payment" class="selector form-control">
+                                        <option value="cash"{{ old('payment', $invoice->payment) == 'cash'  ? ' selected' : '' }}>نقدی</option>
+                                        <option value="installment"{{ old('payment', $invoice->payment) == 'installment'  ? ' selected' : '' }}>اقساطی</option>
+                                        <option value="credit"{{ old('payment', $invoice->payment) == 'credit'  ? ' selected' : '' }}>اعتباری</option>
+                                    </select>
+                                    @if ($errors->has('payment'))
+                                        <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('payment') }}</strong>
                                     </span>
                                     @endif
                                 </div>

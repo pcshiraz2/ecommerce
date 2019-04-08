@@ -70,4 +70,8 @@ return [
     'home-page-description' => 'پی سی شیراز - مرکز فروش قطعات کامپیتور از گارانتی ها و برند های معتبر و برنامه نویسی سفارشی و حرفه ای.',
     'home-page-keywords' => 'مانیتور،نرم افزار،حسابداری رایگان،فروشگاه ساز،دیتا پروژکتور،نوت بوک،لپ تاپ',
     'default-gateway' => 'zarinpal',
+
+    'default-invoice-payment' => 'credit',
+    'default-hour-draft-invoice' => 24,
+
 ];

@@ -266,7 +266,12 @@ Route::prefix(config('platform.admin-route'))->name('admin.')->group(function ()
     Route::post('/invoice/delete-record', 'Admin\InvoiceController@deleteRecord')->name('invoice.delete-record');
     Route::get('/invoice/edit/{id}', 'Admin\InvoiceController@edit')->name('invoice.edit');
     Route::delete('/invoice/delete/{id}', 'Admin\InvoiceController@delete')->name('invoice.delete');
+
+
     Route::get('/invoice/send/{id}', 'Admin\InvoiceController@sendInvoice')->name('invoice.send');
+    Route::get('/invoice/submit/{id}', 'Admin\InvoiceController@sendInvoice')->name('invoice.submit');
+    Route::get('/invoice/done/{id}', 'Admin\InvoiceController@sendInvoice')->name('invoice.done');
+    Route::get('/invoice/ship/{id}', 'Admin\InvoiceController@sendInvoice')->name('invoice.ship');
 
     Route::get('/invoice/export', 'Admin\InvoiceController@export')->name('invoice.export');
     Route::get('/invoice/download/{id}', 'Admin\InvoiceController@download')->name('invoice.download');
