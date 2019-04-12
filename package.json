@@ -13,29 +13,29 @@
     "axios": "^0.18",
     "bootstrap": "^4.3.1",
     "cross-env": "^5.2.0",
-    "jquery": "^3.3.1",
+    "jquery": "^3.4.0",
     "laravel-mix": "^4.0.15",
     "lodash": "^4.17.11",
-    "popper.js": "^1.14.7",
+    "popper.js": "^1.15.0",
     "resolve-url-loader": "^2.3.2",
-    "sass": "^1.17.4",
+    "sass": "^1.18.0",
     "sass-loader": "^7.1.0",
     "vue": "^2.6.10",
     "vue-template-compiler": "^2.6.10"
   },
   "dependencies": {
     "basictable": "^1.0.9",
+    "bootstrap-colorpicker": "^3.1.1",
     "bootstrap-v4-rtl": "^4.1.1-1",
     "bootswatch": "^4.3.1",
     "chart.js": "^2.8.0",
+    "devbridge-autocomplete": "^1.4.10",
     "font-awesome": "^4.7.0",
     "izitoast": "^1.4.0",
     "jquery-mask-plugin": "^1.14.15",
     "select2": "^4.0.6-rc.1",
-    "trumbowyg": "^2.15.1",
+    "trumbowyg": "^2.15.2",
     "vazir-font": "^19.2.0",
-    "vue-persian-datetime-picker": "^1.1.7",
-    "devbridge-autocomplete": "^1.4.10",
-    "bootstrap-colorpicker": "^3.1.1"
+    "vue-persian-datetime-picker": "^1.1.7"
   }
 }

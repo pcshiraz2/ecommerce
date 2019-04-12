@@ -49,8 +49,9 @@ class InvoiceCreated extends Notification
     {
         $url = route('invoice.view-password', [$this->invoice->id, $this->invoice->password]);
         return (new MailMessage)
-            ->subject('فاکتور جدید با شماره:' . $this->invoice->id)
-            ->line('مبلغ فاکتور:' . $this->invoice->total)
+            ->subject(config('platform.name') . ' - فاکتور شماره:' . $this->invoice->id)
+            ->line('مبلغ به عدد:' . \App\Utils\MoneyUtil::format($this->invoice->total))
+            ->line('مبلغ به حروف:' . \App\Utils\MoneyUtil::letters($this->invoice->total))
             ->action('مشاهده جزئیات فاکتور', $url);
     }
 

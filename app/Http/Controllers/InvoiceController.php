@@ -43,22 +43,44 @@ class InvoiceController extends Controller
     }
 
 
+    public function installmentPassword($id,$password)
+    {
+        $transaction = Transaction::findOrFail($id);
+        $invoice = Invoice::findOrFail($transaction->invoice_id);
+        if($password != $invoice->password) {
+            abort(404);
+        }
+        try {
+            $gateway = Gateway::of(config('platform.default-gateway'));
+            $gateway->callbackUrl(url('invoice/installment-callback', ['id' => $transaction->id]));
+            $gateway->stateless();
+            $gatewayTransaction = new RequestTransaction(new Amount($transaction->amount, config('platform.currency')));
+            $gatewayTransaction->setExtraField('description', $transaction->description);
+            $authorizedTransaction = $gateway->authorize($gatewayTransaction);
+            return $gateway->redirect($authorizedTransaction);
+        } catch (Exception $e) {
+            flash($e->getMessage())->error();
+        }
+        return redirect()->route('invoice.view-password', ['id' => $transaction->invoice_id, 'password' => $invoice->password]);
+    }
+
+
+
+
     public function installmentCallback($id)
     {
         $transaction = Transaction::findOrFail($id);
+        $invoice = Invoice::findOrFail($transaction->invoice_id);
         try {
             $settledTransaction = Gateway::settle();
-
             $trackingCode = $settledTransaction->getTrackingCode();
             $refId = $settledTransaction->getReferenceId();
             $cardNumber = $settledTransaction->getCardNumber();
-
             $options = [
                 'trackingCode' => $trackingCode,
                 'refId' => $refId,
                 'cardNumber' => $cardNumber,
             ];
-
 
             $transaction->gateway_transaction_id = $settledTransaction->getId();
             $transaction->gateway = config('platform.default-gateway');
@@ -67,7 +89,6 @@ class InvoiceController extends Controller
             $transaction->paid_at = date("Y-m-d H:i:s");
             $transaction->save();
 
-
             flash('قسط مورد نظر با موفقیت پرداخت شد.')->success();
         } catch (RetryException $e) {
             flash($e->getMessage())->error();
@@ -75,7 +96,7 @@ class InvoiceController extends Controller
             flash($e->getMessage())->error();
         }
 
-        return redirect()->route('invoice.view', ['id' => $transaction->invoice_id]);
+        return redirect()->route('invoice.view-password', ['id' => $transaction->invoice_id, 'password' => $invoice->password]);
     }
 
     public function pay(Request $request)
@@ -111,6 +132,18 @@ class InvoiceController extends Controller
             return view('invoice.view', ['invoice' => $invoice]);
         }
     }
+
+
+    public function viewPassword($id, $password)
+    {
+        $invoice = Invoice::with('records', 'user')->findOrFail($id);
+        if($password == $invoice->password) {
+            return view('invoice.view-password', ['invoice' => $invoice]);
+        } else {
+            abort(404);
+        }
+    }
+
 
     public function callback(Request $request, $id)
     {

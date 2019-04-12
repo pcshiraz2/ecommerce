@@ -74,7 +74,8 @@ Route::any('/invoice/callback/{id}', 'InvoiceController@callback')->name('invoic
 Route::any('/invoice/callback/{id}/{password}', 'InvoiceController@callbackPassword')->name('invoice.callback-password');
 
 Route::get('/invoice/installment/{id}', 'InvoiceController@installment')->name('invoice.installment')->middleware('auth');
-Route::any('/invoice/installment-callback/{id}', 'InvoiceController@installmentCallback')->name('invoice.installment-callback')->middleware('auth');
+Route::get('/invoice/installment/{id}/{password}', 'InvoiceController@installmentPassword')->name('invoice.installment-password');
+Route::any('/invoice/installment-callback/{id}', 'InvoiceController@installmentCallback')->name('invoice.installment-callback');
 
 
 Route::get('/shop', 'ProductController@index')->name('shop');

@@ -369,7 +369,8 @@
                     <div class="card card-default mb-2">
                         <div class="card-header">
                            فروش اقساطی
-                            <button class="btn btn-primary pull-left btn-sm">
+                            <button class="btn btn-primary pull-left btn-sm"
+                                    data-toggle="modal" data-target="#calculateInstallmentModal">
                                 <i class="fa fa-calculator"></i> محاسبه گر اقساط
                             </button>
                         </div>
@@ -567,4 +568,94 @@
 
         </div>
     </div>
+    <div class="modal fade" id="calculateInstallmentModal" tabindex="-1" role="dialog" aria-labelledby="calculateInstallmentModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">محاسبه اقساط</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>مبلغ کل فاکتور</label>
+                        <input dir="ltr" class="price form-control" value="{{ \App\Utils\MoneyUtil::format($invoice->total) }}" type="text" id="totalInstallment" name="totalInstallment">
+                    </div>
+                    <div class="form-group">
+                        <label>پیش پرداخت</label>
+                        <input dir="ltr" class="price form-control" value="0" type="text" id="prepaidInstallment" name="prepaidInstallment">
+                    </div>
+                    <div class="form-group">
+                        <label>تعداد اقساط</label>
+                        <input dir="ltr" class="price form-control" type="text" id="countInstallment" name="countInstallment">
+                    </div>
+                    <div class="form-group">
+                        <label>نرخ بهره</label>
+                        <input dir="ltr" class="price form-control" type="text" id="rateInstallment" name="rateInstallment">
+                    </div>
+
+                    <div class="form-group">
+                        <label>مبلغ اقساط</label>
+                        <input dir="ltr" class="price form-control" readonly type="text" id="amountInstallment" name="amountInstallment">
+                    </div>
+                    <div class="form-group">
+                        <label>جمع اقساط</label>
+                        <input dir="ltr" class="price form-control" readonly type="text" id="totalPayInstallment" name="totalPayInstallment">
+                    </div>
+                    <div class="form-group">
+                        <label>سود پرداختی</label>
+                        <input dir="ltr" class="price form-control" readonly type="text" id="interestInstallment" name="interestInstallment">
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal"><i class="fa fa-window-close"></i> لغو</button>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="submitInstallment()" data-dismiss="modal"><i class="fa fa-save"></i> ثبت اقساط</button>
+                    <button type="button" class="btn btn-success btn-sm" onclick="calculateInstallment()"><i class="fa fa-calculator"></i> محاسبه اقساط</button>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@section('js')
+<script>
+    function submitInstallment()
+    {
+        $('.price').unmask();
+
+        var installment = $('#amountInstallment').val();
+        var count = $('#countInstallment').val();
+        var prepaid = $('#prepaidInstallment').val();
+
+        $('#installment').val(installment);
+        $('#count').val(count);
+        $('#prepaid').val(prepaid);
+
+        $('.price').mask('#,##0', {reverse: true});
+    }
+    function calculateInstallment() {
+        $('.price').unmask();
+        var total = $('#totalInstallment').val();
+        var prepaid = $('#prepaidInstallment').val();
+        var count = $('#countInstallment').val();
+        var rate = $('#rateInstallment').val();
+
+        var payments = parseFloat(count);
+        var principal = parseFloat(total - prepaid);
+        var interest = parseFloat(rate/ 1200);
+        var power = parseFloat(Math.pow( (1 + (rate/ 1200)), payments));
+
+
+        var amountInstallment = Math.ceil( (principal * interest * power) / (power - 1) );
+
+        $('#amountInstallment').val(amountInstallment);
+        $('#totalPayInstallment').val(amountInstallment * payments);
+        $('#interestInstallment').val( (amountInstallment * payments) -  principal );
+
+        $('.price').mask('#,##0', {reverse: true});
+    }
+</script>    
+
 @endsection
